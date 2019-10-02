@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "365255372821",
+    "firebase_url": "https://knjigeapp.firebaseio.com",
+    "project_id": "knjigeapp",
+    "storage_bucket": "knjigeapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365255372821:android:c795327f649e09104d9e1c",
+        "android_client_info": {
+          "package_name": "com.example.bookapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365255372821-rq9gb491efqt3k0p4r2fkl2030g5tkd8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookapp",
+            "certificate_hash": "e4242dc91940abf7dca5ba0c1e43f6c90058ff28"
+          }
+        },
+        {
+          "client_id": "365255372821-ceddrvr18obt0lhs7bn2geflvthsq0ha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU1LetDlxoopq1gn-0SvobjIh15219dcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365255372821-ceddrvr18obt0lhs7bn2geflvthsq0ha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
