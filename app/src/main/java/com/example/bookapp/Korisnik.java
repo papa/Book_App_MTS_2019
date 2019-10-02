@@ -46,4 +46,15 @@ public class Korisnik {
     public void setMail(String mail) {
         this.mail = mail;
     }
+
+    public void dodajKnjiguProdaja(String id)
+    {
+
+    }
+
+    public void dodajKnjiguZainteresovan(String id)
+    {
+
+    }
+
 }

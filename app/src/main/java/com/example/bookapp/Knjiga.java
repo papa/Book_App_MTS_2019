@@ -87,4 +87,11 @@ public class Knjiga {
     public void setGodinaIzdanja(int godinaIzdanja) {
         this.godinaIzdanja = godinaIzdanja;
     }
+
+    public void uvecajBrojZainteresovanih()
+    {
+        this.brojZainteresovanih++;
+    }
+
+
 }
