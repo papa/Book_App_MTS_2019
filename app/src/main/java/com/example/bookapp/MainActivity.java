@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -126,4 +128,11 @@ public class MainActivity extends AppCompatActivity {
         tvLogin.setTypeface(typeface);
     }
      */
+
+    void dodajKorisnika(String id,String email,String ime,String prezime)
+    {
+        DatabaseReference korisnici = FirebaseDatabase.getInstance().getReference("Korisnici");
+        Korisnik k  =  new Korisnik(id,ime,prezime,email);
+        korisnici.child(id).setValue(k);
+    }
 }

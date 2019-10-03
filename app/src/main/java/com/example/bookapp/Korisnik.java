@@ -1,11 +1,15 @@
 package com.example.bookapp;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Korisnik {
 
-    String id;
-    String ime;
-    String prezime;
-    String mail;
+    private String id;
+    private String ime;
+    private String prezime;
+    private String mail;
+    private double prosecnaOcena;
 
     public Korisnik(String id,String ime,String prezime,String mail)
     {
@@ -13,6 +17,15 @@ public class Korisnik {
         this.ime=ime;
         this.prezime=prezime;
         this.mail=mail;
+        this.prosecnaOcena=0.0;
+    }
+
+    public double getProsecnaOcena() {
+        return prosecnaOcena;
+    }
+
+    public void setProsecnaOcena(double prosecnaOcena) {
+        this.prosecnaOcena = prosecnaOcena;
     }
 
     public String getId() {
@@ -49,12 +62,26 @@ public class Korisnik {
 
     public void dodajKnjiguProdaja(String id)
     {
-
+        DatabaseReference knjigeProdaja = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.id).child("KnjigeProdaja");
+        knjigeProdaja.child(id).setValue(id);
     }
 
     public void dodajKnjiguZainteresovan(String id)
     {
+        DatabaseReference knjigeZainteresovan = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.id).child("KnjigeZainteresovan");
+        knjigeZainteresovan.child(id).setValue(id);
+    }
 
+    public void skloniKnjiguProdaja(String id)
+    {
+        DatabaseReference knjigeProdaja = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.id).child("KnjigeProdaja");
+        knjigeProdaja.child(id).removeValue();
+    }
+
+    public void skloniKnjiguZainteresovan(String id)
+    {
+        DatabaseReference knjigeZainteresovan = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.id).child("KnjigeZainteresovan");
+        knjigeZainteresovan.child(id).removeValue();
     }
 
 }

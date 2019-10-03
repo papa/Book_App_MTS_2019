@@ -93,5 +93,10 @@ public class Knjiga {
         this.brojZainteresovanih++;
     }
 
+    public void smanjiBrojZainteresovanih()
+    {
+        this.brojZainteresovanih--;
+    }
+
 
 }
