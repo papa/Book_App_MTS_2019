@@ -31,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
         prijem();
 
         //Ovo ispod je za bottomnavbar, treba da se dovrsi jer nemamo plan unapred al ugl tjt
+        //o da da da
 
         /*bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
