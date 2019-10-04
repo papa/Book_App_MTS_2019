@@ -1,5 +1,6 @@
 package com.example.bookapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -14,16 +15,18 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText etName,etPassword,etEmail;
+    private EditText etName,etPassword,etEmail,etSurname;
     private Button btnRegister;
     private TextView tvLogin,naslov;
-    private String name,password,email;
+    private String name,password,email,surname;
     private FirebaseAuth auth;
     private ProgressDialog progressDialog;
     private Typeface typeface;
@@ -39,20 +42,23 @@ public class MainActivity extends AppCompatActivity {
         ako hocete da dodate nova polja samo edit text i proverite da l nije prazan ova prva grana u btnregister onclick
          */
 
-        /*btnRegister.setOnClickListener(new View.OnClickListener() {
+        initialize();
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
-                progressDialog.setMessage("Loading...");
-                if(!etName.getText().toString().trim().equals("") && !etPassword.getText().toString().trim().equals("") && !etEmail.getText().toString().trim().equals(""))
+                progressDialog.setMessage("Ucitavanje...");
+                if(!etName.getText().toString().trim().equals("") && !etPassword.getText().toString().trim().equals("") && !etEmail.getText().toString().trim().equals("") && !etSurname.getText().toString().trim().equals(""))
                 {
                     name=etName.getText().toString().trim();
+                    surname=etSurname.getText().toString().trim();
                     email=etEmail.getText().toString().trim();
                     password=etPassword.getText().toString().trim();
                     if(password.length()<6)
                     {
                         progressDialog.dismiss();
-                        Toast.makeText(MainActivity.this,"Password must be longer than 6 characters",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,"Lozinka mora biti duza od 6 karaktera",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
@@ -62,22 +68,24 @@ public class MainActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (!task.isSuccessful()) {
                                             progressDialog.dismiss();
-                                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                                            Toast.makeText(MainActivity.this, "Greska prilikom registrovanja.",
                                                     Toast.LENGTH_SHORT).show();
                                         } else {
                                             progressDialog.dismiss();
-                                            Toast.makeText(MainActivity.this, "Successfully registered.",
+                                            Toast.makeText(MainActivity.this, "Uspesna registracija.",
                                                     Toast.LENGTH_SHORT).show();
-                                            Intent cintent = new Intent(MainActivity.this, ProfileActivity.class);
-                                            cintent.putExtra("name",name);
-                                            startActivity(cintent);
+                                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                                            intent.putExtra("name",name);
+                                            intent.putExtra("surname",surname);
+                                            intent.putExtra("email",email);
+                                            startActivity(intent);
                                         }
                                     }
                                 });
                     }}
                 else
                 {
-                    Toast.makeText(MainActivity.this,"Please fill in all the fields.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"Popunite sva polja!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -89,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-         */
+
     }
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -99,18 +107,17 @@ public class MainActivity extends AppCompatActivity {
             updateUI();
     }
     private void updateUI(){
-        Intent lintent=new Intent(MainActivity.this,ProfileActivity.class);
-        startActivity(lintent);
-        finish();
+        Intent intent=new Intent(MainActivity.this,ProfileActivity.class);
+        startActivity(intent);
     }
     private void initialize()
     {
         etName=(EditText)findViewById(R.id.eName);
-        etPassword=(EditText)findViewById(R.id.ePassword);
+        etPassword=(EditText)findViewById(R.id.ePass);
         etEmail=(EditText)findViewById(R.id.eEmail);
+        etSurname=(EditText)findViewById(R.id.eSurname);
 
         tvLogin=(TextView)findViewById(R.id.tvLog);
-        naslov=(TextView)findViewById(R.id.textView4);
 
         btnRegister=(Button)findViewById(R.id.btRegister);
 
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         progressDialog=new ProgressDialog(this);
 
-        typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams.ttf");
+        /*typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams.ttf");
 
         etName.setTypeface(typeface);
         etEmail.setTypeface(typeface);
@@ -126,13 +133,7 @@ public class MainActivity extends AppCompatActivity {
         naslov.setTypeface(typeface);
         btnRegister.setTypeface(typeface);
         tvLogin.setTypeface(typeface);
-    }
-     */
 
-    void dodajKorisnika(String id,String email,String ime,String prezime)
-    {
-        DatabaseReference korisnici = FirebaseDatabase.getInstance().getReference("Korisnici");
-        Korisnik k  =  new Korisnik(id,ime,prezime,email);
-        korisnici.child(id).setValue(k);
+         */
     }
 }

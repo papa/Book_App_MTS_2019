@@ -1,5 +1,6 @@
 package com.example.bookapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -39,8 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         da ne kucate sto puta
          */
 
+        initialize();
 
-        /*btnLogin.setOnClickListener(new View.OnClickListener() {
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.show();
@@ -58,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if(!task.isSuccessful())
                                     {
                                         Toast.makeText(LoginActivity.this,
-                                                "Authentication failed", Toast.LENGTH_LONG).show();
+                                                "Neuspesna prijava", Toast.LENGTH_LONG).show();
                                         progressDialog.dismiss();
                                     }
                                     else
@@ -67,21 +70,22 @@ public class LoginActivity extends AppCompatActivity {
                                         Intent intent=new Intent(LoginActivity.this,ProfileActivity.class);
                                         intent.putExtra("userId",userId);
                                         progressDialog.dismiss();
+                                        Toast.makeText(LoginActivity.this,
+                                                "Prijava uspesna!", Toast.LENGTH_LONG).show();
                                         startActivity(intent);
-                                        finish();
                                     }
                                 }
                             });
                 }
                 else
-                    Toast.makeText(LoginActivity.this,"Please fill in all the fields",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"Popunite sva polja",Toast.LENGTH_SHORT).show();
             }
         });
-         */
+
 
     }
 
-    /*
+
     FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -101,17 +105,17 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin=(Button)findViewById(R.id.btLogin);
 
-        naslov=(TextView)findViewById(R.id.textView5);
+        /*naslov=(TextView)findViewById(R.id.textView5);
 
         typeface = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams.ttf");
 
         btnLogin.setTypeface(typeface);
         etEmail.setTypeface(typeface);
         etPassword.setTypeface(typeface);
-        naslov.setTypeface(typeface);
+        naslov.setTypeface(typeface);*/
 
         progressDialog=new ProgressDialog(this);
     }
-     */
+
 
 }
