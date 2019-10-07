@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.bookapp.Fragmenti.FragmentKnjige;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,16 +33,14 @@ public class ProfileActivity extends AppCompatActivity {
         prijem();
 
         //Ovo ispod je za bottomnavbar, treba da se dovrsi jer nemamo plan unapred al ugl tjt
-        //o da da da
 
-        /*bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottomNavigationView);
+        bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentHome()).commit();
-         */
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentKnjige()).commit();
     }
 
-    /*private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener=
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener=
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -48,22 +48,23 @@ public class ProfileActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId())
                     {
-                        case R.id.nav_home:
-                            selectedFragment=new FragmentHome();
+                        case R.id.navprofil:
+                            selectedFragment=new FragmentKnjige();
                             break;
-                        case R.id.nav_graph:
-                            selectedFragment=new FragmentGraph();
+                        case R.id.navlista:
+                            selectedFragment=new FragmentKnjige();
                             break;
-                        case R.id.nav_calendar:
-                            selectedFragment=new FragmentCalendar();
+                        case R.id.navnesto:
+                            selectedFragment=new FragmentKnjige();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
 
+
                     return true;
                 }
             };
-     */
+
 
     private void prijem()
     {
