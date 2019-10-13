@@ -15,15 +15,23 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class KnjigaPregledActivity extends AppCompatActivity {
 
+    //papa
+    //TODO: dodaj deo za dodatni opis i ucitaj ga u taj textView
     DatabaseReference knjigaData;
     String idPrenos;
     Knjiga knjiga;
-    TextView imeKnjige;
+    TextView nazivKnjige;
     TextView izdavac;
     TextView brojStranica;
-
+    TextView autori;
+    TextView godinaIzdanja;
+    TextView predmet;
+    TextView dodatniOpis;
+    TextView brojZainteresovanih;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +40,6 @@ public class KnjigaPregledActivity extends AppCompatActivity {
 
         init();
         postaviListener();
-        ucitajPodatke();
     }
 
     void postaviListener()
@@ -41,6 +48,7 @@ public class KnjigaPregledActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 knjiga = dataSnapshot.getValue(Knjiga.class);
+                ucitajPodatke(knjiga);
             }
 
             @Override
@@ -50,9 +58,23 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         });
     }
 
-    void ucitajPodatke()
+    void ucitajPodatke(Knjiga k)
     {
-
+        nazivKnjige.setText(k.getNaziv());
+        //brojStranica.setText(k.getBrojstranica());
+        izdavac.setText(k.getIzdavac());
+        predmet.setText(k.getPredmet());
+        String gi = k.getGodinaIzdanja() + ".";
+        godinaIzdanja.setText(gi);
+       // brojZainteresovanih.setText(k.getBrojZainteresovanih());
+        String autoriS = "";
+        ArrayList<String> au = k.getAutori();
+        for(int i=0;i<au.size()-1;i++)
+        {
+            autoriS=autoriS + au.get(i) + ",";
+        }
+        autoriS = autoriS + au.get(au.size()-1);
+        autori.setText(autoriS);
     }
 
     void init()
@@ -61,6 +83,14 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         //Andrijo ti to stavi u Intent pa cu ja posle da ga skupim
         //Intent koji dodje iz Adaptera za knjige
 
-        knjigaData = FirebaseDatabase.getInstance().getReference("knjige").child(idPrenos);
+        knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenos);
+
+        nazivKnjige=(TextView)findViewById(R.id.nazivKnjigePrikaz);
+        izdavac = (TextView)findViewById(R.id.izdavacKnjigePrikaz);
+        brojStranica=(TextView)findViewById(R.id.brojStranicaPrikaz);
+        autori = (TextView)findViewById(R.id.autoriKnjigePrikaz);
+        predmet = (TextView)findViewById(R.id.predmetPrikaz);
+        godinaIzdanja = (TextView)findViewById(R.id.godinaIzdanjaPrikaz);
+        brojZainteresovanih = (TextView)findViewById(R.id.brojZainteresovanihPrikaz);
     }
 }
