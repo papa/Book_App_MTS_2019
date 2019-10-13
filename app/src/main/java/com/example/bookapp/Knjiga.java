@@ -26,6 +26,7 @@ public class Knjiga {
          this.godinaIzdanja=godinaIzdanja;
          this.autori=autori;
      }
+     public Knjiga(){}
 
     public String getId() {
         return id;
