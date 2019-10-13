@@ -2,20 +2,14 @@ package com.example.bookapp;
 
 import java.util.ArrayList;
 
-public class Knjiga {
-
+public class Knjiga
+{
      private String id;
      private String predmet;
-
-    private String naziv;
+     private String naziv;
      private ArrayList<String> autori;
      private String izdavac;
      private int godinaIzdanja;
-
-     //korisnik treba da ima i listu knjiga koje je izbacio
-    //i listu knjiga za koje je zainteresovan verovatno
-    //to nam nije tolko bitno da cuvamo kao parametar
-    //mozemo i samo da nakacimo u firebase
 
      public Knjiga(String id,String predmet,String naziv,String izdavac,int godinaIzdanja,ArrayList<String> autori)
      {

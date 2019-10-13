@@ -1,21 +1,42 @@
 package com.example.bookapp.Fragmenti;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
-public class Oglas {
-
+public class Oglas
+{
     private String id;
     private String idKnjige;
     private String idUsera;
     private int cena;
-    private ArrayList<String> zainteresovaniKorisnici;
+    private String dodatniOpis;
+    private int brojZainteresovanih;
 
-    public Oglas(String id, String idKnjige, String idUsera, int cena, ArrayList<String> zainteresovaniKorisnici) {
+    public Oglas(String id, String idKnjige, String idUsera, int cena, String dodatniOpis) {
         this.id = id;
         this.idKnjige = idKnjige;
         this.idUsera = idUsera;
         this.cena = cena;
-        this.zainteresovaniKorisnici = zainteresovaniKorisnici;
+        this.dodatniOpis=dodatniOpis;
+        this.brojZainteresovanih=0;
+    }
+
+    public int getBrojZainteresovanih() {
+        return brojZainteresovanih;
+    }
+
+    public void setBrojZainteresovanih(int brojZainteresovanih) {
+        this.brojZainteresovanih = brojZainteresovanih;
+    }
+
+    public String getDodatniOpis() {
+        return dodatniOpis;
+    }
+
+    public void setDodatniOpis(String dodatniOpis) {
+        this.dodatniOpis = dodatniOpis;
     }
 
     public String getId() {
@@ -50,11 +71,26 @@ public class Oglas {
         this.cena = cena;
     }
 
-    public ArrayList<String> getZainteresovaniKorisnici() {
-        return zainteresovaniKorisnici;
+    public void povecajZainteresovane()
+    {
+        this.brojZainteresovanih++;
     }
 
-    public void setZainteresovaniKorisnici(ArrayList<String> zainteresovaniKorisnici) {
-        this.zainteresovaniKorisnici = zainteresovaniKorisnici;
+    public void smanjiZainteresovane()
+    {
+        this.brojZainteresovanih--;
     }
+
+    public void ubaciKodKnjige(String idKnjigeUbaci)
+    {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Knjige").child(idKnjigeUbaci);
+        ref.child("oglasi").child(this.id).setValue(this.id);
+    }
+
+    public void ubaciKodKorisnika()
+    {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.idUsera);
+        ref.child("oglasi").child(this.id).setValue(this.id);
+    }
+
 }

@@ -20,9 +20,16 @@ import java.util.ArrayList;
 public class KnjigaPregledActivity extends AppCompatActivity {
 
     //papa
-    //TODO: dodaj deo za dodatni opis i ucitaj ga u taj textView
+    //TODO
+    //dodaj deo za dodatni opis i ucitaj ga u taj textView
+    //idPrenos treba da se uzme iz intenta koji mu dodje
+    //Andrijo ti to stavi u Intent pa cu ja posle da ga skupim
+    //Intent koji dodje iz Adaptera za knjige
+    //i dodatniOpisOglas i idPrenosOglas da se uzme iz intenta
     DatabaseReference knjigaData;
-    String idPrenos;
+    String idPrenosKnjiga;
+    String dodatniOpisOglas;
+    String idPrenosOglas;
     Knjiga knjiga;
     TextView nazivKnjige;
     TextView izdavac;
@@ -79,11 +86,8 @@ public class KnjigaPregledActivity extends AppCompatActivity {
 
     void init()
     {
-        //idPrenos treba da se uzme iz intenta koji mu dodje
-        //Andrijo ti to stavi u Intent pa cu ja posle da ga skupim
-        //Intent koji dodje iz Adaptera za knjige
 
-        knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenos);
+        knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenosKnjiga);
 
         nazivKnjige=(TextView)findViewById(R.id.nazivKnjigePrikaz);
         izdavac = (TextView)findViewById(R.id.izdavacKnjigePrikaz);

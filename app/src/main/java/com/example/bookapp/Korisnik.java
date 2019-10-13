@@ -10,6 +10,7 @@ public class Korisnik {
     private String prezime;
     private String mail;
     private double prosecnaOcena;
+    private int brojOcena;
 
     public Korisnik(String id,String ime,String prezime,String mail)
     {
@@ -18,6 +19,15 @@ public class Korisnik {
         this.prezime=prezime;
         this.mail=mail;
         this.prosecnaOcena=0.0;
+        this.brojOcena=0;
+    }
+
+    public int getBrojOcena() {
+        return brojOcena;
+    }
+
+    public void setBrojOcena(int brojOcena) {
+        this.brojOcena = brojOcena;
     }
 
     public double getProsecnaOcena() {
