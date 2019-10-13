@@ -61,6 +61,6 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         //Andrijo ti to stavi u Intent pa cu ja posle da ga skupim
         //Intent koji dodje iz Adaptera za knjige
 
-        knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenos);
+        knjigaData = FirebaseDatabase.getInstance().getReference("knjige").child(idPrenos);
     }
 }
