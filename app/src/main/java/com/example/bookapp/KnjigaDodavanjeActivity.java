@@ -56,7 +56,6 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
             }
         });
-        //ok imam sad koju knjigu je birao
         novaKnjiga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
