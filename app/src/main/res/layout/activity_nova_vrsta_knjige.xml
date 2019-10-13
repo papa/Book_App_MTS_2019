@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NovaVrstaKnjigeActivity">
+
+    <EditText
+        android:id="@+id/EditTextPredmet"
+        android:layout_width="310dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="30dp"
+        android:hint="Predmet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/EditTextNazivKnjige"
+        android:layout_width="310dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="30dp"
+        android:hint="Naziv knjige"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextPredmet" />
+
+    <EditText
+        android:id="@+id/EditTextIzdavac"
+        android:layout_width="310dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="30dp"
+        android:hint="Izdavac"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextNazivKnjige" />
+
+    <EditText
+        android:id="@+id/EditTextAutori"
+        android:layout_width="310dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="30dp"
+        android:hint="Autori"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextIzdavac" />
+
+    <EditText
+        android:id="@+id/EditTextGodina"
+        android:layout_width="310dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="30dp"
+        android:hint="Godina"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextAutori" />
+
+    <Button
+        android:id="@+id/GotovaKnjiga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Dodaj"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextGodina" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

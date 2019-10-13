@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.bookapp.Fragmenti.FragmentKnjige;
@@ -29,7 +31,14 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        Button privremeno = findViewById(R.id.privremeno);
+        privremeno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentNovi = new Intent(ProfileActivity.this, KnjigaDodavanjeActivity.class);
+                ProfileActivity.this.startActivity(intentNovi);
+            }
+        });
         prijem();
 
         //Ovo ispod je za bottomnavbar, treba da se dovrsi jer nemamo plan unapred al ugl tjt
@@ -82,6 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
         else if(getIntent().hasExtra("userId")) {
             //ako se loguje da imamo id i znamo ga u bazi koji je
             id = getIntent().getStringExtra("userId");
+            //zar ne moze nekako da se izvuce kao trenutno ulogovan user
         }
     }
 
