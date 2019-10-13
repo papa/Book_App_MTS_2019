@@ -56,16 +56,6 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
             }
         });
-       /* String help;
-        for (Knjiga x : knjige) {
-            help = x.getNaziv() + ", " + x.getIzdavac() + ", " + x.getPredmet() + ", " + x.getGodinaIzdanja();
-            for (String l : x.getAutori()) {
-                help += l;
-            }
-            knjigeString.add(help);
-        }*/
-
-
         //ok imam sad koju knjigu je birao
         novaKnjiga.setOnClickListener(new View.OnClickListener() {
             @Override
