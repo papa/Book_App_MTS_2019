@@ -93,4 +93,11 @@ public class Oglas
         ref.child("oglasi").child(this.id).setValue(this.id);
     }
 
+    public void ubaciOglas()
+    {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SviOglasi");
+        ref.child(this.id).setValue(this);
+    }
+
+
 }
