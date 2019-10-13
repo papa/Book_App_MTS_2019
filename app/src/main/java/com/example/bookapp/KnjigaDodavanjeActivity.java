@@ -115,8 +115,6 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 idNoveKnjige = knjige.get(position).getId();
-                Log.d("ID", idNoveKnjige);
-
             }
 
             @Override
