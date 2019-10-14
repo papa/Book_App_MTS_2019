@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.bookapp.Fragmenti.FragmentKnjige;
+import com.example.bookapp.Fragmenti.FragmentProfil;
+import com.example.bookapp.Klase.Korisnik;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentKnjige()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentProfil()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener=
@@ -58,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
                     switch (menuItem.getItemId())
                     {
                         case R.id.navprofil:
-                            selectedFragment=new FragmentKnjige();
+                            selectedFragment=new FragmentProfil();
                             break;
                         case R.id.navlista:
                             selectedFragment=new FragmentKnjige();

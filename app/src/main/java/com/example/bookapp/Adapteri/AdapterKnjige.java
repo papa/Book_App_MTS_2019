@@ -1,6 +1,7 @@
 package com.example.bookapp.Adapteri;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bookapp.KnjigaPregledActivity;
 import com.example.bookapp.R;
 
 import java.util.ArrayList;
@@ -51,6 +53,12 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
             @Override
             public void onClick(View view) {
                 //Na klik.
+
+                Intent intent=new Intent(context, KnjigaPregledActivity.class);
+                intent.putExtra("naziv",nazivi.get(i));
+                intent.putExtra("autor",autori.get(i));
+                intent.putExtra("cena",cene.get(i));
+                context.startActivity(intent);
             }
         });
     }

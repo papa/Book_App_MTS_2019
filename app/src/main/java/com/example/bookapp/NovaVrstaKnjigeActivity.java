@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bookapp.Klase.Knjiga;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -55,7 +56,7 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
                 else try{
                     int helpBrojGodina = Integer.parseInt(godinaIzdanjaText.getText().toString());
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference dbRef = database.getReference("knjige");
+                    DatabaseReference dbRef = database.getReference("Knjige");
                     String idKnjiga = dbRef.push().getKey();
                     Knjiga novaKnjigaZaUpload = new Knjiga(idKnjiga,predmetText.getText().toString(),nazivText.getText().toString(),izdavacText.getText().toString(),Integer.parseInt(godinaIzdanjaText.getText().toString()),new ArrayList<String>( Arrays.asList(autoriText.getText().toString().split(","))));
                     dbRef.child(idKnjiga).setValue(novaKnjigaZaUpload);

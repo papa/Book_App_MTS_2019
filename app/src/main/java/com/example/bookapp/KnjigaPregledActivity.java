@@ -4,16 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.widget.TextView;
 
+import com.example.bookapp.Klase.Knjiga;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -40,6 +38,9 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     TextView dodatniOpis;
     TextView brojZainteresovanih;
 
+    //Andrija-prijem intenta
+    private String naziv,autor,cena;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,20 @@ public class KnjigaPregledActivity extends AppCompatActivity {
 
         init();
         postaviListener();
+
+        //ovde su ti primljene informacije o knjizi u ova tri stringa
+        //fali slika al to cemo kasnije
+        prijem();
+    }
+
+    private void prijem()
+    {
+        if(getIntent().hasExtra("autor"))
+        {
+            autor=getIntent().getStringExtra("autor");
+            naziv=getIntent().getStringExtra("naziv");
+            cena=getIntent().getStringExtra("cena");
+        }
     }
 
     void postaviListener()
