@@ -22,6 +22,8 @@ public class Korisnik {
         this.brojOcena=0;
     }
 
+    public Korisnik(){}
+
     public int getBrojOcena() {
         return brojOcena;
     }
