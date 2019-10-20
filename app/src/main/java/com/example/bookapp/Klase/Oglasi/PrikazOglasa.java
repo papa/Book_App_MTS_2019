@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PrikazOglasa extends AsyncTask<Object,String,String> {
+public class PrikazOglasa extends AsyncTask<Object,String,String>
+{
     private RecyclerView recyclerView;
     private Context context;
     private ArrayList<String> ids;
@@ -44,7 +45,7 @@ public class PrikazOglasa extends AsyncTask<Object,String,String> {
         CitanjeOglasa citanjeOglasa=new CitanjeOglasa();
 
         for(int i=0;i<ids.size();i++) {
-            oglasi = citanjeOglasa.konvertuj(ids.get(i));
+            //oglasi = citanjeOglasa.konvertuj(ids.get(i));
         }
 
         prikaziOglase(oglasi);
@@ -54,6 +55,8 @@ public class PrikazOglasa extends AsyncTask<Object,String,String> {
     public void prikaziOglase(List<HashMap<String,String>> oglasi)
     {
         //StringBuilder stringBuilder=new StringBuilder();
+
+
 
         for(int i=0;i<oglasi.size();i++) {
             HashMap<String, String> oglas = oglasi.get(i);

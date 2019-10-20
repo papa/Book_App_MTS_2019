@@ -23,23 +23,15 @@ public class CitanjeOglasa {
 
     public CitanjeOglasa(){}
 
-    private HashMap<String,String>  citajKnjigaInfo(final DatabaseReference databaseReference)
+    void  citajKnjigaInfo(final DatabaseReference databaseReference, final ArrayList<Knjiga> knjige)
     {
-        final HashMap<String,String> knjigaMapa=new HashMap<>();
-
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 Knjiga knjiga=dataSnapshot.getValue(Knjiga.class);
 
-                knjigaMapa.put("naziv",knjiga.getNaziv());
-                knjigaMapa.put("godinaIzdanja",String.valueOf(knjiga.getGodinaIzdanja()));
-                knjigaMapa.put("izdavac",knjiga.getIzdavac());
-                knjigaMapa.put("predmet",knjiga.getPredmet());
-
-                Log.d("Info","Naziv "+knjiga.getNaziv()+" izdavac "+knjiga.getIzdavac());
-
+                knjige.add(knjiga);
             }
 
             @Override
@@ -47,21 +39,14 @@ public class CitanjeOglasa {
 
             }
         });
-
-        knjigaMapa.notify();
-
-        Log.d("KNJIGAMAPA",knjigaMapa.get("naziv")+"ojsaaa");
-
-        return knjigaMapa;
-
     }
 
 
-    private List<HashMap<String,String>> getOglas(String id)
+    void getOglas(String id, final ArrayList<Knjiga> knjige)
     {
-        final List<HashMap<String,String>> oglasi = new ArrayList<>();
+        final DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("Oglasi").child(id);
 
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("Oglasi").child(id);
+        Knjiga knjiga = new Knjiga();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -71,8 +56,7 @@ public class CitanjeOglasa {
 
                     DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("Knjige").child(oglas.getIdKnjige());
 
-                    oglasi.add(citajKnjigaInfo(databaseReference1));
-
+                    citajKnjigaInfo(databaseReference1,knjige);
             }
 
             @Override
@@ -81,14 +65,6 @@ public class CitanjeOglasa {
             }
         });
 
-        return oglasi;
-    }
-
-
-
-    public List<HashMap<String,String>> konvertuj(String id)
-    {
-        return getOglas(id);
     }
 
 
