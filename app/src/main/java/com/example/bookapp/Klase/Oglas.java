@@ -23,6 +23,8 @@ public class Oglas
         this.brojZainteresovanih=0;
     }
 
+    public Oglas(){}
+
     public int getBrojZainteresovanih() {
         return brojZainteresovanih;
     }

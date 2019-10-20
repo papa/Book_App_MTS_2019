@@ -11,6 +11,7 @@ public class Korisnik {
     private String mail;
     private double prosecnaOcena;
     private int brojOcena;
+    private String oglasID;
 
     public Korisnik(String id,String ime,String prezime,String mail)
     {
@@ -20,12 +21,20 @@ public class Korisnik {
         this.mail=mail;
         this.prosecnaOcena=0.0;
         this.brojOcena=0;
+        this.oglasID="";
     }
 
     public Korisnik(){}
 
     public int getBrojOcena() {
         return brojOcena;
+    }
+
+    public void setOglasID(String ogId) {
+        this.oglasID=ogId;
+    }
+    public String getOglasID() {
+        return oglasID;
     }
 
     public void setBrojOcena(int brojOcena) {

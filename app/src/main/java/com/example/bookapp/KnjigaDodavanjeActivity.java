@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.bookapp.Klase.Knjiga;
+import com.example.bookapp.Klase.Korisnik;
 import com.example.bookapp.Klase.Oglas;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +33,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
     private ArrayList<String> knjigeString = new ArrayList<String>();
     private Spinner spinner;
     private Button novaKnjiga, btnUpisi;
-    private DatabaseReference databaseReference,databaseReferenceOglas;
+    private DatabaseReference databaseReference,databaseReference2;
     private EditText cenaKnjige,opisKnjige;
 
     private String opis,id,idKnjiga,idUser;
@@ -118,7 +119,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         opisKnjige=(EditText)findViewById(R.id.dodOpisK);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Knjige");
-        databaseReferenceOglas = FirebaseDatabase.getInstance().getReference().child("Oglasi");
+        databaseReference2 = FirebaseDatabase.getInstance().getReference();
     }
 
     private void setSpinner(Spinner spinner) {
@@ -149,13 +150,15 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         if(idNoveKnjige.equals("nema"))
             Toast.makeText(KnjigaDodavanjeActivity.this,"Odaberite knjigu iz liste ili dodajte novu", Toast.LENGTH_SHORT).show();
         else {
-            id=databaseReferenceOglas.push().getKey();
+            id=databaseReference2.push().getKey();
             idKnjiga = idNoveKnjige;
             idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             Oglas oglas = new Oglas(id, idKnjiga, idUser, cena, opis);
 
-            databaseReferenceOglas.child(id).setValue(oglas);
+            databaseReference2.child("Oglasi").child(id).setValue(oglas);
+
+            databaseReference2.child("Korisnici").child(idUser).child("oglasi").child(id).setValue(id);
         }
 
     }
