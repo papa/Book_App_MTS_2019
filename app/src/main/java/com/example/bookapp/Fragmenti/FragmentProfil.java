@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Korisnik;
 import com.example.bookapp.Klase.Oglas;
-import com.example.bookapp.Klase.Oglasi.PrikazOglasa;
+import com.example.bookapp.Klase.Oglasi.CitanjeOglasa;
 import com.example.bookapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,19 +60,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         return view;
     }
-
-    private void citanje()
-    {
-        Object transferData[] = new Object[4];
-        PrikazOglasa prikazOglasa=new PrikazOglasa();
-
-        transferData[0]=getActivity().getApplicationContext();
-        transferData[1]=recyclerView;
-        transferData[2]=idOglasa;
-
-        prikazOglasa.execute(transferData);
-    }
-
     private void initialize(View view)
     {
         tvIme=(TextView)view.findViewById(R.id.tpIme);
@@ -93,7 +80,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                citajInfo(dataSnapshot);
+                citajInfoKorisnik(dataSnapshot);
 
                 upisi();
 
@@ -106,25 +93,47 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void citajInfo(DataSnapshot dataSnapshot)
-    {
-        Korisnik korisnik=dataSnapshot.getValue(Korisnik.class);
+    private void citajInfoKorisnik(DataSnapshot dataSnapshot) {
+        Korisnik korisnik = dataSnapshot.getValue(Korisnik.class);
 
-        ime=korisnik.getIme();
-        prezime=korisnik.getPrezime();
-        email=korisnik.getMail();
-        brojOcena=korisnik.getBrojOcena();
-        prosecnaOcena=korisnik.getProsecnaOcena();
+        ime = korisnik.getIme();
+        prezime = korisnik.getPrezime();
+        email = korisnik.getMail();
+        brojOcena = korisnik.getBrojOcena();
+        prosecnaOcena = korisnik.getProsecnaOcena();
 
-        if(dataSnapshot.hasChild("oglasi"))
-        {
+        if (dataSnapshot.hasChild("oglasi")) {
             for (DataSnapshot dataSnapshot1 : dataSnapshot.child("oglasi").getChildren()) {
                 idOglasa.add(dataSnapshot1.getKey());
             }
 
             citanje();
         }
+    }
 
+    private void citanje() {
+
+        CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
+
+        citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplication().getApplicationContext());
+    }
+
+    private void upisi()
+    {
+        tvIme.setText(ime);
+        tvPrezime.setText(prezime);
+        tvProsecnaOcena.setText(String.valueOf(prosecnaOcena));
+        tvBrojOcena.setText(String.valueOf(brojOcena));
+        tvEmail.setText(email);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    //<editor-fold desc="Fus citanje za svaki slucaj">
         /*if(dataSnapshot.hasChild("oglasi")) {
             for (DataSnapshot dataSnapshot1 : dataSnapshot.child("oglasi").getChildren()) {
                 citajOglase(dataSnapshot1.getKey());
@@ -132,9 +141,9 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         }
         else
             Log.d("Nema","Korisnik "+ime+" nema oglase svoje");*/
-    }
 
-    private void citajOglase(String id)
+
+    /*private void citajOglase(String id)
     {
         DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("Oglasi").child(id);
 
@@ -144,7 +153,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 
-                    Oglas oglas=dataSnapshot.getValue(Oglas.class);
+                    Oglas oglas=dataSnapshot1.getValue(Oglas.class);
 
                     DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("Knjige").child(oglas.getIdKnjige());
 
@@ -183,20 +192,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
             }
         });
-    }
-
-    private void upisi()
-    {
-        tvIme.setText(ime);
-        tvPrezime.setText(prezime);
-        tvProsecnaOcena.setText(String.valueOf(prosecnaOcena));
-        tvBrojOcena.setText(String.valueOf(brojOcena));
-        tvEmail.setText(email);
-    }
+    }*/
+    //</editor-fold>
 
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }

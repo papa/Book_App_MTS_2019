@@ -58,39 +58,16 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         cene.add("350");
         cene.add("1900");
 
-        setRecycler();
+        //setRecycler();
 
         return view;
-    }
-
-    private void citajBazu()
-    {
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("Oglasi");
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
-                {
-                    Oglas oglas=dataSnapshot1.getValue(Oglas.class);
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     @Override
     public void onClick(View v) {
     }
 
-    private void setRecycler()
+   /* private void setRecycler()
     {
         layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setHasFixedSize(true);
@@ -98,4 +75,5 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         AdapterKnjige adapterKnjige= new AdapterKnjige(getContext(),nazivi,autori,cene);
         recyclerView.setAdapter(adapterKnjige);
     }
+    */
 }
