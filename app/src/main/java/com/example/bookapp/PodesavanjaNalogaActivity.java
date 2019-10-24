@@ -39,20 +39,24 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
 
                 if(check())
                 {
+                    //TODO
                     //ostaje da se uradi update za sliku
                     //Andrijo ti si to pricao da znas sa onim bitmapama pa jos nesto
 
-                    //i moze da se update sifre i mejla uradi mozda i druacije
-                    //radili su to marko i aca preko slanja onog mejla
-                    //to je mozda bilo samo za sifru
+                    if(passe.getText().toString().trim().length() < 6)
+                    {
+                        Toast.makeText(PodesavanjaNalogaActivity.this,"Nova sifra mora da bude duza od 5 karaktera",Toast.LENGTH_LONG).show();
+                    }
+                    else {
 
-                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Korisnici").child(firebaseUser.getUid());
-                    ref.child("ime").setValue(imee.getText().toString());
-                    ref.child("prezime").setValue(prezimee.getText().toString());
-                    firebaseUser.updateEmail(imee.getText().toString());
-                    firebaseUser.updatePassword(passe.getText().toString());
+                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Korisnici").child(firebaseUser.getUid());
+                        ref.child("ime").setValue(imee.getText().toString());
+                        ref.child("prezime").setValue(prezimee.getText().toString());
+                        firebaseUser.updateEmail(imee.getText().toString());
+                        firebaseUser.updatePassword(passe.getText().toString());
+                    }
                 }
                 else
                 {

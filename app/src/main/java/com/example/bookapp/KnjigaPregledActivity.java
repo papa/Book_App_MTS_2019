@@ -18,17 +18,8 @@ import java.util.ArrayList;
 public class KnjigaPregledActivity extends AppCompatActivity {
 
     //papa
-    //TODO
-    //dodaj deo za dodatni opis i ucitaj ga u taj textView
-    //idPrenos treba da se uzme iz intenta koji mu dodje
-    //Andrijo ti to stavi u Intent pa cu ja posle da ga skupim
-    //Intent koji dodje iz Adaptera za knjige
-    //i dodatniOpisOglas i idPrenosOglas da se uzme iz intenta
     DatabaseReference knjigaData;
     String idPrenosKnjiga;
-    String dodatniOpisOglas;
-    String idPrenosOglas;
-    Knjiga knjiga;
     TextView nazivKnjige;
     TextView izdavac;
     TextView brojStranica;
@@ -37,9 +28,14 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     TextView predmet;
     TextView dodatniOpis;
     TextView brojZainteresovanih;
+    TextView cenaPrikaz;
 
     //Andrija-prijem intenta
-    private String naziv,autor,cena;
+    private String naziv;
+    private String autor;
+    private int cena;
+    String pr,izd,dodatno;
+    int gizdanja;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +43,12 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         setContentView(R.layout.activity_knjiga_pregled);
 
         init();
-        postaviListener();
+        prijem();
+        ucitajPodatke();
 
         //ovde su ti primljene informacije o knjizi u ova tri stringa
         //fali slika al to cemo kasnije
-        prijem();
+        //prijem();
     }
 
     private void prijem()
@@ -60,43 +57,47 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         {
             autor=getIntent().getStringExtra("autor");
             naziv=getIntent().getStringExtra("naziv");
-            cena=getIntent().getStringExtra("cena");
+            cena=getIntent().getIntExtra("cena",0);
+            gizdanja=getIntent().getIntExtra("godinaIzdanja",0);
+            pr = getIntent().getStringExtra("predmet");
+            izd = getIntent().getStringExtra("izdavac");
+            dodatno = getIntent().getStringExtra("opis");
         }
     }
 
-    void postaviListener()
+//    void postaviListener()
+//    {
+//        knjigaData.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                knjiga = dataSnapshot.getValue(Knjiga.class);
+//                ucitajPodatke(knjiga);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
+
+    void ucitajPodatke()
     {
-        knjigaData.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                knjiga = dataSnapshot.getValue(Knjiga.class);
-                ucitajPodatke(knjiga);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    void ucitajPodatke(Knjiga k)
-    {
-        nazivKnjige.setText(k.getNaziv());
-        //brojStranica.setText(k.getBrojstranica());
-        izdavac.setText(k.getIzdavac());
-        predmet.setText(k.getPredmet());
-        String gi = k.getGodinaIzdanja() + ".";
+        nazivKnjige.setText(naziv);
+        izdavac.setText(izd);
+        predmet.setText(pr);
+        String gi = gizdanja + ".";
         godinaIzdanja.setText(gi);
-       // brojZainteresovanih.setText(k.getBrojZainteresovanih());
         String autoriS = "";
-        ArrayList<String> au = k.getAutori();
-        for(int i=0;i<au.size()-1;i++)
-        {
-            autoriS=autoriS + au.get(i) + ",";
-        }
-        autoriS = autoriS + au.get(au.size()-1);
-        autori.setText(autoriS);
+//        ArrayList<String> au = k.getAutori();
+//        for(int i=0;i<au.size()-1;i++)
+//        {
+//            autoriS=autoriS + au.get(i) + ",";
+//        }
+//        autoriS = autoriS + au.get(au.size()-1);
+//        autori.setText(autoriS);
+        dodatniOpis.setText(dodatno);
+        cenaPrikaz.setText(cena);
     }
 
     void init()
@@ -106,10 +107,10 @@ public class KnjigaPregledActivity extends AppCompatActivity {
 
         nazivKnjige=(TextView)findViewById(R.id.nazivKnjigePrikaz);
         izdavac = (TextView)findViewById(R.id.izdavacKnjigePrikaz);
-        brojStranica=(TextView)findViewById(R.id.brojStranicaPrikaz);
         autori = (TextView)findViewById(R.id.autoriKnjigePrikaz);
         predmet = (TextView)findViewById(R.id.predmetPrikaz);
         godinaIzdanja = (TextView)findViewById(R.id.godinaIzdanjaPrikaz);
-        brojZainteresovanih = (TextView)findViewById(R.id.brojZainteresovanihPrikaz);
+        dodatniOpis = (TextView)findViewById(R.id.dodatniOpisPrikaz);
+        cenaPrikaz = (TextView)findViewById(R.id.cenaKnjigaPrikaz);
     }
 }

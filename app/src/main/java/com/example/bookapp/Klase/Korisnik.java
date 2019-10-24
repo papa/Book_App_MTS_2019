@@ -12,6 +12,8 @@ public class Korisnik {
     private double prosecnaOcena;
     private int brojOcena;
     private String oglasID;
+    int brojProdatihKnjiga;
+    int brojPostavljenihOglasa;
 
     public Korisnik(String id,String ime,String prezime,String mail)
     {
@@ -22,6 +24,8 @@ public class Korisnik {
         this.prosecnaOcena=0.0;
         this.brojOcena=0;
         this.oglasID="";
+        this.brojPostavljenihOglasa=0;
+        this.brojProdatihKnjiga=0;
     }
 
     public Korisnik(){}
@@ -105,4 +109,28 @@ public class Korisnik {
         knjigeZainteresovan.child(id).removeValue();
     }
 
+    public void uvecajBrojProdatihKnjiga(int br)
+    {
+        this.brojProdatihKnjiga++;
+        DatabaseReference kor = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.id);
+        kor.child("brojProdatihKnjiga").setValue(br+1);
+    }
+
+    public void uvecajBrojPostavlejnih(int br)
+    {
+        this.brojPostavljenihOglasa++;
+        DatabaseReference kor = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.id);
+        kor.child("brojPostavljenihOglasa").setValue(br+1);
+    }
+
+    public void oceni(int ocena)
+    {
+        double ukupna = this.brojOcena*this.prosecnaOcena;
+        double nova  = ukupna+ocena;
+        this.brojOcena++;
+        this.prosecnaOcena = (nova)/brojOcena;
+        DatabaseReference kor = FirebaseDatabase.getInstance().getReference("Korisnici").child(this.id);
+        kor.child("brojOcena").setValue(brojOcena);
+        kor.child("prosecnaOcena").setValue(prosecnaOcena);
+    }
 }

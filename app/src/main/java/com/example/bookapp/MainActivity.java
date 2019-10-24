@@ -42,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         ako hocete da dodate nova polja samo edit text i proverite da l nije prazan ova prva grana u btnregister onclick
          */
 
+        //TODO
+        //papa
+        //ako je zaboravio sifru preko mejla da moze da je promeni
+        //to cu ja da uradim jer imali smo to u dodji na teren
+
         initialize();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {

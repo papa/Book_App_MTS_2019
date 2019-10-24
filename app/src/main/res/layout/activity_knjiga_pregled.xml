@@ -38,6 +38,30 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Cena: "/>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="match_parent"
+                        android:text="Neka cena"
+                        android:id="@+id/cenaKnjigaPrikaz"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
                         android:text="Naziv knjige: "/>
 
 
@@ -61,6 +85,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:textStyle="bold"
                         android:text="Izdavac knjige: "/>
 
 
@@ -84,29 +109,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Broj stranica:  "/>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
-                        android:layout_height="match_parent"
-                        android:text="Neki broj stranica "
-                        android:id="@+id/brojStranicaPrikaz"/>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:textStyle="bold"
                         android:text="Autori knjige:  "/>
 
 
@@ -130,6 +133,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:textStyle="bold"
                         android:text="Predmet:  "/>
 
 
@@ -152,6 +156,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:textStyle="bold"
                         android:text="Godina izdanja:  "/>
 
 
@@ -167,28 +172,6 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_margin="8dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Broj zainteresovanih:  "/>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
-                        android:layout_height="match_parent"
-                        android:text="Neki broj zainteresovanih "
-                        android:id="@+id/brojZainteresovanihPrikaz"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
@@ -196,9 +179,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_margin="8dp"
+                        android:textStyle="bold"
                         android:text="Dodatni opis:  "/>
 
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:text="Neki doddatni tekst o knjizi"
+                        android:id="@+id/dodatniOpisPrikaz"/>
 
             </LinearLayout>
 
