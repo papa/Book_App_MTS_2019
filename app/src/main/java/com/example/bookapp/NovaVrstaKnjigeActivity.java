@@ -1,7 +1,9 @@
 package com.example.bookapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bookapp.Klase.Knjiga;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,19 +57,36 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
                 else if(godinaIzdanjaText.getText().toString().isEmpty()) {
                     Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi godinu", Toast.LENGTH_SHORT).show();
                 }
-                else try{
-                    int helpBrojGodina = Integer.parseInt(godinaIzdanjaText.getText().toString());
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference dbRef = database.getReference("Knjige");
-                    String idKnjiga = dbRef.push().getKey();
-                    Knjiga novaKnjigaZaUpload = new Knjiga(idKnjiga,predmetText.getText().toString(),nazivText.getText().toString(),izdavacText.getText().toString(),Integer.parseInt(godinaIzdanjaText.getText().toString()),new ArrayList<String>( Arrays.asList(autoriText.getText().toString().split(","))));
-                    dbRef.child(idKnjiga).setValue(novaKnjigaZaUpload);
-                    KnjigaDodavanjeActivity.idNoveKnjige = idKnjiga;
-                    finish();
-
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Nepravilan format", Toast.LENGTH_SHORT).show();
+                else {
+                    try{
+                        int helpBrojGodina = Integer.parseInt(godinaIzdanjaText.getText().toString());
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference dbRef = database.getReference("Knjige");
+                        final String idKnjiga = dbRef.push().getKey();
+                        Knjiga novaKnjigaZaUpload = new Knjiga(idKnjiga,predmetText.getText().toString(),nazivText.getText().toString(),izdavacText.getText().toString(),Integer.parseInt(godinaIzdanjaText.getText().toString()),new ArrayList<String>( Arrays.asList(autoriText.getText().toString().split(","))));
+                        dbRef.child(idKnjiga).setValue(novaKnjigaZaUpload)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Intent returnIntent = new Intent();
+                                        returnIntent.putExtra("idknjige", idKnjiga);
+                                        setResult(KnjigaDodavanjeActivity.RESULT_OK,returnIntent);
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Intent returnIntent = new Intent();
+                                        returnIntent.putExtra("idknjige", "");
+                                        setResult(KnjigaDodavanjeActivity.RESULT_OK,returnIntent);
+                                        finish();
+                                    }
+                                });
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        Toast.makeText(NovaVrstaKnjigeActivity.this, "Nepravilan format", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

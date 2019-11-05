@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
-    static String idNoveKnjige = "nema";
+    private String idKnjige = "nema";
     private ArrayList<Knjiga> knjige = new ArrayList<Knjiga>();
     private ArrayList<String> knjigeString = new ArrayList<String>();
     private Spinner spinner;
@@ -43,10 +43,16 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //boki pravio
         //bravo bogdane -ANDRIJA-
+        //hvala andrija -BOGDAN-
+        //bravo i tebi andrija -BOGDAN-
 
         //Popravio sam malo kod (ulepsao ga i sredio)
         //Dodao sam funkcije za upis oglasa u bazu
         //-ANDRIJA-
+
+        //Popravio sam jos malo kod (ulepsao ga i sredio)
+        //Dodao sam vracanje id-ja nove knjige u stari activity vrlo efikasno i clean
+        //-BOGDAN-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knjiga_dodavanje);
 
@@ -64,7 +70,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
                 buildString();
 
-                setSpinner(spinner);
+                setSpinner(spinner, "");
             }
 
             @Override
@@ -77,7 +83,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(KnjigaDodavanjeActivity.this, NovaVrstaKnjigeActivity.class);
-                KnjigaDodavanjeActivity.this.startActivity(myIntent);
+                KnjigaDodavanjeActivity.this.startActivityForResult(myIntent, 1);
             }
         });
 
@@ -122,7 +128,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         databaseReference2 = FirebaseDatabase.getInstance().getReference();
     }
 
-    private void setSpinner(Spinner spinner) {
+    private void setSpinner(Spinner spinner, String izabran) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, knjigeString);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -131,7 +137,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                idNoveKnjige = knjige.get(position).getId();
+                idKnjige = knjige.get(position).getId();
 
             }
 
@@ -140,6 +146,9 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
             }
         });
+        if(!izabran.isEmpty()){
+            spinner.setSelection(adapter.getPosition(izabran));
+        }
     }
 
     private void dodajOglas()
@@ -147,11 +156,11 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         citajEditTextove();
 
 
-        if(idNoveKnjige.equals("nema"))
+        if(idKnjige.equals("nema"))
             Toast.makeText(KnjigaDodavanjeActivity.this,"Odaberite knjigu iz liste ili dodajte novu", Toast.LENGTH_SHORT).show();
         else {
             id=databaseReference2.push().getKey();
-            idKnjiga = idNoveKnjige;
+            idKnjiga = idKnjige;
             idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             Oglas oglas = new Oglas(id, idKnjiga, idUser, cena, opis);
@@ -174,6 +183,39 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         else
             Toast.makeText(KnjigaDodavanjeActivity.this,"Greska prilikom unosa dodatnih podataka",Toast.LENGTH_SHORT).show();
 
+    }@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == KnjigaDodavanjeActivity.RESULT_OK) {
+                idKnjige = data.getStringExtra("idknjige");
+                databaseReference.child(idKnjige).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        try {
+                            Knjiga nova;
+                            nova = dataSnapshot.getValue(Knjiga.class);
+                            knjige.add(nova);
+                            StringBuilder stringBuilder = new StringBuilder();
+                            stringBuilder.append(nova.getNaziv());
+                            for (String s : nova.getAutori()) {
+                                stringBuilder.append(" " + s);
+                            }
+                            knjigeString.add(stringBuilder.toString());
+                            setSpinner(spinner, stringBuilder.toString());
+                        }
+                        catch (Exception e){
+                            Toast.makeText(KnjigaDodavanjeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        }
     }
 
 }
