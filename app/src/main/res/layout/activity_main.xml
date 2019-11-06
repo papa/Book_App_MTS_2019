@@ -16,24 +16,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:hint="Unesite svoje ime..."
             android:id="@+id/eName" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:hint="Unesite svoje prezime..."
             android:id="@+id/eSurname"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:hint="Unesite svoju email adresu..."
             android:id="@+id/eEmail" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:hint="Unesite svoju sifru..."
             android:id="@+id/ePass" />
 
         <Button

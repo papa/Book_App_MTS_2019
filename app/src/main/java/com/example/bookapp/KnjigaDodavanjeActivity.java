@@ -95,6 +95,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         btnUpisi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(KnjigaDodavanjeActivity.this,"Klik",Toast.LENGTH_LONG).show();
                 dodajOglas();
             }
         });
@@ -160,7 +161,6 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
     private void dodajOglas()
     {
         citajEditTextove();
-
 
         if(idKnjige.equals("nema"))
             Toast.makeText(KnjigaDodavanjeActivity.this,"Odaberite knjigu iz liste ili dodajte novu", Toast.LENGTH_SHORT).show();
