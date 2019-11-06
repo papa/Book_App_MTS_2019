@@ -12,18 +12,20 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/eLogEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="Unesite email adresu..."
-            android:id="@+id/eLogEmail" />
+            android:inputType="textEmailAddress" />
 
         <EditText
+            android:id="@+id/eLogPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="Unesite svoju sifru..."
-            android:id="@+id/eLogPassword" />
+            android:inputType="textPassword" />
 
         <Button
             android:layout_width="wrap_content"

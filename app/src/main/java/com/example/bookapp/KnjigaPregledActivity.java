@@ -102,7 +102,6 @@ public class KnjigaPregledActivity extends AppCompatActivity {
 
     void init()
     {
-
         knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenosKnjiga);
 
         nazivKnjige=(TextView)findViewById(R.id.nazivKnjigePrikaz);
@@ -110,7 +109,7 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         autori = (TextView)findViewById(R.id.autoriKnjigePrikaz);
         predmet = (TextView)findViewById(R.id.predmetPrikaz);
         godinaIzdanja = (TextView)findViewById(R.id.godinaIzdanjaPrikaz);
-        dodatniOpis = (TextView)findViewById(R.id.dodatniOpisPrikaz);
+        dodatniOpis = (TextView)findViewById(R.id.dodatniOpisPrikazi);
         cenaPrikaz = (TextView)findViewById(R.id.cenaKnjigaPrikaz);
     }
 }

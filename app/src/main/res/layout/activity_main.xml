@@ -27,18 +27,20 @@
             android:id="@+id/eSurname"/>
 
         <EditText
+            android:id="@+id/eEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="Unesite svoju email adresu..."
-            android:id="@+id/eEmail" />
+            android:inputType="textEmailAddress" />
 
         <EditText
+            android:id="@+id/ePass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="Unesite svoju sifru..."
-            android:id="@+id/ePass" />
+            android:inputType="textPassword" />
 
         <Button
             android:layout_width="wrap_content"

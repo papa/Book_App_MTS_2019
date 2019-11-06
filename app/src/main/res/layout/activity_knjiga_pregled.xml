@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:text="Neki doddatni tekst o knjizi"
-                        android:id="@+id/dodatniOpisPrikaz"/>
+                        android:id="@+id/dodatniOpisPrikazi"/>
 
             </LinearLayout>
 

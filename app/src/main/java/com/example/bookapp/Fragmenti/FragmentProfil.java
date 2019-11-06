@@ -1,11 +1,13 @@
 package com.example.bookapp.Fragmenti;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,9 @@ import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Korisnik;
 import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.Klase.Oglasi.CitanjeOglasa;
+import com.example.bookapp.KnjigaDodavanjeActivity;
+import com.example.bookapp.PodesavanjaNalogaActivity;
+import com.example.bookapp.ProfileActivity;
 import com.example.bookapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,6 +54,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
     private ArrayList<String> idOglasa=new ArrayList<>();
 
+    private Button priv,nalogP;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,6 +67,21 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         return view;
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.privremeno: {
+                Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
+                startActivity(intent);
+            }break;
+            case R.id.nalog:{
+                Intent intent = new Intent(getActivity(), PodesavanjaNalogaActivity.class);
+                startActivity(intent);
+            }break;
+        }
+    }
+
     private void initialize(View view)
     {
         tvIme=(TextView)view.findViewById(R.id.tpIme);
@@ -72,6 +94,11 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         user= FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Korisnici").child(user.getUid());
+
+        priv = view.findViewById(R.id.privremeno);
+        nalogP=view.findViewById(R.id.nalog);
+        priv.setOnClickListener(this);
+        nalogP.setOnClickListener(this);
     }
 
     private void citajBazu()
@@ -125,12 +152,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         tvProsecnaOcena.setText(String.valueOf(prosecnaOcena));
         tvBrojOcena.setText(String.valueOf(brojOcena));
         tvEmail.setText(email);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
     }
 
     //<editor-fold desc="Fus citanje za svaki slucaj">
