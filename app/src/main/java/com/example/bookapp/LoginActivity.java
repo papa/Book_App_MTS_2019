@@ -32,7 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -42,7 +43,23 @@ public class LoginActivity extends AppCompatActivity {
 
         initialize();
 
+        postaviListenere();
 
+    }
+
+
+    FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            if (firebaseUser != null) {
+                userId = firebaseUser.getUid();
+            }
+        }
+    };
+
+    private void postaviListenere()
+    {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,19 +99,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
-
-    FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
-        @Override
-        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-            if (firebaseUser != null) {
-                userId = firebaseUser.getUid();
-            }
-        }
-    };
 
     private void initialize()
     {

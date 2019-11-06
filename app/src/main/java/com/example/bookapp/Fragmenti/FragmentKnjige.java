@@ -81,9 +81,11 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     private boolean started = false;
     private AdapterKnjige adapterKnjige;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_knjige, container, false);
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerKnjige);
         cenaRB=(CheckBox)view.findViewById(R.id.cenaCheckBox);
@@ -94,7 +96,22 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         izdavacET=(EditText)view.findViewById(R.id.izdavacFilterText);
         filter=(Button)view.findViewById(R.id.filterButton);
 
+        postaviListenere();
 
+        //-BOGDAN-
+        //pretpostavljam da se to ovde radi
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        ucitajIzBaze();
+        napuniListe();
+        start();
+        napraviListu();
+        setRecycler();
+
+        return view;
+    }
+
+    private void postaviListenere()
+    {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,17 +158,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
             }
         });
 
-
-        //-BOGDAN-
-        //pretpostavljam da se to ovde radi
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        ucitajIzBaze();
-        napuniListe();
-        start();
-        napraviListu();
-        setRecycler();
-
-        return view;
     }
 
     @Override
@@ -169,7 +175,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         adapterKnjige= new AdapterKnjige(getContext(), slikeF,naziviF,autoriF,predmetiF,izdavaciF,godineIzdanjaF,ceneF,dodatniOpisiF,brojeviZainteresovanihF);
         recyclerView.setAdapter(adapterKnjige);
     }
-    private void ucitajIzBaze(){
+    private void ucitajIzBaze()
+    {
         databaseReference.child("Knjige").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -200,7 +207,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
             }
         });
     }
-    private void napuniListe(){
+    private void napuniListe()
+    {
         connection = new int[oglasi.size()];
         Oglas tempOglas;
         Knjiga tempKnjiga = null;
@@ -224,7 +232,9 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
             brojeviZainteresovanih.add(Integer.toString(tempOglas.getBrojZainteresovanih()));
         }
     }
-    private void start(){
+
+    private void start()
+    {
         started = true;
         slikeF = new ArrayList<Bitmap>(slike);
         naziviF = new ArrayList<String>(nazivi);
@@ -236,7 +246,9 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         dodatniOpisiF = new ArrayList<String>(dodatniOpisi);
         brojeviZainteresovanihF = new ArrayList<String>(brojeviZainteresovanih);
     }
-    private void clear(){
+
+    private void clear()
+    {
         slikeF = new ArrayList<Bitmap>();
         naziviF = new ArrayList<String>();
         autoriF = new ArrayList<ArrayList<String>>();

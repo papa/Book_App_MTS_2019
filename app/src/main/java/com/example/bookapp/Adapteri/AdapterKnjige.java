@@ -107,7 +107,8 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         private ImageView slika;
         private ConstraintLayout itemLayout;
 
-        public KnjigeHolder(@NonNull View itemView) {
+        public KnjigeHolder(@NonNull View itemView)
+        {
             super(itemView);
             naziv=(TextView)itemView.findViewById(R.id.tNaziv);
             autor=(TextView)itemView.findViewById(R.id.tAutor);

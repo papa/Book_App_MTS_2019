@@ -14,7 +14,8 @@ public class Oglas
     private String dodatniOpis;
     private int brojZainteresovanih;
 
-    public Oglas(String id, String idKnjige, String idUsera, int cena, String dodatniOpis) {
+    public Oglas(String id, String idKnjige, String idUsera, int cena, String dodatniOpis)
+    {
         this.id = id;
         this.idKnjige = idKnjige;
         this.idUsera = idUsera;
@@ -97,7 +98,7 @@ public class Oglas
 
     public void ubaciOglas()
     {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("SviOglasi");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Oglasi");
         ref.child(this.id).setValue(this);
     }
 

@@ -58,6 +58,11 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
         initialize();
 
+        postaviListenere();
+    }
+
+    private void postaviListenere()
+    {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -93,7 +98,6 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
                 dodajOglas();
             }
         });
-
     }
 
     private ArrayList<String> buildString()
@@ -114,7 +118,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         return knjigeString;
     }
 
-    private void initialize() {
+    private void initialize()
+    {
 
         novaKnjiga = findViewById(R.id.novaKnjigaActivityButton);
         btnUpisi=(Button)findViewById(R.id.btUpisi);
@@ -128,7 +133,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         databaseReference2 = FirebaseDatabase.getInstance().getReference();
     }
 
-    private void setSpinner(Spinner spinner, String izabran) {
+    private void setSpinner(Spinner spinner, String izabran)
+    {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, knjigeString);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -168,6 +174,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             databaseReference2.child("Oglasi").child(id).setValue(oglas);
 
             databaseReference2.child("Korisnici").child(idUser).child("oglasi").child(id).setValue(id);
+
+            Toast.makeText(KnjigaDodavanjeActivity.this,"toast",Toast.LENGTH_LONG).show();
         }
 
     }
@@ -181,9 +189,13 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             opis=opisKnjige.getText().toString().trim();
         }
         else
+        {
             Toast.makeText(KnjigaDodavanjeActivity.this,"Greska prilikom unosa dodatnih podataka",Toast.LENGTH_SHORT).show();
+        }
 
-    }@Override
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {

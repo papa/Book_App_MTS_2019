@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         initialize();
 
+        postaviListenere();
+
+    }
+
+    private void postaviListenere()
+    {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,19 +108,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
+
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
         FirebaseUser currentUser = auth.getCurrentUser();
         if(currentUser!=null)
             updateUI();
     }
-    private void updateUI(){
+
+    private void updateUI()
+    {
         Intent intent=new Intent(MainActivity.this,ProfileActivity.class);
         startActivity(intent);
     }
+
+
+
     private void initialize()
     {
         etName=(EditText)findViewById(R.id.eName);
