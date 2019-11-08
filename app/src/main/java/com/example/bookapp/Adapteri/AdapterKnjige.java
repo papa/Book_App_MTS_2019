@@ -19,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.example.bookapp.KnjigaPregledActivity;
 import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.R;
@@ -83,10 +85,10 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         viewHolder.godinaIzdanja.setText(godineIzdanja.get(i));
         viewHolder.izdavac.setText(izdavaci.get(i));
         viewHolder.opis.setText(dodatniOpis.get(i));
-        if(slike.get(i)!=null)
+        /*if(slike.get(i)!=null)
             viewHolder.slika.setImageBitmap(slike.get(i));
         else
-            viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);
+            viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);*/
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,28 +148,8 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
     }
     private void ucitajSliku() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //storageReference = storageRef.child(user.getUid()).child("Knjiga").child(idKnjiga + "/" + "image.jpg");
 
-        final File localFile;
+        storageReference = storageRef.child(user.getUid()).child("Knjiga").child("-Lt0A82pwg677plEiUN3" + "/" + "image.jpg");
 
-        try {
-            localFile = File.createTempFile("Images", "bmp");
-
-            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    slike.add(BitmapFactory.decodeFile(localFile.getAbsolutePath()));
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-
-            Log.d("Duzina",String.valueOf(slike.size()));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 }

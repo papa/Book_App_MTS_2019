@@ -48,8 +48,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
     private String opis,id,idKnjiga,idUser;
     private int cena;
-
-    ImageView slikeKnjige;
+    int br=0;
+    ImageView slikeKnjige,slikeKnjige2,slikeKnjige3;
     private int PICK_IMAGE_REQUEST = 111;
     private Uri filePath;
 
@@ -129,6 +129,24 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
             }
         });
+        slikeKnjige2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+            }
+        });
+        slikeKnjige3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+            }
+        });
     }
 
     private ArrayList<String> buildString()
@@ -164,6 +182,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         databaseReference2 = FirebaseDatabase.getInstance().getReference();
 
         slikeKnjige=(ImageView)findViewById(R.id.slikaKnjige);
+        slikeKnjige2=(ImageView)findViewById(R.id.slikaKnjige2);
+        slikeKnjige3=(ImageView)findViewById(R.id.slikaKnjige3);
         progressDialog=new ProgressDialog(this);
     }
 
@@ -234,11 +254,21 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
+            br++;
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
-                slikeKnjige.setImageBitmap(bitmap);
+                switch (br) {
+                    case 1:
+                        slikeKnjige.setImageBitmap(bitmap);
+                        break;
+                    case 2:
+                        slikeKnjige2.setImageBitmap(bitmap);
+                        break;
+                    default:
+                        slikeKnjige3.setImageBitmap(bitmap);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -284,20 +314,22 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
         FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
 
-        StorageReference childRef = storageRef.child(user.getUid()).child("Knjiga").child(idKnjiga + "/" + "image.jpg");
-        UploadTask uploadTask = childRef.putFile(filePath);
+        for(int i=0;i<br;i++) {
+            StorageReference childRef = storageRef.child(user.getUid()).child("Knjiga").child(id + "/" + i + "image.jpg");
+            UploadTask uploadTask = childRef.putFile(filePath);
 
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.dismiss();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(KnjigaDodavanjeActivity.this, "Greska prilikom upisivanja " + e, Toast.LENGTH_SHORT).show();
-            }
-        });
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(KnjigaDodavanjeActivity.this, "Greska prilikom upisivanja " + e, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 }

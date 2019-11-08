@@ -10,10 +10,32 @@
         android:id="@+id/slikaKnjige"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btUpisi"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
+
+    <ImageView
+        android:id="@+id/slikaKnjige2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/slikaKnjige3"
+        app:layout_constraintStart_toEndOf="@+id/slikaKnjige"
+        app:layout_constraintTop_toBottomOf="@+id/btUpisi"
+        app:layout_constraintVertical_bias="0.502"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
+
+    <ImageView
+        android:id="@+id/slikaKnjige3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btUpisi"
+        app:layout_constraintVertical_bias="0.502"
         app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
 
     <Spinner
