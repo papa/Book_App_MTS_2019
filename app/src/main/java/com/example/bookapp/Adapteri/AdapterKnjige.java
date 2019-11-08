@@ -1,22 +1,38 @@
 package com.example.bookapp.Adapteri;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookapp.KnjigaPregledActivity;
+import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHolder>{
@@ -31,6 +47,10 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
     private ArrayList<String> dodatniOpis=new ArrayList<>();
     private ArrayList<String> brojZainteresovanih=new ArrayList<>();
 
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReferenceFromUrl("gs://knjigeapp.appspot.com");
+    private StorageReference storageReference;
+
     public AdapterKnjige(Context context, ArrayList<Bitmap> slike, ArrayList<String> nazivi, ArrayList<ArrayList<String>> autori, ArrayList<String> predmeti, ArrayList<String> izdavaci, ArrayList<String> godineIzdanja, ArrayList<String> cene, ArrayList<String> dodatniOpis, ArrayList<String> brojZainteresovanih) {
         this.context = context;
         this.slike = slike;
@@ -42,6 +62,7 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         this.cene = cene;
         this.dodatniOpis = dodatniOpis;
         this.brojZainteresovanih = brojZainteresovanih;
+        ucitajSliku();
     }
 
     @NonNull
@@ -62,7 +83,10 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         viewHolder.godinaIzdanja.setText(godineIzdanja.get(i));
         viewHolder.izdavac.setText(izdavaci.get(i));
         viewHolder.opis.setText(dodatniOpis.get(i));
-        //viewHolder.slika.setImageBitmap(slike.get(i));
+        if(slike.get(i)!=null)
+            viewHolder.slika.setImageBitmap(slike.get(i));
+        else
+            viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +142,32 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
             predmet=(TextView)itemView.findViewById(R.id.tPredmet);
             opis=(TextView)itemView.findViewById(R.id.tOpis);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.knjige_i);
+        }
+    }
+    private void ucitajSliku() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //storageReference = storageRef.child(user.getUid()).child("Knjiga").child(idKnjiga + "/" + "image.jpg");
+
+        final File localFile;
+
+        try {
+            localFile = File.createTempFile("Images", "bmp");
+
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    slike.add(BitmapFactory.decodeFile(localFile.getAbsolutePath()));
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+            Log.d("Duzina",String.valueOf(slike.size()));
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

@@ -62,7 +62,7 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
         progressDialog.show();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid() + "/" + "image.jpg");
+        storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid()).child("Korisnik" + "/" + "image.jpg");
 
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

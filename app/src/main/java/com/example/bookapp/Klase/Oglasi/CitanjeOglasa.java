@@ -24,20 +24,20 @@ public class CitanjeOglasa {
 
     private RecyclerView.LayoutManager layoutManager;
 
-    private ArrayList<Bitmap> slike=new ArrayList<>();
-    private ArrayList<String> nazivi=new ArrayList<>();
-    private ArrayList<ArrayList<String>> autori=new ArrayList<>();
-    private ArrayList<String> predmeti=new ArrayList<>();
-    private ArrayList<String> izdavaci=new ArrayList<>();
-    private ArrayList<String> godineIzdanja=new ArrayList<>();
-    private ArrayList<String> cene=new ArrayList<>();
-    private ArrayList<String> dodatniOpis=new ArrayList<>();
-    private ArrayList<String> brojZainteresovanih=new ArrayList<>();
+    private ArrayList<Bitmap> slike = new ArrayList<>();
+    private ArrayList<String> nazivi = new ArrayList<>();
+    private ArrayList<ArrayList<String>> autori = new ArrayList<>();
+    private ArrayList<String> predmeti = new ArrayList<>();
+    private ArrayList<String> izdavaci = new ArrayList<>();
+    private ArrayList<String> godineIzdanja = new ArrayList<>();
+    private ArrayList<String> cene = new ArrayList<>();
+    private ArrayList<String> dodatniOpis = new ArrayList<>();
+    private ArrayList<String> brojZainteresovanih = new ArrayList<>();
 
     DatabaseReference databaseReference1;
-    ArrayList<Knjiga> knjige=new ArrayList<>();
+    ArrayList<Knjiga> knjige = new ArrayList<>();
     String ID;
-    int brojOglasa=0;
+    int brojOglasa = 0;
 
     public CitanjeOglasa() {
     }
@@ -46,7 +46,7 @@ public class CitanjeOglasa {
         void onCallback(Knjiga value);
     }
 
-    public interface CallbackA{
+    public interface CallbackA {
         void onCallback(ArrayList<Knjiga> value);
     }
 
@@ -67,7 +67,7 @@ public class CitanjeOglasa {
         });
     }
 
-     private void getOglas(final CallbackA myCallback) {
+    private void getOglas(final CallbackA myCallback) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Oglasi").child(ID);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -98,27 +98,26 @@ public class CitanjeOglasa {
 
             }
         });
-     }
+    }
 
-    public void procitaj(ArrayList<String> idOglasa, final RecyclerView recyclerView2, final Context c)
-    {
-        brojOglasa=idOglasa.size();
+    public void procitaj(ArrayList<String> idOglasa, final RecyclerView recyclerView2, final Context c) {
+        brojOglasa = idOglasa.size();
 
-        for(int i=0;i<brojOglasa;i++)
-        {
-            ID=idOglasa.get(i);
+        for (int i = 0; i < brojOglasa; i++) {
+            ID = idOglasa.get(i);
 
             getOglas(new CallbackA() {
                 @Override
                 public void onCallback(ArrayList<Knjiga> value) {
-                    prikaziOglase(value, recyclerView2, c);
+                    //prikaziOglase(value, recyclerView2,c ,cena, predmet, izdavac);
+                    prikaziOglase(value, recyclerView2,c );
                 }
             });
         }
 
     }
 
-    private void prikaziOglase(List<Knjiga> oglasi,RecyclerView recyclerView,Context context) {
+    private void prikaziOglase(List<Knjiga> oglasi, RecyclerView recyclerView, Context context) {
         if (oglasi.size() == brojOglasa) {
             for (int i = 0; i < oglasi.size(); i++) {
                 nazivi.add(oglasi.get(i).getNaziv());
@@ -127,12 +126,17 @@ public class CitanjeOglasa {
                 autori.add(oglasi.get(i).getAutori());
                 godineIzdanja.add(String.valueOf(oglasi.get(i).getGodinaIzdanja()));
             }
-
             layoutManager = new GridLayoutManager(context, 1);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(layoutManager);
-            AdapterKnjige adapterKnjige = new AdapterKnjige(context,slike, nazivi, autori, predmeti,izdavaci,godineIzdanja,cene,dodatniOpis,brojZainteresovanih);
+            AdapterKnjige adapterKnjige = new AdapterKnjige(context, slike, nazivi, autori, predmeti, izdavaci, godineIzdanja, cene, dodatniOpis, brojZainteresovanih);
             recyclerView.setAdapter(adapterKnjige);
         }
+    }
+    private boolean proveriFiltere(int cena, String predmet, String izdavac)
+    {
+        if(cena==0 && predmet.equals("") && izdavac.equals(""))
+            return false;
+        return true;
     }
 }
