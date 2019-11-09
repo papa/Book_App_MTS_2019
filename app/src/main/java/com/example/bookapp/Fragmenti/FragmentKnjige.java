@@ -140,7 +140,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
 
     //<editor-fold desc="Ovo mi je animacija da se menjaju slike, koristicu je na drugom mesto al neka je, samo smanjite ovaj deo da ne smeta">
-    private void nextImage(){
+    private void nextImage()
+    {
         slikeKnjige.setImageResource(imageArray[currentIndex]);
         //Animation rotateimage = AnimationUtils.loadAnimation(this, R.anim.custom_anim);
         //slikeKnjige.startAnimation(rotateimage);
@@ -159,7 +160,9 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         },1000); // here 1000(1 second) interval to change from current  to next image
 
     }
-    private void previousImage(){
+
+    private void previousImage()
+    {
         slikeKnjige.setImageResource(imageArray[currentIndex]);
         //Animation rotateimage = AnimationUtils.loadAnimation(this, R.anim.custom_anim);
         //slikeKnjige.startAnimation(rotateimage);
