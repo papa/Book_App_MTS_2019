@@ -116,7 +116,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         //nextImage();
 
         cenaRB.setOnClickListener(this);
-        slikeKnjige.setOnClickListener(this);
 
         //postaviListenere();
 
@@ -333,7 +332,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         predmetET=(EditText)view.findViewById(R.id.predmetFilterText);
         izdavacET=(EditText)view.findViewById(R.id.izdavacFilterText);
         filter=(Button)view.findViewById(R.id.filterButton);
-
 
         imageArray = new int[8];
         imageArray[0] = R.drawable.ic_launcher_background;
