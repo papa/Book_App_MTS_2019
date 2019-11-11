@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.example.bookapp.Klase.Knjiga;
+import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.KnjigaPregledActivity;
 import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.R;
@@ -53,17 +55,16 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
     private StorageReference storageRef = storage.getReferenceFromUrl("gs://knjigeapp.appspot.com");
     private StorageReference storageReference;
 
-    public AdapterKnjige(Context context, ArrayList<Bitmap> slike, ArrayList<String> nazivi, ArrayList<ArrayList<String>> autori, ArrayList<String> predmeti, ArrayList<String> izdavaci, ArrayList<String> godineIzdanja, ArrayList<String> cene, ArrayList<String> dodatniOpis, ArrayList<String> brojZainteresovanih) {
+    private ArrayList<Oglas> oglasi;
+    private ArrayList<Knjiga> knjige;
+
+
+    public AdapterKnjige(Context context, ArrayList<Bitmap> slike,ArrayList<Oglas> og,ArrayList<Knjiga> knj)
+    {
         this.context = context;
         this.slike = slike;
-        this.nazivi = nazivi;
-        this.autori = autori;
-        this.predmeti = predmeti;
-        this.izdavaci = izdavaci;
-        this.godineIzdanja = godineIzdanja;
-        this.cene = cene;
-        this.dodatniOpis = dodatniOpis;
-        this.brojZainteresovanih = brojZainteresovanih;
+        this.oglasi=og;
+        this.knjige=knj;
         ucitajSliku();
     }
 
@@ -78,13 +79,18 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
 
     @Override
     public void onBindViewHolder(@NonNull final KnjigeHolder viewHolder, final int i) {
-        viewHolder.naziv.setText(nazivi.get(i));
-        viewHolder.autor.setText(convertAutor(autori.get(i)));
-        viewHolder.cena.setText(cene.get(i));
-        viewHolder.predmet.setText(predmeti.get(i));
-        viewHolder.godinaIzdanja.setText(godineIzdanja.get(i));
-        viewHolder.izdavac.setText(izdavaci.get(i));
-        viewHolder.opis.setText(dodatniOpis.get(i));
+
+        Oglas oo  = oglasi.get(i);
+        Knjiga kk = knjige.get(i);
+
+        //TODO
+        viewHolder.naziv.setText(kk.getNaziv());
+        viewHolder.autor.setText(convertAutor(kk.getAutori()));
+       // viewHolder.cena.setText(oo.getCena());
+        viewHolder.predmet.setText(kk.getPredmet());
+       // viewHolder.godinaIzdanja.setText(kk.getGodinaIzdanja());
+        viewHolder.izdavac.setText(kk.getIzdavac());
+        viewHolder.opis.setText(oo.getDodatniOpis());
         /*if(slike.get(i)!=null)
             viewHolder.slika.setImageBitmap(slike.get(i));
         else
@@ -95,14 +101,14 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
                 //Na klik.
 
                 Intent intent=new Intent(context, KnjigaPregledActivity.class);
-                intent.putExtra("naziv",nazivi.get(i));
+                intent.putExtra("naziv",knjige.get(i).getNaziv());
                 //Za autora se salje array list, ako treba string stavite convert autor i parametar autori.get(i);
-                intent.putExtra("autor",autori.get(i));
-                intent.putExtra("cena",cene.get(i));
-                intent.putExtra("predmet",predmeti.get(i));
-                intent.putExtra("godinaIzdanja",godineIzdanja.get(i));
-                intent.putExtra("izdavac",izdavaci.get(i));
-                intent.putExtra("opis",dodatniOpis.get(i));
+                intent.putExtra("autor",knjige.get(i).getAutori());
+                intent.putExtra("cena",oglasi.get(i).getCena());
+                intent.putExtra("predmet",knjige.get(i).getPredmet());
+                intent.putExtra("godinaIzdanja",knjige.get(i).getGodinaIzdanja());
+                intent.putExtra("izdavac",knjige.get(i).getIzdavac());
+                intent.putExtra("opis",oglasi.get(i).getDodatniOpis());
                 context.startActivity(intent);
             }
         });
@@ -122,11 +128,12 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
 
     @Override
     public int getItemCount() {
-        return nazivi.size();
+        return oglasi.size();
     }
 
     //Kreiranje holdera.
-    public static class KnjigeHolder extends RecyclerView.ViewHolder{
+    public static class KnjigeHolder extends RecyclerView.ViewHolder
+    {
 
         //Atributi koji se sastoje u grid_layout.
         private TextView naziv,autor,cena,izdavac,godinaIzdanja,predmet,opis;

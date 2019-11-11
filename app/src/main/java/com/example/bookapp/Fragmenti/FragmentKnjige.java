@@ -103,6 +103,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     private int startIndex;
     private int endIndex;
 
+   ArrayList<Oglas> oglasii;
+   ArrayList<Knjiga> knjigee;
 
 
     @Nullable
@@ -117,7 +119,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
         cenaRB.setOnClickListener(this);
 
-        //postaviListenere();
+        postaviListenere();
 
         //-BOGDAN-
         //pretpostavljam da se to ovde radi
@@ -178,55 +180,66 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
 
     //<editor-fold desc="postavilistener">
-    /*private void postaviListenere()
+    private void postaviListenere()
     {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(cenaRB.isChecked()){
-                    if(!cenaET.getText().toString().isEmpty()){
-                        cenaFilterString=cenaET.getText().toString();
-                    }
-                }
-                if(predmetRB.isChecked()){
-                    if(!predmetET.getText().toString().isEmpty()){
-                        predmetFilterString=predmetET.getText().toString().toLowerCase();
-                    }
-                }
-                if(izdavacRB.isChecked()){
-                    if(!izdavacET.getText().toString().isEmpty()){
-                        izdavacFilterString=izdavacET.getText().toString().toLowerCase();
-                    }
-                }
-                if(cenaFilterString.isEmpty()&&predmetFilterString.isEmpty()&&izdavacFilterString.isEmpty()){
-                    start();
-                }
-                else {
-                    clear();
-                    started = false;
-                    for (int i = 0; i < oglasi.size(); i++) {
-                        if (cenaFilterString.isEmpty() || Integer.parseInt(cene.get(i)) <= Integer.parseInt(cenaFilterString)) {
-                            if (predmetFilterString.isEmpty() || predmeti.get(i).contains(predmetFilterString)) {
-                                if (izdavacFilterString.isEmpty() || izdavaci.get(i).contains(izdavacFilterString)) {
-                                    slikeF.add(slike.get(i));
-                                    naziviF.add(nazivi.get(i));
-                                    autoriF.add(autori.get(i));
-                                    predmetiF.add(predmeti.get(i));
-                                    izdavaciF.add(izdavaci.get(i));
-                                    godineIzdanjaF.add(godineIzdanja.get(i));
-                                    ceneF.add(cene.get(i));
-                                    dodatniOpisiF.add(dodatniOpisi.get(i));
-                                    brojeviZainteresovanihF.add(brojeviZainteresovanih.get(i));
-                                }
-                            }
-                        }
-                    }
-                    adapterKnjige.notifyDataSetChanged();
-                }
+            public void onClick(View v)
+            {
+                 boolean f1 = false;
+                 boolean f2 = false;
+                 boolean f3 = false;
+
+                 if(cenaRB.isChecked()) f1  = true;
+                 if(predmetRB.isChecked()) f2 = true;
+                 if(izdavacRB.isChecked()) f3 = true;
+
+
+//                if(cenaRB.isChecked()){
+//                    if(!cenaET.getText().toString().isEmpty()){
+//                        cenaFilterString=cenaET.getText().toString();
+//                    }
+//                }
+//                if(predmetRB.isChecked()){
+//                    if(!predmetET.getText().toString().isEmpty()){
+//                        predmetFilterString=predmetET.getText().toString().toLowerCase();
+//                    }
+//                }
+//                if(izdavacRB.isChecked()){
+//                    if(!izdavacET.getText().toString().isEmpty()){
+//                        izdavacFilterString=izdavacET.getText().toString().toLowerCase();
+//                    }
+//                }
+//                if(cenaFilterString.isEmpty()&&predmetFilterString.isEmpty()&&izdavacFilterString.isEmpty()){
+//                    start();
+//                }
+//                else
+//                    {
+//                    clear();
+//                    started = false;
+//                    for (int i = 0; i < oglasi.size(); i++) {
+//                        if (cenaFilterString.isEmpty() || Integer.parseInt(cene.get(i)) <= Integer.parseInt(cenaFilterString)) {
+//                            if (predmetFilterString.isEmpty() || predmeti.get(i).contains(predmetFilterString)) {
+//                                if (izdavacFilterString.isEmpty() || izdavaci.get(i).contains(izdavacFilterString)) {
+//                                    slikeF.add(slike.get(i));
+//                                    naziviF.add(nazivi.get(i));
+//                                    autoriF.add(autori.get(i));
+//                                    predmetiF.add(predmeti.get(i));
+//                                    izdavaciF.add(izdavaci.get(i));
+//                                    godineIzdanjaF.add(godineIzdanja.get(i));
+//                                    ceneF.add(cene.get(i));
+//                                    dodatniOpisiF.add(dodatniOpisi.get(i));
+//                                    brojeviZainteresovanihF.add(brojeviZainteresovanih.get(i));
+//                                }
+//                            }
+//                        }
+//                    }
+//                    adapterKnjige.notifyDataSetChanged();
+//                }
             }
         });
 
-    }*/
+    }
     //</editor-fold>
 
 
@@ -263,13 +276,16 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         });
     }
 
-    private void citanje() {
+    private void citanje()
+    {
 
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
 
-
-        try {
+        try
+        {
             citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplication().getApplicationContext());
+            oglasii = citanjeOglasa.uzmiOglase();
+            knjigee = citanjeOglasa.uzmiKnjige();
         } catch (Exception e) {
             e.printStackTrace();
         }

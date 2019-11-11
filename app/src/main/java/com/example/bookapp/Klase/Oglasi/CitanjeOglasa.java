@@ -39,6 +39,9 @@ public class CitanjeOglasa {
     String ID;
     int brojOglasa = 0;
 
+    ArrayList<Oglas> oglasi = new ArrayList<>();
+
+
     public CitanjeOglasa() {
     }
 
@@ -50,7 +53,8 @@ public class CitanjeOglasa {
         void onCallback(ArrayList<Knjiga> value);
     }
 
-    private void citajKnjigaInfo(final MyCallback myCallback) {
+    private void citajKnjigaInfo(final MyCallback myCallback)
+    {
         databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -74,11 +78,13 @@ public class CitanjeOglasa {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                cene.add(String.valueOf(dataSnapshot.child("cena").getValue()));
-                dodatniOpis.add(String.valueOf(dataSnapshot.child("dodatniOpis").getValue()));
-                brojZainteresovanih.add(String.valueOf(dataSnapshot.child("brojZainteresovanih").getValue()));
+//                cene.add(String.valueOf(dataSnapshot.child("cena").getValue()));
+//                dodatniOpis.add(String.valueOf(dataSnapshot.child("dodatniOpis").getValue()));
+//                brojZainteresovanih.add(String.valueOf(dataSnapshot.child("brojZainteresovanih").getValue()));
 
                 Oglas oglas = dataSnapshot.getValue(Oglas.class);
+
+                oglasi.add(oglas);
 
                 databaseReference1 = FirebaseDatabase.getInstance().getReference().child("Knjige").child(oglas.getIdKnjige());
 
@@ -100,10 +106,12 @@ public class CitanjeOglasa {
         });
     }
 
-    public void procitaj(ArrayList<String> idOglasa, final RecyclerView recyclerView2, final Context c) {
+    public void procitaj(ArrayList<String> idOglasa, final RecyclerView recyclerView2, final Context c)
+    {
         brojOglasa = idOglasa.size();
 
-        for (int i = 0; i < brojOglasa; i++) {
+        for (int i = 0; i < brojOglasa; i++)
+        {
             ID = idOglasa.get(i);
 
             getOglas(new CallbackA() {
@@ -117,22 +125,35 @@ public class CitanjeOglasa {
 
     }
 
-    private void prikaziOglase(List<Knjiga> oglasi, RecyclerView recyclerView, Context context) {
-        if (oglasi.size() == brojOglasa) {
-            for (int i = 0; i < oglasi.size(); i++) {
+    private void prikaziOglase(ArrayList<Knjiga> knjige, RecyclerView recyclerView, Context context)
+    {
+        if (knjige.size() == brojOglasa)
+        {
+           /* for (int i = 0; i < oglasi.size(); i++) {
                 nazivi.add(oglasi.get(i).getNaziv());
                 predmeti.add(oglasi.get(i).getPredmet());
                 izdavaci.add(oglasi.get(i).getIzdavac());
                 autori.add(oglasi.get(i).getAutori());
                 godineIzdanja.add(String.valueOf(oglasi.get(i).getGodinaIzdanja()));
-            }
+            }*/
             layoutManager = new GridLayoutManager(context, 1);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(layoutManager);
-            AdapterKnjige adapterKnjige = new AdapterKnjige(context, slike, nazivi, autori, predmeti, izdavaci, godineIzdanja, cene, dodatniOpis, brojZainteresovanih);
+            AdapterKnjige adapterKnjige = new AdapterKnjige(context, slike,oglasi,knjige);
             recyclerView.setAdapter(adapterKnjige);
         }
     }
+
+    public ArrayList<Oglas> uzmiOglase()
+    {
+        return oglasi;
+    }
+
+    public ArrayList<Knjiga> uzmiKnjige()
+    {
+        return knjige;
+    }
+
     private boolean proveriFiltere(int cena, String predmet, String izdavac)
     {
         if(cena==0 && predmet.equals("") && izdavac.equals(""))
