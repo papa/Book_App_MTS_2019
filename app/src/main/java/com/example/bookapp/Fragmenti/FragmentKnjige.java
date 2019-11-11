@@ -267,7 +267,12 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
 
-        citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplication().getApplicationContext());
+
+        try {
+            citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplication().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void napuniListe()

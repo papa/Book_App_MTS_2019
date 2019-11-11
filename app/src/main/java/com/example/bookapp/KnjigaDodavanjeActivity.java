@@ -116,8 +116,9 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dodajOglas();
-                upisiSliku();
-                Toast.makeText(KnjigaDodavanjeActivity.this,"Klik",Toast.LENGTH_LONG).show();
+                if (filePath != null)
+                    upisiSliku();
+                Toast.makeText(KnjigaDodavanjeActivity.this, "Klik", Toast.LENGTH_LONG).show();
             }
         });
         slikeKnjige.setOnClickListener(new View.OnClickListener() {
@@ -317,7 +318,6 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         for(int i=0;i<br;i++) {
             StorageReference childRef = storageRef.child(user.getUid()).child("Knjiga").child(id + "/" + i + "image.jpg");
             UploadTask uploadTask = childRef.putFile(filePath);
-
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
