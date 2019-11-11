@@ -85,30 +85,33 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(check())
-                {
-                    if(passe.getText().toString().trim().length() < 6)
-                    {
-                        Toast.makeText(PodesavanjaNalogaActivity.this,"Nova sifra mora da bude duza od 5 karaktera",Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Korisnici").child(firebaseUser.getUid());
 
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Korisnici").child(firebaseUser.getUid());
-                        ref.child("ime").setValue(imee.getText().toString());
-                        ref.child("prezime").setValue(prezimee.getText().toString());
-                        firebaseUser.updateEmail(imee.getText().toString());
-                        firebaseUser.updatePassword(passe.getText().toString());
-                        if (filePath != null)
-                            upisiSliku();
-                    }
-                }
-                else
+                if(!checkEditText(imee))
                 {
-                    Toast.makeText(PodesavanjaNalogaActivity.this,"Popunite sva polja kako bi mogli da sacuvamo vase promene",Toast.LENGTH_LONG).show();
+                    ref.child("ime").setValue(imee.getText().toString().trim());
                 }
 
+                if(!checkEditText(prezimee))
+                {
+                    ref.child("prezime").setValue(prezimee.getText().toString().trim());
+                }
+
+                if(!checkEditText(maile))
+                {
+                    firebaseUser.updateEmail(maile.getText().toString().trim());
+                }
+
+                if(!checkEditText(passe))
+                {
+                    firebaseUser.updatePassword(passe.getText().toString().trim());
+                }
+
+                Toast.makeText(PodesavanjaNalogaActivity.this,"Uspesno podesen nalog",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(PodesavanjaNalogaActivity.this,ProfileActivity.class);
+                startActivity(intent);
 
             }
         });
