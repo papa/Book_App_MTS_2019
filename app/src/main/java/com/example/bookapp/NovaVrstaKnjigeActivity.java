@@ -79,6 +79,7 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
                 else {
                     try{
                         int helpBrojGodina = Integer.parseInt(godinaIzdanjaText.getText().toString());
+
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference dbRef = database.getReference("Knjige");
                         idKnjiga = dbRef.push().getKey();
