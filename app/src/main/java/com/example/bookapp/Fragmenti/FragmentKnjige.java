@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -189,10 +190,89 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
                  boolean f1 = false;
                  boolean f2 = false;
                  boolean f3 = false;
+                 int cenaf=0;
+                 String predmetf="";
+                 String izdavacf="";
 
-                 if(cenaRB.isChecked()) f1  = true;
-                 if(predmetRB.isChecked()) f2 = true;
-                 if(izdavacRB.isChecked()) f3 = true;
+                 if(cenaRB.isChecked())
+                 {
+                     f1  = true;
+                     if(cenaET.getText().toString().trim().isEmpty()) cenaf = 100000000;
+                     else cenaf = Integer.valueOf(cenaET.getText().toString().trim());
+                 }
+
+                 if(predmetRB.isChecked())
+                 {
+                     f2 = true;
+                     if(predmetET.getText().toString().trim().isEmpty())
+                     {
+                         f2 = false;
+                         Toast.makeText(getContext(),"Morate untei odredjeni predmet",Toast.LENGTH_LONG).show();
+                     }
+                     else
+                     {
+                         predmetf = predmetET.getText().toString().trim();
+                     }
+                 }
+                if(izdavacRB.isChecked())
+                {
+                    f3 = true;
+                    if(izdavacET.getText().toString().trim().isEmpty())
+                    {
+                        f3 = false;
+                        Toast.makeText(getContext(),"Morate untei odredjenog izdavaca",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        izdavacf = izdavacET.getText().toString().trim();
+                    }
+                }
+
+                ArrayList<Oglas> of = new ArrayList<>();
+                ArrayList<Knjiga> kf = new ArrayList<>();
+
+                layoutManager = new GridLayoutManager(getContext(), 1);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(layoutManager);
+                AdapterKnjige adapterKnjige = new AdapterKnjige(getContext(), slike,of,kf);
+                recyclerView.setAdapter(adapterKnjige);
+                adapterKnjige.notifyDataSetChanged();
+
+                for(int i=0;i<oglasii.size();i++)
+                {
+                    Oglas o  = oglasii.get(i);
+                    Knjiga k = knjigee.get(i);
+                    boolean prolazi = true;
+                    if(f1)
+                    {
+                        if(o.getCena() >  cenaf)
+                        {
+                            prolazi=false;
+                        }
+                    }
+                    if(f2)
+                    {
+                        if(!k.getPredmet().equals(predmetf))
+                        {
+                            prolazi=false;
+                        }
+                    }
+                    if(f3)
+                    {
+                        if(!k.getIzdavac().equals(izdavacf))
+                        {
+                            prolazi=false;
+                        }
+                    }
+
+                    if(prolazi)
+                    {
+                        of.add(o);
+                        kf.add(k);
+                        adapterKnjige.notifyDataSetChanged();
+                    }
+
+                }
 
 
 //                if(cenaRB.isChecked()){
