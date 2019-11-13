@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,19 +32,9 @@ import java.util.Arrays;
 
 public class NovaVrstaKnjigeActivity extends AppCompatActivity {
 
-    String predmet;
-    String naziv;
-    ArrayList<String> autori;
-    String izdavac;
-    int godinaIzdanja;
-    EditText predmetText;
-    EditText nazivText;
-    EditText autoriText;
-    EditText izdavacText;
-    EditText godinaIzdanjaText;
-    Button dodaj;
-
-    String idKnjiga;
+    private EditText predmetText,nazivText,autoriText,izdavacText,godinaIzdanjaText;
+    private Button dodaj;
+    private String idKnjiga;
 
 
     @Override
@@ -57,59 +48,6 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
         init();
 
         postaviListenere();
-
-        dodaj.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(predmetText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi predmet", Toast.LENGTH_SHORT).show();
-                }
-                else if(nazivText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi naziv", Toast.LENGTH_SHORT).show();
-                }
-                else if(izdavacText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi izdavaca", Toast.LENGTH_SHORT).show();
-                }
-                else if(autoriText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi autore", Toast.LENGTH_SHORT).show();
-                }
-                else if(godinaIzdanjaText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi godinu", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    try{
-                        int helpBrojGodina = Integer.parseInt(godinaIzdanjaText.getText().toString());
-
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference dbRef = database.getReference("Knjige");
-                        idKnjiga = dbRef.push().getKey();
-                        Knjiga novaKnjigaZaUpload = new Knjiga(idKnjiga,predmetText.getText().toString(),nazivText.getText().toString(),izdavacText.getText().toString(),Integer.parseInt(godinaIzdanjaText.getText().toString()),new ArrayList<String>( Arrays.asList(autoriText.getText().toString().split(","))));
-                        dbRef.child(idKnjiga).setValue(novaKnjigaZaUpload)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Intent returnIntent = new Intent();
-                                        returnIntent.putExtra("idknjige", idKnjiga);
-                                        setResult(KnjigaDodavanjeActivity.RESULT_OK,returnIntent);
-                                        finish();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Intent returnIntent = new Intent();
-                                        returnIntent.putExtra("idknjige", "");
-                                        setResult(KnjigaDodavanjeActivity.RESULT_OK,returnIntent);
-                                        finish();
-                                    }
-                                });
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        Toast.makeText(NovaVrstaKnjigeActivity.this, "Nepravilan format", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
     }
 
     private void postaviListenere()
@@ -117,49 +55,11 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
         dodaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(predmetText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi predmet", Toast.LENGTH_SHORT).show();
-                }
-                else if(nazivText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi naziv", Toast.LENGTH_SHORT).show();
-                }
-                else if(izdavacText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi izdavaca", Toast.LENGTH_SHORT).show();
-                }
-                else if(autoriText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi autore", Toast.LENGTH_SHORT).show();
-                }
-                else if(godinaIzdanjaText.getText().toString().isEmpty()) {
-                    Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi godinu", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    try{
-                        int helpBrojGodina = Integer.parseInt(godinaIzdanjaText.getText().toString());
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference dbRef = database.getReference("Knjige");
-                        idKnjiga = dbRef.push().getKey();
-                        Knjiga novaKnjigaZaUpload = new Knjiga(idKnjiga,predmetText.getText().toString(),nazivText.getText().toString(),izdavacText.getText().toString(),Integer.parseInt(godinaIzdanjaText.getText().toString()),new ArrayList<String>( Arrays.asList(autoriText.getText().toString().split(","))));
-                        dbRef.child(idKnjiga).setValue(novaKnjigaZaUpload)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Intent returnIntent = new Intent();
-                                        returnIntent.putExtra("idknjige", idKnjiga);
-                                        setResult(KnjigaDodavanjeActivity.RESULT_OK,returnIntent);
-                                        finish();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Intent returnIntent = new Intent();
-                                        returnIntent.putExtra("idknjige", "");
-                                        setResult(KnjigaDodavanjeActivity.RESULT_OK,returnIntent);
-                                        finish();
-                                    }
-                                });
+                if (proveri()) {
+                    try {
+                        dodajVrstu();
                     } catch (NumberFormatException e) {
-                        e.printStackTrace();
+                        Log.d("GRESKA PRI DODAVANJU",e.toString());
                         Toast.makeText(NovaVrstaKnjigeActivity.this, "Nepravilan format", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -167,7 +67,30 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
         });
     }
 
+    private void dodajVrstu()
+    {
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Knjige");
+        idKnjiga = dbRef.push().getKey();
+        Knjiga novaKnjigaZaUpload = new Knjiga(idKnjiga, predmetText.getText().toString(), nazivText.getText().toString(), izdavacText.getText().toString(), Integer.parseInt(godinaIzdanjaText.getText().toString()), new ArrayList<String>(Arrays.asList(autoriText.getText().toString().split(","))));
+        dbRef.child(idKnjiga).setValue(novaKnjigaZaUpload)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) { returnID(idKnjiga); }})
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        returnID("");
+                    }
+                });
+    }
 
+    private void returnID(String id)
+    {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("idknjige", id);
+        setResult(KnjigaDodavanjeActivity.RESULT_OK, returnIntent);
+        finish();
+    }
 
     private void init()
     {
@@ -177,6 +100,28 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
         izdavacText = findViewById(R.id.EditTextIzdavac);
         godinaIzdanjaText = findViewById(R.id.EditTextGodina);
         dodaj = findViewById(R.id.GotovaKnjiga);
+    }
+
+    private boolean proveri()
+    {
+        if(predmetText.getText().toString().isEmpty()) {
+            Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi predmet", Toast.LENGTH_SHORT).show();
+        }
+        else if(nazivText.getText().toString().isEmpty()) {
+            Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi naziv", Toast.LENGTH_SHORT).show();
+        }
+        else if(izdavacText.getText().toString().isEmpty()) {
+            Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi izdavaca", Toast.LENGTH_SHORT).show();
+        }
+        else if(autoriText.getText().toString().isEmpty()) {
+            Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi autore", Toast.LENGTH_SHORT).show();
+        }
+        else if(godinaIzdanjaText.getText().toString().isEmpty()) {
+            Toast.makeText(NovaVrstaKnjigeActivity.this, "Unesi godinu", Toast.LENGTH_SHORT).show();
+        }
+        else
+            return true;
+        return false;
     }
 
 }

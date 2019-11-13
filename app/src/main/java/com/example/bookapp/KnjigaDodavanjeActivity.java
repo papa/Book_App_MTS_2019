@@ -37,8 +37,6 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 
 public class KnjigaDodavanjeActivity extends AppCompatActivity {
-
-    private String idKnjige = "nema";
     private ArrayList<Knjiga> knjige = new ArrayList<Knjiga>();
     private ArrayList<String> knjigeString = new ArrayList<String>();
     private Spinner spinner;
@@ -46,33 +44,18 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
     private DatabaseReference databaseReference,databaseReference2;
     private EditText cenaKnjige,opisKnjige;
 
-    private String opis,id,idKnjiga,idUser;
-    private int cena;
-    int br=0;
-    ImageView slikeKnjige,slikeKnjige2,slikeKnjige3;
-    private int PICK_IMAGE_REQUEST = 111;
+    private String opis,id,idKnjiga,idUser,idKnjige = "nema";
+    private ImageView slikeKnjige,slikeKnjige2,slikeKnjige3;
+    private int PICK_IMAGE_REQUEST = 111,br=0,cena;
     private Uri filePath;
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference storageRef = storage.getReferenceFromUrl("gs://knjigeapp.appspot.com");
-    private StorageReference storageReference;
 
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //boki pravio
-        //bravo bogdane -ANDRIJA-
-        //hvala andrija -BOGDAN-
-        //bravo i tebi andrija -BOGDAN-
-
-        //Popravio sam malo kod (ulepsao ga i sredio)
-        //Dodao sam funkcije za upis oglasa u bazu
-        //-ANDRIJA-
-
-        //Popravio sam jos malo kod (ulepsao ga i sredio)
-        //Dodao sam vracanje id-ja nove knjige u stari activity vrlo efikasno i clean
-        //-BOGDAN-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knjiga_dodavanje);
 
@@ -118,38 +101,35 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
                 dodajOglas();
                 if (filePath != null)
                     upisiSliku();
-                Toast.makeText(KnjigaDodavanjeActivity.this, "Klik", Toast.LENGTH_LONG).show();
             }
         });
         slikeKnjige.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+                pickBook();
             }
         });
         slikeKnjige2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+                pickBook();
             }
         });
         slikeKnjige3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+                pickBook();
             }
         });
     }
 
+    private void pickBook()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+    }
     private ArrayList<String> buildString()
     {
         for(Knjiga k:knjige)
@@ -226,15 +206,12 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             databaseReference2.child("Oglasi").child(id).setValue(oglas);
 
             databaseReference2.child("Korisnici").child(idUser).child("oglasi").child(id).setValue(id);
-
-            Toast.makeText(KnjigaDodavanjeActivity.this,"toast",Toast.LENGTH_LONG).show();
         }
 
     }
 
     private void citajEditTextove()
     {
-
         if(!cenaKnjige.getText().toString().trim().equals("") && !opisKnjige.getText().toString().trim().equals(""))
         {
             cena=Integer.valueOf(cenaKnjige.getText().toString().trim());
@@ -319,6 +296,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(KnjigaDodavanjeActivity.this, "Uspesno dodavanje knjige", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }).addOnFailureListener(new OnFailureListener() {

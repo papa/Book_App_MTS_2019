@@ -25,14 +25,6 @@ public class CitanjeOglasa {
     private RecyclerView.LayoutManager layoutManager;
 
     private ArrayList<Bitmap> slike = new ArrayList<>();
-    private ArrayList<String> nazivi = new ArrayList<>();
-    private ArrayList<ArrayList<String>> autori = new ArrayList<>();
-    private ArrayList<String> predmeti = new ArrayList<>();
-    private ArrayList<String> izdavaci = new ArrayList<>();
-    private ArrayList<String> godineIzdanja = new ArrayList<>();
-    private ArrayList<String> cene = new ArrayList<>();
-    private ArrayList<String> dodatniOpis = new ArrayList<>();
-    private ArrayList<String> brojZainteresovanih = new ArrayList<>();
 
     DatabaseReference databaseReference1;
     ArrayList<Knjiga> knjige = new ArrayList<>();
@@ -78,13 +70,11 @@ public class CitanjeOglasa {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-//                cene.add(String.valueOf(dataSnapshot.child("cena").getValue()));
-//                dodatniOpis.add(String.valueOf(dataSnapshot.child("dodatniOpis").getValue()));
-//                brojZainteresovanih.add(String.valueOf(dataSnapshot.child("brojZainteresovanih").getValue()));
-
                 Oglas oglas = dataSnapshot.getValue(Oglas.class);
 
                 oglasi.add(oglas);
+
+                Log.d("CENA",String.valueOf(oglas.getCena()));
 
                 databaseReference1 = FirebaseDatabase.getInstance().getReference().child("Knjige").child(oglas.getIdKnjige());
 
@@ -117,7 +107,6 @@ public class CitanjeOglasa {
             getOglas(new CallbackA() {
                 @Override
                 public void onCallback(ArrayList<Knjiga> value) {
-                    //prikaziOglase(value, recyclerView2,c ,cena, predmet, izdavac);
                     prikaziOglase(value, recyclerView2,c );
                 }
             });
@@ -129,13 +118,6 @@ public class CitanjeOglasa {
     {
         if (knjige.size() == brojOglasa)
         {
-           /* for (int i = 0; i < oglasi.size(); i++) {
-                nazivi.add(oglasi.get(i).getNaziv());
-                predmeti.add(oglasi.get(i).getPredmet());
-                izdavaci.add(oglasi.get(i).getIzdavac());
-                autori.add(oglasi.get(i).getAutori());
-                godineIzdanja.add(String.valueOf(oglasi.get(i).getGodinaIzdanja()));
-            }*/
             layoutManager = new GridLayoutManager(context, 1);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(layoutManager);
@@ -152,12 +134,5 @@ public class CitanjeOglasa {
     public ArrayList<Knjiga> uzmiKnjige()
     {
         return knjige;
-    }
-
-    private boolean proveriFiltere(int cena, String predmet, String izdavac)
-    {
-        if(cena==0 && predmet.equals("") && izdavac.equals(""))
-            return false;
-        return true;
     }
 }

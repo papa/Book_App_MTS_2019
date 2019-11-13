@@ -86,9 +86,9 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         //TODO
         viewHolder.naziv.setText(kk.getNaziv());
         viewHolder.autor.setText(convertAutor(kk.getAutori()));
-       // viewHolder.cena.setText(oo.getCena());
+        viewHolder.cena.setText(String.valueOf(oo.getCena()));
         viewHolder.predmet.setText(kk.getPredmet());
-       // viewHolder.godinaIzdanja.setText(kk.getGodinaIzdanja());
+        viewHolder.godinaIzdanja.setText(String.valueOf(kk.getGodinaIzdanja()));
         viewHolder.izdavac.setText(kk.getIzdavac());
         viewHolder.opis.setText(oo.getDodatniOpis());
         /*if(slike.get(i)!=null)

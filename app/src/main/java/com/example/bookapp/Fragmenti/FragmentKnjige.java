@@ -1,27 +1,21 @@
 package com.example.bookapp.Fragmenti;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
+import android.app.Dialog;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.CheckBox;
-import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,48 +29,23 @@ import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.Klase.Oglasi.CitanjeOglasa;
 import com.example.bookapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class FragmentKnjige extends Fragment implements View.OnClickListener{
     private ArrayList<Bitmap> slike = new ArrayList<Bitmap>();
-    private ArrayList<String> nazivi = new ArrayList<String>();
-    private ArrayList<ArrayList<String>> autori = new ArrayList<ArrayList<String>>();
-    private ArrayList<String> cene = new ArrayList<String>();
     private ArrayList<String> izdavaci = new ArrayList<String>();
-    private ArrayList<String> predmeti = new ArrayList<String>();
-    private ArrayList<String> godineIzdanja = new ArrayList<String>();
-    private ArrayList<String> dodatniOpisi = new ArrayList<String>();
-    private ArrayList<String>  brojeviZainteresovanih = new ArrayList<String>();
 
-    private ArrayList<Bitmap> slikeF;
-    private ArrayList<String> naziviF;
-    private ArrayList<ArrayList<String>> autoriF;
-    private ArrayList<String> ceneF;
-    private ArrayList<String> izdavaciF;
-    private ArrayList<String> predmetiF;
-    private ArrayList<String> godineIzdanjaF;
-    private ArrayList<String> dodatniOpisiF;
-    private ArrayList<String>  brojeviZainteresovanihF;
-
-    private ArrayList<Knjiga> knjige = new ArrayList<Knjiga>();
-    private ArrayList<Oglas> oglasi = new ArrayList<Oglas>();
-    private int[] connection;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private DatabaseReference databaseReference;
-    private FirebaseUser user;
     private CheckBox cenaRB;
     private CheckBox predmetRB;
     private CheckBox izdavacRB;
@@ -84,13 +53,16 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     private EditText predmetET;
     private EditText izdavacET;
     private Button filter;
+    private FloatingActionButton goFilters;
 
-    private String cenaFilterString = "";
-    private String predmetFilterString = "";
-    private String izdavacFilterString = "";
+    boolean f1 = false;
+    boolean f2 = false;
+    boolean f3 = false;
+    int cenaf=0;
+    String predmetf="";
+    String izdavacf="";
 
-    private boolean started = false;
-    private AdapterKnjige adapterKnjige;
+    boolean popunjeno=false;
 
 
     //Moje promenljive
@@ -107,6 +79,9 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
    ArrayList<Oglas> oglasii;
    ArrayList<Knjiga> knjigee;
 
+   private Dialog dialog;
+   private Spinner spIzdavaci;
+
 
     @Nullable
     @Override
@@ -118,22 +93,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
         //nextImage();
 
-        cenaRB.setOnClickListener(this);
-
-        postaviListenere();
-
-        //-BOGDAN-
-        //pretpostavljam da se to ovde radi
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Oglasi");
-
         //optimizovano
         ucitajIzBaze();
-
-        napuniListe();
-        start();
-        napraviListu();
-        //setRecycler();
 
         return view;
     }
@@ -182,7 +143,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     }
     //</editor-fold>
 
-
     //<editor-fold desc="postavilistener">
     private void postaviListenere()
     {
@@ -190,13 +150,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v)
             {
-                 boolean f1 = false;
-                 boolean f2 = false;
-                 boolean f3 = false;
-                 int cenaf=0;
-                 String predmetf="";
-                 String izdavacf="";
-
                  if(cenaRB.isChecked())
                  {
                      f1  = true;
@@ -210,7 +163,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
                      if(predmetET.getText().toString().trim().isEmpty())
                      {
                          f2 = false;
-                         Toast.makeText(getContext(),"Morate untei odredjeni predmet",Toast.LENGTH_LONG).show();
+                         Toast.makeText(getContext(),"Morate uneti odredjeni predmet",Toast.LENGTH_LONG).show();
                      }
                      else
                      {
@@ -220,14 +173,10 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
                 if(izdavacRB.isChecked())
                 {
                     f3 = true;
-                    if(izdavacET.getText().toString().trim().isEmpty())
+                    if(izdavacf.equals(""))
                     {
                         f3 = false;
-                        Toast.makeText(getContext(),"Morate untei odredjenog izdavaca",Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        izdavacf = izdavacET.getText().toString().trim();
+                        Toast.makeText(getContext(),"Morate uneti odredjenog izdavaca",Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -275,55 +224,63 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
                         adapterKnjige.notifyDataSetChanged();
                     }
 
+                    dialog.dismiss();
+
                 }
-
-
-//                if(cenaRB.isChecked()){
-//                    if(!cenaET.getText().toString().isEmpty()){
-//                        cenaFilterString=cenaET.getText().toString();
-//                    }
-//                }
-//                if(predmetRB.isChecked()){
-//                    if(!predmetET.getText().toString().isEmpty()){
-//                        predmetFilterString=predmetET.getText().toString().toLowerCase();
-//                    }
-//                }
-//                if(izdavacRB.isChecked()){
-//                    if(!izdavacET.getText().toString().isEmpty()){
-//                        izdavacFilterString=izdavacET.getText().toString().toLowerCase();
-//                    }
-//                }
-//                if(cenaFilterString.isEmpty()&&predmetFilterString.isEmpty()&&izdavacFilterString.isEmpty()){
-//                    start();
-//                }
-//                else
-//                    {
-//                    clear();
-//                    started = false;
-//                    for (int i = 0; i < oglasi.size(); i++) {
-//                        if (cenaFilterString.isEmpty() || Integer.parseInt(cene.get(i)) <= Integer.parseInt(cenaFilterString)) {
-//                            if (predmetFilterString.isEmpty() || predmeti.get(i).contains(predmetFilterString)) {
-//                                if (izdavacFilterString.isEmpty() || izdavaci.get(i).contains(izdavacFilterString)) {
-//                                    slikeF.add(slike.get(i));
-//                                    naziviF.add(nazivi.get(i));
-//                                    autoriF.add(autori.get(i));
-//                                    predmetiF.add(predmeti.get(i));
-//                                    izdavaciF.add(izdavaci.get(i));
-//                                    godineIzdanjaF.add(godineIzdanja.get(i));
-//                                    ceneF.add(cene.get(i));
-//                                    dodatniOpisiF.add(dodatniOpisi.get(i));
-//                                    brojeviZainteresovanihF.add(brojeviZainteresovanih.get(i));
-//                                }
-//                            }
-//                        }
-//                    }
-//                    adapterKnjige.notifyDataSetChanged();
-//                }
             }
         });
 
     }
     //</editor-fold>
+
+    private void prikaziPopUp() {
+        dialog.setContentView(R.layout.filteri_pop_up);
+
+        cenaRB=(CheckBox)dialog.findViewById(R.id.cenaCheckBox);
+        predmetRB=(CheckBox)dialog.findViewById(R.id.predmetCheckBox);
+        izdavacRB=(CheckBox)dialog.findViewById(R.id.izdavacCheckBox);
+        cenaET=(EditText)dialog.findViewById(R.id.cenaFilterText);
+        predmetET=(EditText)dialog.findViewById(R.id.predmetFilterText);
+        spIzdavaci=(Spinner)dialog.findViewById(R.id.spIzdavac);
+        filter=(Button)dialog.findViewById(R.id.filterButton);
+
+        setSpinner(spIzdavaci);
+
+        postaviListenere();
+
+        dialog.show();
+
+    }
+
+    private void setSpinner(final Spinner spinner)
+    {
+
+        //izdavaci.add(0,"");
+
+        if(!popunjeno) {
+            for (int i = 0; i < knjigee.size(); i++)
+                izdavaci.add(knjigee.get(i).getIzdavac());
+            popunjeno=true;
+        }
+
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,izdavaci);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                izdavacf = String.valueOf(spinner.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
 
     @Override
@@ -336,14 +293,15 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_REQUEST);
             }break;*/
+            case R.id.bFilteri: prikaziPopUp();break;
         }
     }
 
-    private void napraviListu(){
-
-    }
+    //<editor-fold desc="Baza">
     private void ucitajIzBaze()
     {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Oglasi");
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -373,69 +331,16 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
             e.printStackTrace();
         }
     }
+    //</editor-fold>
 
-    private void napuniListe()
-    {
-        connection = new int[oglasi.size()];
-        Oglas tempOglas;
-        Knjiga tempKnjiga = null;
-        for(int i = 0; i < oglasi.size(); i++){
-            tempOglas = oglasi.get(i);
-            for(int j = 0; j < knjige.size(); j++){
-                if(tempOglas.getIdKnjige() == knjige.get(j).getId()){
-                    connection[i] = j;
-                    tempKnjiga = knjige.get(j);
-                    break;
-                }
-            }
-            slike.add(Bitmap.createBitmap(1,1, Bitmap.Config.ARGB_8888));
-            nazivi.add(tempKnjiga.getNaziv());
-            autori.add(tempKnjiga.getAutori());
-            predmeti.add(tempKnjiga.getPredmet());
-            izdavaci.add(tempKnjiga.getIzdavac());
-            godineIzdanja.add(Integer.toString(tempKnjiga.getGodinaIzdanja()));
-            cene.add(Integer.toString(tempOglas.getCena()));
-            dodatniOpisi.add(tempOglas.getDodatniOpis());
-            brojeviZainteresovanih.add(Integer.toString(tempOglas.getBrojZainteresovanih()));
-        }
-    }
-
-    private void start()
-    {
-        started = true;
-        slikeF = new ArrayList<Bitmap>(slike);
-        naziviF = new ArrayList<String>(nazivi);
-        autoriF = new ArrayList<ArrayList<String>>(autori);
-        predmetiF = new ArrayList<String>(predmeti);
-        izdavaciF = new ArrayList<String>(izdavaci);
-        godineIzdanjaF = new ArrayList<String>(godineIzdanja);
-        ceneF = new ArrayList<String>(cene);
-        dodatniOpisiF = new ArrayList<String>(dodatniOpisi);
-        brojeviZainteresovanihF = new ArrayList<String>(brojeviZainteresovanih);
-    }
-
-    private void clear()
-    {
-        slikeF = new ArrayList<Bitmap>();
-        naziviF = new ArrayList<String>();
-        autoriF = new ArrayList<ArrayList<String>>();
-        predmetiF = new ArrayList<String>();
-        izdavaciF = new ArrayList<String>();
-        godineIzdanjaF = new ArrayList<String>();
-        ceneF = new ArrayList<String>();
-        dodatniOpisiF = new ArrayList<String>();
-        brojeviZainteresovanihF = new ArrayList<String>();
-    }
     private void initialize(View view)
     {
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerKnjige);
-        cenaRB=(CheckBox)view.findViewById(R.id.cenaCheckBox);
-        predmetRB=(CheckBox)view.findViewById(R.id.predmetCheckBox);
-        izdavacRB=(CheckBox)view.findViewById(R.id.izdavacCheckBox);
-        cenaET=(EditText)view.findViewById(R.id.cenaFilterText);
-        predmetET=(EditText)view.findViewById(R.id.predmetFilterText);
-        izdavacET=(EditText)view.findViewById(R.id.izdavacFilterText);
-        filter=(Button)view.findViewById(R.id.filterButton);
+        goFilters=(FloatingActionButton)view.findViewById(R.id.bFilteri);
+
+        goFilters.setOnClickListener(this);
+
+        dialog=new Dialog(getContext());
 
         imageArray = new int[8];
         imageArray[0] = R.drawable.ic_launcher_background;
@@ -449,5 +354,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
         startIndex = 0;
         endIndex = 7;
+
+
     }
 }
