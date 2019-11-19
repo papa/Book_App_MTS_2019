@@ -23,6 +23,7 @@ import com.example.bookapp.Klase.Korisnik;
 import com.example.bookapp.Klase.Oglas;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ivan200.photobarcodelib.PhotoBarcodeScanner;
+import com.ivan200.photobarcodelib.PhotoBarcodeScannerBuilder;
 
 import java.util.ArrayList;
 
@@ -40,7 +43,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
     private ArrayList<Knjiga> knjige = new ArrayList<Knjiga>();
     private ArrayList<String> knjigeString = new ArrayList<String>();
     private Spinner spinner;
-    private Button novaKnjiga, btnUpisi;
+    private Button novaKnjiga, btnUpisi, barkodSkenerButton;
     private DatabaseReference databaseReference,databaseReference2;
     private EditText cenaKnjige,opisKnjige;
 
@@ -103,6 +106,12 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
                     upisiSliku();
             }
         });
+        barkodSkenerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeBarcode();
+            }
+        });
         slikeKnjige.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +162,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
         novaKnjiga = findViewById(R.id.novaKnjigaActivityButton);
         btnUpisi=(Button)findViewById(R.id.btUpisi);
+        barkodSkenerButton=(Button)findViewById(R.id.barkodSkenerButton);
 
         spinner = findViewById(R.id.youSpinMeRightRound);
 
@@ -298,6 +308,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(KnjigaDodavanjeActivity.this, "Uspesno dodavanje knjige", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
+                    finish();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -307,5 +318,22 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             });
         }
     }
-
+    private void takeBarcode() {
+        PhotoBarcodeScanner photoBarcodeScanner = new PhotoBarcodeScannerBuilder(this)
+                .withCenterTracker(true)
+                .withResultListener((Barcode barcode) -> {
+                    nadjiKnjiguPoBarkodu(barcode.rawValue);
+                })
+                .build();
+        photoBarcodeScanner.start();
+    }
+    private void nadjiKnjiguPoBarkodu(String kod){
+        for(int index = 0; index < knjige.size(); index++){
+            if(knjige.get(index).getBarkod().equals(kod))
+            {
+                spinner.setSelection(index);
+                break;
+            }
+        }
+    }
 }

@@ -71,10 +71,10 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            /*case R.id.privremeno: {
+            case R.id.privremeno: {
                 Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
                 startActivity(intent);
-            }break;*/
+            }break;
             case R.id.nalog:{
                 Intent intent = new Intent(getActivity(), PodesavanjaNalogaActivity.class);
                 startActivity(intent);
@@ -95,9 +95,9 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         user= FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Korisnici").child(user.getUid());
 
-        //priv = view.findViewById(R.id.privremeno);
+        priv = view.findViewById(R.id.privremeno);
         nalogP=view.findViewById(R.id.nalog);
-        //priv.setOnClickListener(this);
+        priv.setOnClickListener(this);
         nalogP.setOnClickListener(this);
     }
 

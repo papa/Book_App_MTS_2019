@@ -10,7 +10,7 @@
         android:id="@+id/EditTextPredmet"
         android:layout_width="310dp"
         android:layout_height="47dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:hint="Predmet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -21,7 +21,7 @@
         android:id="@+id/EditTextNazivKnjige"
         android:layout_width="310dp"
         android:layout_height="47dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:hint="Naziv knjige"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -32,7 +32,7 @@
         android:id="@+id/EditTextIzdavac"
         android:layout_width="310dp"
         android:layout_height="47dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:hint="Izdavac"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -43,7 +43,7 @@
         android:id="@+id/EditTextAutori"
         android:layout_width="310dp"
         android:layout_height="47dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:hint="Autori"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -54,7 +54,7 @@
         android:id="@+id/EditTextGodina"
         android:layout_width="310dp"
         android:layout_height="47dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:hint="Godina"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,15 +62,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditTextAutori" />
 
+    <EditText
+        android:id="@+id/EditTextBarkod"
+        android:layout_width="210dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="25dp"
+        android:hint="Barkod"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.253"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextGodina" />
+
     <Button
         android:id="@+id/GotovaKnjiga"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:text="Dodaj"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextBarkod" />
+
+    <Button
+        android:id="@+id/barkodSkenerDodavanje"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:text="Skener"
+        app:layout_constraintStart_toEndOf="@+id/EditTextBarkod"
         app:layout_constraintTop_toBottomOf="@+id/EditTextGodina" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
