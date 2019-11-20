@@ -74,8 +74,6 @@ public class CitanjeOglasa {
 
                 oglasi.add(oglas);
 
-                Log.d("CENA",String.valueOf(oglas.getCena()));
-
                 databaseReference1 = FirebaseDatabase.getInstance().getReference().child("Knjige").child(oglas.getIdKnjige());
 
                 citajKnjigaInfo(new MyCallback() {

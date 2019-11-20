@@ -1,10 +1,13 @@
 package com.example.bookapp.Fragmenti;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,15 +31,26 @@ import com.example.bookapp.Adapteri.AdapterKnjige;
 import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.Klase.Oglasi.CitanjeOglasa;
+import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FragmentKnjige extends Fragment implements View.OnClickListener{
@@ -82,6 +96,10 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
    private Dialog dialog;
    private Spinner spIzdavaci;
 
+    private ProgressDialog progressDialog;
+
+    private int br=0;
+
 
     @Nullable
     @Override
@@ -98,7 +116,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
         return view;
     }
-
 
     //<editor-fold desc="Ovo mi je animacija da se menjaju slike, koristicu je na drugom mesto al neka je, samo smanjite ovaj deo da ne smeta">
     private void nextImage()
@@ -244,6 +261,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         spIzdavaci=(Spinner)dialog.findViewById(R.id.spIzdavac);
         filter=(Button)dialog.findViewById(R.id.filterButton);
 
+        progressDialog=new ProgressDialog(getContext());
+
         setSpinner(spIzdavaci);
 
         postaviListenere();
@@ -254,16 +273,12 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
     private void setSpinner(final Spinner spinner)
     {
-
-        //izdavaci.add(0,"");
-
         if(!popunjeno) {
-            for (int i = 0; i < knjigee.size(); i++)
+            for (int i = 0; i < knjigee.size(); i++) {
                 izdavaci.add(knjigee.get(i).getIzdavac());
+            }
             popunjeno=true;
         }
-
-
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,izdavaci);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -286,13 +301,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            /*case R.id.slikaKnjige: {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_REQUEST);
-            }break;*/
             case R.id.bFilteri: prikaziPopUp();break;
         }
     }
@@ -319,19 +327,20 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
     private void citanje()
     {
-
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
 
         try
         {
-            citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplication().getApplicationContext());
+            citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
             oglasii = citanjeOglasa.uzmiOglase();
             knjigee = citanjeOglasa.uzmiKnjige();
+
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d("GRESKA CITANJE",e.toString());
         }
     }
     //</editor-fold>
+
 
     private void initialize(View view)
     {
@@ -355,6 +364,54 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         startIndex = 0;
         endIndex = 7;
 
+        progressDialog=new ProgressDialog(getContext());
+    }
 
+    private void ucitajSliku(ArrayList<Knjiga> knjigs) {
+        br = 0;
+
+        progressDialog.setMessage("Ucitavanje...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        Log.d("geknji",String.valueOf(knjigs.size()));
+
+        for (int j = 0; j < knjigs.size(); j++) {
+
+            Log.d("KNJIGE",knjigs.get(j).getId());
+
+            String path=user.getUid() + "/Knjiga/"+"/"+knjigs.get(j).getId()+"/image";
+
+            for (int i = 0; i < 3; i++) {
+                Log.d("USOpetlja","USOpetlja");
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(path + i + ".jpg");
+
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        //Picasso.with(getContext()).load(uri).into(slika);
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                            slike.add(bitmap);
+                            br++;
+                            Log.d("USO","USO");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        progressDialog.dismiss();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d("NEMA SLIKA", "NEMA SLIKA");
+                        progressDialog.dismiss();
+                    }
+                });
+            }
+        }
+        progressDialog.dismiss();
+        Log.d("BROJELEMENATA", String.valueOf(br));
     }
 }

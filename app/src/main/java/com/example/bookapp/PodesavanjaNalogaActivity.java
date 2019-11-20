@@ -62,7 +62,7 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
         progressDialog.show();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid()).child("Korisnik" + "/" + "image.jpg");
+        storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid() + "/Korisnik/" + "image.jpg");
 
         storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -109,9 +109,10 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
                     firebaseUser.updatePassword(passe.getText().toString().trim());
                 }
 
-                Toast.makeText(PodesavanjaNalogaActivity.this,"Uspesno podesen nalog",Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(PodesavanjaNalogaActivity.this,ProfileActivity.class);
-                startActivity(intent);
+                if(filePath!=null)
+                    upisiSliku();
+
+
 
             }
         });
@@ -135,13 +136,16 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
 
         FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
 
-        StorageReference childRef = storageRef.child(user.getUid() + "/" + "image.jpg");
+        StorageReference childRef = storageRef.child(user.getUid() + "/Korisnik/" + "image.jpg");
         UploadTask uploadTask = childRef.putFile(filePath);
 
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
+                Toast.makeText(PodesavanjaNalogaActivity.this,"Uspesno podesen nalog",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(PodesavanjaNalogaActivity.this,ProfileActivity.class);
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

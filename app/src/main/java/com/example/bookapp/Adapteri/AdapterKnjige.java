@@ -65,7 +65,6 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         this.slike = slike;
         this.oglasi=og;
         this.knjige=knj;
-        ucitajSliku();
     }
 
     @NonNull
@@ -152,11 +151,5 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
             opis=(TextView)itemView.findViewById(R.id.tOpis);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.knjige_i);
         }
-    }
-    private void ucitajSliku() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        storageReference = storageRef.child(user.getUid()).child("Knjiga").child("-Lt0A82pwg677plEiUN3" + "/" + "image.jpg");
-
     }
 }

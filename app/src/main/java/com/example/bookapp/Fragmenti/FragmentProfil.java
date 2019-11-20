@@ -1,14 +1,18 @@
 package com.example.bookapp.Fragmenti;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +27,8 @@ import com.example.bookapp.KnjigaDodavanjeActivity;
 import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.ProfileActivity;
 import com.example.bookapp.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -41,6 +50,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     private String ime,prezime,email;
     private int brojOcena;
     private double prosecnaOcena;
+    private ImageView slika;
     //private ArrayList<Bitmap> slike=new ArrayList<>();
     private ArrayList<String> nazivi=new ArrayList<>();
     private ArrayList<String> autori=new ArrayList<>();
@@ -56,6 +66,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
     private Button priv,nalogP;
 
+    private ProgressDialog progressDialog;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +76,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         initialize(view);
 
         citajBazu();
+
+        ucitajSliku();
 
         return view;
     }
@@ -92,8 +106,12 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         recyclerView=(RecyclerView)view.findViewById(R.id.recViewProfile);
 
+        slika=(ImageView)view.findViewById(R.id.slikaProfil);
+
         user= FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Korisnici").child(user.getUid());
+
+        progressDialog=new ProgressDialog(getContext());
 
         priv = view.findViewById(R.id.privremeno);
         nalogP=view.findViewById(R.id.nalog);
@@ -154,67 +172,27 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         tvEmail.setText(email);
     }
 
-    //<editor-fold desc="Fus citanje za svaki slucaj">
-        /*if(dataSnapshot.hasChild("oglasi")) {
-            for (DataSnapshot dataSnapshot1 : dataSnapshot.child("oglasi").getChildren()) {
-                citajOglase(dataSnapshot1.getKey());
-            }
-        }
-        else
-            Log.d("Nema","Korisnik "+ime+" nema oglase svoje");*/
+    private void ucitajSliku() {
 
+        progressDialog.setMessage("Ucitavanje...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-    /*private void citajOglase(String id)
-    {
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("Oglasi").child(id);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid() + "/Korisnik/" + "image.jpg");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
-                    Oglas oglas=dataSnapshot1.getValue(Oglas.class);
-
-                    DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("Knjige").child(oglas.getIdKnjige());
-
-                    citajKnjigaInfo(databaseReference1);
-                }
-
+            public void onSuccess(Uri uri) {
+                Picasso.with(getContext()).load(uri).into(slika);
+                progressDialog.dismiss();
             }
-
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onFailure(@NonNull Exception exception) {
+                //Toast.makeText(getContext(), "Nemate profilnu sliku!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }
-
-    private void citajKnjigaInfo(final DatabaseReference databaseReference)
-    {
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Knjiga knjiga=dataSnapshot.getValue(Knjiga.class);
-
-                nazivi.add(knjiga.getNaziv());
-                godineIzdanja.add(String.valueOf(knjiga.getGodinaIzdanja()));
-                predmeti.add(knjiga.getPredmet());
-                izdavaci.add(knjiga.getIzdavac());
-
-                Log.d("Info","Naziv "+knjiga.getNaziv()+" izdavac "+knjiga.getIzdavac());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
-    //</editor-fold>
-
-
 }
