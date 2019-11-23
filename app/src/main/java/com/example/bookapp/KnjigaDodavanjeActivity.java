@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -57,6 +58,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
+    private StorageReference childRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,9 +104,15 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         btnUpisi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dodajOglas();
-                if (filePath != null)
+
+                if (filePath != null) {
                     upisiSliku();
+                    dodajOglas();
+                }
+                else {
+                    Toast.makeText(KnjigaDodavanjeActivity.this,"Morate dodati barem jednu sliku!",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         barkodSkenerButton.setOnClickListener(new View.OnClickListener() {
@@ -301,7 +310,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
 
         for(int i=0;i<br;i++) {
-            StorageReference childRef = storageRef.child(user.getUid()).child("Knjiga").child(id + "/" + i + "image.jpg");
+            childRef = storageRef.child(user.getUid()).child("Knjiga").child(id + "/" + i + "image.jpg");
             UploadTask uploadTask = childRef.putFile(filePath);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

@@ -90,10 +90,10 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         viewHolder.godinaIzdanja.setText(String.valueOf(kk.getGodinaIzdanja()));
         viewHolder.izdavac.setText(kk.getIzdavac());
         viewHolder.opis.setText(oo.getDodatniOpis());
-        /*if(slike.get(i)!=null)
+        if(slike.size()>i)
             viewHolder.slika.setImageBitmap(slike.get(i));
         else
-            viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);*/
+            viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,6 +145,7 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
             naziv=(TextView)itemView.findViewById(R.id.tNaziv);
             autor=(TextView)itemView.findViewById(R.id.tAutor);
             cena=(TextView)itemView.findViewById(R.id.tCena);
+            slika=(ImageView)itemView.findViewById(R.id.iSlika);
             izdavac=(TextView)itemView.findViewById(R.id.tIzdavac);
             godinaIzdanja=(TextView)itemView.findViewById(R.id.tGodIzdanja);
             predmet=(TextView)itemView.findViewById(R.id.tPredmet);
