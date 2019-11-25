@@ -65,6 +65,7 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         this.slike = slike;
         this.oglasi=og;
         this.knjige=knj;
+
     }
 
     @NonNull
