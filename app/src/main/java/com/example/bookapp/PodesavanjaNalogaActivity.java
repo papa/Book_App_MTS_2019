@@ -55,7 +55,8 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
 
         postaviListener();
     }
-    private void ucitajSliku() {
+    private void ucitajSliku()
+    {
 
         progressDialog.setMessage("Ucitavanje...");
         progressDialog.setCancelable(false);
@@ -111,8 +112,6 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
 
                 if(filePath!=null)
                     upisiSliku();
-
-
 
             }
         });

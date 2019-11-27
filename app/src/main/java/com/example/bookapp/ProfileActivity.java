@@ -16,8 +16,11 @@ import com.example.bookapp.Klase.Korisnik;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -27,11 +30,16 @@ public class ProfileActivity extends AppCompatActivity {
     //bottom navigation bar deo
     private BottomNavigationView bottomNavigationView;
 
+    static Korisnik trenutniKorisnik;
+    static FirebaseUser userr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         prijem();
+
+        uzmiPodatkeTrenutnog();
 
         //Ovo ispod je za bottomnavbar, treba da se dovrsi jer nemamo plan unapred al ugl tjt
 
@@ -93,4 +101,26 @@ public class ProfileActivity extends AppCompatActivity {
         Korisnik k  =  new Korisnik(id,ime,prezime,email);
         korisnici.child(id).setValue(k);
     }
+
+    private void uzmiPodatkeTrenutnog()
+    {
+        userr = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Korisnici").child(userr.getUid());
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                trenutniKorisnik = dataSnapshot.getValue(Korisnik.class);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 }

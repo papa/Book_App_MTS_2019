@@ -37,6 +37,13 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     String pr,izd,dodatno;
     int gizdanja;
 
+
+    //TODO
+    //andrijio i ovde treba slike
+    //posto ih ima 3 moglo bi ono kao
+    //da se menjaju na 2-3 sekunde
+    //video si to nekad sigurno
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

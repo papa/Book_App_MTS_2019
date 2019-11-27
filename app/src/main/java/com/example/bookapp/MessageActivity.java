@@ -62,8 +62,6 @@ public class MessageActivity extends AppCompatActivity {
 
     DatabaseReference reference;
 
-    Button ugovorButton;
-
     int dan;
     int mesec;
     int godina;
@@ -105,10 +103,9 @@ public class MessageActivity extends AppCompatActivity {
 
 
                 drugiKorisnik=dataSnapshot.getValue(Korisnik.class);
-                //imeiprezime.setText(drugiKorisnik.imeiPrezime());
+                String s = drugiKorisnik.getIme()+ " " + drugiKorisnik.getPrezime();
+                imeiprezime.setText(s);
 
-                //TODO
-                //ovde marko treba da vidi za ovaj url
                 firebaseAuth= FirebaseAuth.getInstance();
                 user=firebaseAuth.getCurrentUser();
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -122,9 +119,15 @@ public class MessageActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
 
+                                //todo
+                                //book app
+                                //ovo je neka glupost za majstore
+                                //jer se radi preko glide a ne piccasso
+
                                 //Picasso.with(getActivity()).load(uri).fit().centerCrop().into(circleImageView);
-                                //TODO kresuje..
-                                //   Glide.with(MessageActivity.this).load(uri).apply(RequestOptions.circleCropTransform()).into(circleImageView);
+                                //TODO
+                                // kresuje..
+                                // Glide.with(MessageActivity.this).load(uri).apply(RequestOptions.circleCropTransform()).into(circleImageView);
 
                                 // Got the download URL for 'users/me/profile.png'
                             }})
@@ -135,7 +138,7 @@ public class MessageActivity extends AppCompatActivity {
                             }
                         });
 
-                //procitajPoruku(Pocetna.currentFirebaseUser.getUid(),id,"imageurl");
+                procitajPoruku(ProfileActivity.trenutniKorisnik.getId(),id,"imageurl");
 
             }
 
@@ -159,9 +162,7 @@ public class MessageActivity extends AppCompatActivity {
                 String t=tekstporuke.getText().toString();
                 if(!t.equals(""))
                 {
-                    //TODO
-                    //ucitaj korisnika na pocetku da mozemo posle da mu skupljamo podatke tipa ID
-                    //posaljiPoruku(Pocetna.currentFirebaseUser.getUid(),drugiId,t);
+                    posaljiPoruku(ProfileActivity.userr.getUid(),drugiId,t);
                 }
                 else
                 {
@@ -187,31 +188,6 @@ public class MessageActivity extends AppCompatActivity {
                 }*/
             }
         });
-
-        /*ugovorButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                if(Pocetna.currentKorisnik.isSkola())
-                {
-                    Intent PokreniActivity=new Intent(getApplicationContext(), PrihvatiUgovorMajstor.class);
-                    startActivity(PokreniActivity);
-                }
-                else
-                if(Pocetna.currentKorisnik.isMajstor())
-                {
-                    Intent PokreniActivity=new Intent(getApplicationContext(), PrihvatiUgovorMajstor.class);
-                    startActivity(PokreniActivity);
-                }
-                else
-                {
-                    Intent PokreniActivity=new Intent(getApplicationContext(), NapraviUgovorPoslodavac.class);
-                    startActivity(PokreniActivity);
-                }
-
-            }
-        });*/
     }
 
     private void sendNotification(String prima, final String imeiprez, final String poruka)
@@ -227,13 +203,14 @@ public class MessageActivity extends AppCompatActivity {
                     Token token=snapshot.getValue(Token.class);
 
                     //todo
-                    //opet korisnik sa pocetka
-                    //Data data=new Data(Pocetna.currentFirebaseUser.getUid(),R.drawable.menu_icon,imeiprez+": "+poruka,"Nova poruka",drugiId);
+                    //ovaj camera flash ne treba
+                    //nego nesto iz majstora da se vidi sta tacno
+                    Data data=new Data(ProfileActivity.userr.getUid(),R.drawable.ic_camera_flash_on,imeiprez+": "+poruka,"Nova poruka",drugiId);
 
-                    //Sender sender=new Sender(data,token.getToken());
+                    Sender sender=new Sender(data,token.getToken());
 
-                    /*apiService.sendNotification(sender)
-                            .enqueue(new Callback<MyRespoonse>() {
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
 
@@ -251,7 +228,7 @@ public class MessageActivity extends AppCompatActivity {
                                 public void onFailure(Call<MyResponse> call, Throwable t) {
 
                                 }
-                            });*/
+                            });
 
                 }
 
@@ -283,9 +260,9 @@ public class MessageActivity extends AppCompatActivity {
 
         databaseReference2.child("Chats").child(idchat).push().setValue(hashMap);
 
-        //final DatabaseReference chatref=FirebaseDatabase.getInstance().getReference("Chatlist").child(idchat).child(Pocetna.currentFirebaseUser.getUid()).child(drugiId);
+        final DatabaseReference chatref=FirebaseDatabase.getInstance().getReference("Chatlist").child(idchat).child(ProfileActivity.userr.getUid()).child(drugiId);
 
-        /*chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -300,11 +277,11 @@ public class MessageActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });*/
+        });
 
         final String msg=poruka;
 
-       // databaseReference2=FirebaseDatabase.getInstance().getReference("Korisnici").child(Pocetna.currentFirebaseUser.getUid());
+       databaseReference2=FirebaseDatabase.getInstance().getReference("Korisnici").child(ProfileActivity.userr.getUid());
 
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -313,7 +290,8 @@ public class MessageActivity extends AppCompatActivity {
                 Korisnik k=dataSnapshot.getValue(Korisnik.class);
                 if(notify)
                 {
-                    //sendNotification(prima,k.imeiPrezime(),msg);
+                    String s = k.getIme() + " " + k.getPrezime();
+                    sendNotification(prima,s,msg);
                 }
                 notify=false;
             }
@@ -384,6 +362,7 @@ public class MessageActivity extends AppCompatActivity {
 
         //todo
         //sredi ovo
+        //ne radi toolbar iz nekog razloga
 
        /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -405,7 +384,6 @@ public class MessageActivity extends AppCompatActivity {
         posaljiPoruku= findViewById(R.id.posaljiporuku);
         tekstporuke= findViewById(R.id.tekstporuke);
 
-        ugovorButton= findViewById(R.id.ugovorButton);
         infoKorisnik= findViewById(R.id.infoKorisnikChat);
 
         ucitajSliku();

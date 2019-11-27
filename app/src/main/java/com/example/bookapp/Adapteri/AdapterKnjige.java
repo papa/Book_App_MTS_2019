@@ -42,14 +42,6 @@ import java.util.ArrayList;
 public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHolder>{
     private Context context;
     private ArrayList<Bitmap> slike=new ArrayList<>();
-    private ArrayList<String> nazivi=new ArrayList<>();
-    private ArrayList<ArrayList<String>> autori=new ArrayList<>();
-    private ArrayList<String> predmeti=new ArrayList<>();
-    private ArrayList<String> izdavaci=new ArrayList<>();
-    private ArrayList<String> godineIzdanja=new ArrayList<>();
-    private ArrayList<String> cene=new ArrayList<>();
-    private ArrayList<String> dodatniOpis=new ArrayList<>();
-    private ArrayList<String> brojZainteresovanih=new ArrayList<>();
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference storageRef = storage.getReferenceFromUrl("gs://knjigeapp.appspot.com");

@@ -160,7 +160,9 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
 
-        citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplication().getApplicationContext());
+        //todo
+        //ovde javljalo gresku
+        citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplicationContext().getApplicationContext());
     }
 
     private void upisi()
