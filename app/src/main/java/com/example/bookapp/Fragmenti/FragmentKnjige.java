@@ -96,9 +96,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
    private Dialog dialog;
    private Spinner spIzdavaci;
 
-    private ProgressDialog progressDialog;
-
-    private int br=0;
 
 
     @Nullable
@@ -261,8 +258,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         spIzdavaci=(Spinner)dialog.findViewById(R.id.spIzdavac);
         filter=(Button)dialog.findViewById(R.id.filterButton);
 
-        progressDialog=new ProgressDialog(getContext());
-
         setSpinner(spIzdavaci);
 
         postaviListenere();
@@ -308,6 +303,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     //<editor-fold desc="Baza">
     private void ucitajIzBaze()
     {
+
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Oglasi");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -327,6 +323,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
     private void citanje()
     {
+
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
 
         try
@@ -363,7 +360,5 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
         startIndex = 0;
         endIndex = 7;
-
-        progressDialog=new ProgressDialog(getContext());
     }
 }

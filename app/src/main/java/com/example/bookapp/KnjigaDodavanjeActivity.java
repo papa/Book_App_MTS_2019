@@ -107,7 +107,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
                 if (filePath != null) {
                     upisiSliku();
-                    dodajOglas();
+                    //dodajOglas();
                 }
                 else {
                     Toast.makeText(KnjigaDodavanjeActivity.this,"Morate dodati barem jednu sliku!",Toast.LENGTH_LONG).show();
@@ -306,6 +306,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         progressDialog.setMessage("Upisivanje...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+
+        dodajOglas();
 
         FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
 

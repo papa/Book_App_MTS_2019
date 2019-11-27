@@ -1,5 +1,6 @@
 package com.example.bookapp.Klase.Oglasi;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -52,6 +53,8 @@ public class CitanjeOglasa {
     private Context context;
 
     private ArrayList<Oglas> oglasi = new ArrayList<>();
+
+    ProgressDialog progressDialog;
 
 
     public CitanjeOglasa() {
@@ -123,6 +126,11 @@ public class CitanjeOglasa {
         brojOglasa = idOglasa.size();
         context=c;
 
+        progressDialog=new ProgressDialog(context);
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Ucitavanje...");
+
         for (int i = 0; i < brojOglasa; i++)
         {
             ID = idOglasa.get(i);
@@ -148,7 +156,6 @@ public class CitanjeOglasa {
     }
 
     private void ucitajSliku(ArrayList<Oglas> oglass, final CallbackSlika callbackSlika) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         Log.d("ID",String.valueOf(oglass.size()));
         for (int j = 0; j < oglass.size(); j++) {
@@ -157,7 +164,9 @@ public class CitanjeOglasa {
             //for (int i = 0; i < 3; i++) {
 
             final Bitmap[] my_image = new Bitmap[1];
-            StorageReference ref = FirebaseStorage.getInstance().getReference().child(user.getUid()).child("Knjiga").child(oglass.get(j).getId()).child("0image.jpg");
+            //StorageReference ref = FirebaseStorage.getInstance().getReference().child(user.getUid()).child("Knjiga").child(oglass.get(j).getId()).child("0image.jpg");
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child(oglass.get(j).getIdUsera()).child("Knjiga").child(oglass.get(j).getId()).child("0image.jpg");
+            Log.d("PUTANJA2",ref.getPath());
             try {
                 final File localFile = File.createTempFile("Images", "jpg");
                 ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -171,15 +180,15 @@ public class CitanjeOglasa {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, e.getMessage()+"ojsa", Toast.LENGTH_LONG).show();
                     }
                 });
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             //}
         }
+        progressDialog.dismiss();
     }
 
     private void prikaziOglase(ArrayList<Knjiga> knjige, RecyclerView recyclerView, Context context)

@@ -51,16 +51,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     private int brojOcena;
     private double prosecnaOcena;
     private ImageView slika;
-    //private ArrayList<Bitmap> slike=new ArrayList<>();
-    private ArrayList<String> nazivi=new ArrayList<>();
-    private ArrayList<String> autori=new ArrayList<>();
-    private ArrayList<String> predmeti=new ArrayList<>();
-    private ArrayList<String> izdavaci=new ArrayList<>();
-    private ArrayList<String> godineIzdanja=new ArrayList<>();
-    private ArrayList<String> cene=new ArrayList<>();
 
     private RecyclerView recyclerView;
-
 
     private ArrayList<String> idOglasa=new ArrayList<>();
 
@@ -77,7 +69,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         citajBazu();
 
-        ucitajSliku();
+        //ucitajSliku();
 
         return view;
     }
@@ -127,6 +119,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
                 citajInfoKorisnik(dataSnapshot);
 
+                Log.d("USO","USO");
+
                 upisi();
 
             }
@@ -151,6 +145,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
             for (DataSnapshot dataSnapshot1 : dataSnapshot.child("oglasi").getChildren()) {
                 idOglasa.add(dataSnapshot1.getKey());
             }
+            Log.d("USO2","USO2");
 
             citanje();
         }
@@ -160,9 +155,9 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
 
-        //todo
-        //ovde javljalo gresku
-        citanjeOglasa.procitaj(idOglasa, recyclerView, getActivity().getApplicationContext().getApplicationContext());
+        Log.d("USO3","USO3");
+
+        citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
     }
 
     private void upisi()
@@ -192,7 +187,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                //Toast.makeText(getContext(), "Nemate profilnu sliku!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Nemate profilnu sliku!", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
