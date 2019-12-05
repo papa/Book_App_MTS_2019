@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btUpisi"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
+        app:srcCompat="@drawable/slika" />
 
     <ImageView
         android:id="@+id/slikaKnjige2"
@@ -25,52 +25,59 @@
         app:layout_constraintStart_toEndOf="@+id/slikaKnjige"
         app:layout_constraintTop_toBottomOf="@+id/btUpisi"
         app:layout_constraintVertical_bias="0.502"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
+        app:srcCompat="@drawable/slika" />
 
     <ImageView
         android:id="@+id/slikaKnjige3"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="16dp"
+        android:adjustViewBounds="false"
+        android:background="@drawable/oval2"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btUpisi"
         app:layout_constraintVertical_bias="0.502"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal" />
+        app:srcCompat="@drawable/slika" />
 
     <Spinner
         android:id="@+id/youSpinMeRightRound"
         android:layout_width="206dp"
         android:layout_height="44dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/oval"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/novaKnjigaActivityButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/novaKnjigaActivityButton"
         android:layout_width="112dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/oval"
         android:text="dodaj novu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/youSpinMeRightRound" />
 
     <EditText
         android:id="@+id/cenaK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="Cena knjige..."
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youSpinMeRightRound" />
+        app:layout_constraintTop_toBottomOf="@+id/novaKnjigaActivityButton" />
 
     <EditText
         android:id="@+id/dodOpisK"
@@ -81,6 +88,7 @@
         android:hint="Dodatni opis..."
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cenaK" />
 
@@ -89,22 +97,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:background="@drawable/oval"
         android:hint="Zavrsi!"
-        android:text="Button"
+        android:text="Gotovo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dodOpisK" />
 
     <Button
         android:id="@+id/barkodSkenerButton"
-        android:layout_width="130dp"
+        android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/oval"
         android:text="barkod"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.358"
         app:layout_constraintStart_toEndOf="@+id/youSpinMeRightRound"
-        app:layout_constraintTop_toBottomOf="@+id/novaKnjigaActivityButton" />
+        app:layout_constraintTop_toTopOf="@+id/youSpinMeRightRound" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

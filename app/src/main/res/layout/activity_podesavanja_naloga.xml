@@ -24,7 +24,7 @@
             android:layout_height="100dp"
             android:layout_margin="16dp"
             android:layout_gravity="center"
-            android:src="@drawable/common_google_signin_btn_icon_light_normal"
+            android:src="@drawable/profil"
             android:id="@+id/slikaKorisnikaPodesavanje"
             app:civ_border_color="@android:color/white"
             app:civ_border_width="2dp"
@@ -85,6 +85,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/oval"
             android:layout_gravity="center"
             android:text="update"
             android:id="@+id/updatePodesavanja"/>

@@ -30,6 +30,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/oval"
             android:text="Log in"
             android:layout_gravity="center"
             android:id="@+id/btLogin"/>

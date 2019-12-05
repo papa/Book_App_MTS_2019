@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@drawable/oval"
     android:gravity="bottom">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColorHint="#CFD8DC"
-        android:textColor="#CFD8DC"
+        android:textColorHint="@color/colorTextBlackDivider"
+        android:textColor="@color/textColor"
         android:hint="Napisite poruku..."
         android:id="@+id/messageArea"
         android:maxHeight="80dp" />

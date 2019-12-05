@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navbar2">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view_linear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"></androidx.viewpager.widget.ViewPager>
+
+    <com.gauravk.bubblenavigation.BubbleNavigationLinearView
+        android:id="@+id/bottom_navigation_view_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/c_item_test1"
+            android:layout_width="0dp"
+            android:layout_weight="33"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/colorAccent"
+            app:bt_colorInactive="@color/colorPrimary"
+            app:bt_icon="@drawable/profil"
+            app:bt_shape="@drawable/trans"
+            app:bt_padding="2dp"
+            app:bt_title="Profil"
+            app:bt_titlePadding="2dp" />
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/c_item_test2"
+            android:layout_width="0dp"
+            android:layout_weight="33"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/colorAccent"
+            app:bt_colorInactive="@color/colorPrimary"
+            app:bt_icon="@drawable/knjige"
+            app:bt_shape="@drawable/trans"
+            app:bt_padding="2dp"
+            app:bt_title="Knjige"
+            app:bt_titlePadding="2dp" />
+        <com.gauravk.bubblenavigation.BubbleToggleView
+            android:id="@+id/c_item_test3"
+            android:layout_width="0dp"
+            android:layout_weight="33"
+            android:layout_height="wrap_content"
+            app:bt_active="true"
+            app:bt_colorActive="@color/colorAccent"
+            app:bt_colorInactive="@color/colorPrimary"
+            app:bt_icon="@drawable/chat"
+            app:bt_shape="@drawable/trans"
+            app:bt_padding="2dp"
+            app:bt_title="Chat"
+            app:bt_titlePadding="2dp" />
+    </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
+</androidx.constraintlayout.widget.ConstraintLayout>

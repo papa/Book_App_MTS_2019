@@ -26,7 +26,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:src="@drawable/common_google_signin_btn_icon_light_normal"
+                    android:src="@drawable/profil"
                     android:id="@+id/slikaProfil"/>
 
                 <TextView
@@ -89,15 +89,8 @@
                 android:id="@+id/nalog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/oval"
                 android:text="Podesavanje naloga" />
-
-            <Button
-                android:id="@+id/privremeno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dodaj kusli"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
 

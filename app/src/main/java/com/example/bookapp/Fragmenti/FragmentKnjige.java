@@ -2,6 +2,7 @@ package com.example.bookapp.Fragmenti;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,9 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,6 +35,7 @@ import com.example.bookapp.Adapteri.AdapterKnjige;
 import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.Klase.Oglasi.CitanjeOglasa;
+import com.example.bookapp.KnjigaDodavanjeActivity;
 import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -67,7 +72,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     private EditText predmetET;
     private EditText izdavacET;
     private Button filter;
-    private FloatingActionButton goFilters;
+    private FloatingActionButton dodavanjeKnjigeFloatingButton;
 
     boolean f1 = false;
     boolean f2 = false;
@@ -96,14 +101,23 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
    private Dialog dialog;
    private Spinner spIzdavaci;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.filterButtonMenu){
+            prikaziPopUp();
+            return true;
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_knjige, container, false);
-
+        setHasOptionsMenu(true);
         initialize(view);
 
         //nextImage();
@@ -112,6 +126,11 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         ucitajIzBaze();
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.actbar, menu);
     }
 
     //<editor-fold desc="Ovo mi je animacija da se menjaju slike, koristicu je na drugom mesto al neka je, samo smanjite ovaj deo da ne smeta">
@@ -160,6 +179,13 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     //<editor-fold desc="postavilistener">
     private void postaviListenere()
     {
+        dodavanjeKnjigeFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
+                startActivity(intent);
+            }
+        });
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -249,7 +275,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
 
     private void prikaziPopUp() {
         dialog.setContentView(R.layout.filteri_pop_up);
-
         cenaRB=(CheckBox)dialog.findViewById(R.id.cenaCheckBox);
         predmetRB=(CheckBox)dialog.findViewById(R.id.predmetCheckBox);
         izdavacRB=(CheckBox)dialog.findViewById(R.id.izdavacCheckBox);
@@ -258,23 +283,23 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
         spIzdavaci=(Spinner)dialog.findViewById(R.id.spIzdavac);
         filter=(Button)dialog.findViewById(R.id.filterButton);
 
-        setSpinner(spIzdavaci);
+        setSpinner(spIzdavaci);/*
 
         postaviListenere();
 
-        dialog.show();
+        dialog.show();*/
 
     }
 
     private void setSpinner(final Spinner spinner)
     {
+        Toast.makeText(this.getContext(), "skk", Toast.LENGTH_SHORT).show();
         if(!popunjeno) {
             for (int i = 0; i < knjigee.size(); i++) {
                 izdavaci.add(knjigee.get(i).getIzdavac());
             }
             popunjeno=true;
         }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,izdavaci);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -296,7 +321,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bFilteri: prikaziPopUp();break;
+            case R.id.dodajKnjiguButton: Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
+                startActivity(intent);break;
         }
     }
 
@@ -342,12 +368,9 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     private void initialize(View view)
     {
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerKnjige);
-        goFilters=(FloatingActionButton)view.findViewById(R.id.bFilteri);
-
-        goFilters.setOnClickListener(this);
-
+        dodavanjeKnjigeFloatingButton=(FloatingActionButton)view.findViewById(R.id.dodajKnjiguButton);
+        dodavanjeKnjigeFloatingButton.setOnClickListener(this);
         dialog=new Dialog(getContext());
-
         imageArray = new int[8];
         imageArray[0] = R.drawable.ic_launcher_background;
         imageArray[1] = R.drawable.ic_launcher_foreground;

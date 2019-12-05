@@ -44,7 +44,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
     private ArrayList<Knjiga> knjige = new ArrayList<Knjiga>();
     private ArrayList<String> knjigeString = new ArrayList<String>();
     private Spinner spinner;
-    private Button novaKnjiga, btnUpisi, barkodSkenerButton;
+    private Button novaKnjiga, btnUpisi, barkodSkenerButton, navbar;
     private DatabaseReference databaseReference,databaseReference2;
     private EditText cenaKnjige,opisKnjige;
 
@@ -92,7 +92,13 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
             }
         });
-
+        /*navbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent navbarIntent = new Intent(KnjigaDodavanjeActivity.this, navbar2.class);
+                KnjigaDodavanjeActivity.this.startActivity(navbarIntent);
+            }
+        });*/
         novaKnjiga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,6 +178,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
         novaKnjiga = findViewById(R.id.novaKnjigaActivityButton);
         btnUpisi=(Button)findViewById(R.id.btUpisi);
         barkodSkenerButton=(Button)findViewById(R.id.barkodSkenerButton);
+        //navbar = findViewById(R.id.newNavBarYay);
 
         spinner = findViewById(R.id.youSpinMeRightRound);
 

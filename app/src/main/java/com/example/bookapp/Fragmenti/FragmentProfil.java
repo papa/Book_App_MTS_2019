@@ -56,7 +56,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
     private ArrayList<String> idOglasa=new ArrayList<>();
 
-    private Button priv,nalogP;
+    private Button nalogP;
 
     private ProgressDialog progressDialog;
 
@@ -77,10 +77,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.privremeno: {
-                Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
-                startActivity(intent);
-            }break;
             case R.id.nalog:{
                 Intent intent = new Intent(getActivity(), PodesavanjaNalogaActivity.class);
                 startActivity(intent);
@@ -105,9 +101,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         progressDialog=new ProgressDialog(getContext());
 
-        priv = view.findViewById(R.id.privremeno);
         nalogP=view.findViewById(R.id.nalog);
-        priv.setOnClickListener(this);
         nalogP.setOnClickListener(this);
     }
 
