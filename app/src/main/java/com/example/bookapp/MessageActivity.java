@@ -37,6 +37,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import androidx.appcompat.widget.Toolbar;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -355,21 +357,18 @@ public class MessageActivity extends AppCompatActivity {
 
     private void ucitaj()
     {
-       // android.support.v7.widget.Toolbar toolbar=findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
+        Toolbar toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //todo
-        //sredi ovo
-        //ne radi toolbar iz nekog razloga
 
-       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+       toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });*/
+        });
 
         apiService= Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 

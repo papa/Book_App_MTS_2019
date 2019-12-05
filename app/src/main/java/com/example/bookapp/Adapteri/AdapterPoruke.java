@@ -43,7 +43,7 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
     public PorukeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //todo
         //treba korisnici item a ne knjige item
-        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.knjige_item,null);
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.poruke_kartica,null);
         PorukeHolder porukeHolder = new PorukeHolder(layout);
         return porukeHolder;
     }
@@ -77,6 +77,8 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
        public PorukeHolder(@NonNull View itemView)
        {
            super(itemView);
+           imePrezime = (TextView)itemView.findViewById(R.id.imePoruke);
+           slika = (ImageView)itemView.findViewById(R.id.slikaPoruke);
 
        }
     }

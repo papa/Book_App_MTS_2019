@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bookapp.Klase.Knjiga;
 import com.google.firebase.database.DataSnapshot;
@@ -49,8 +50,12 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_knjiga_pregled);
 
-        init();
+        //todo
+        //da se ucita slika
+        //i ono da moze vise njih da bude
+
         prijem();
+        init();
         ucitajPodatke();
 
         //ovde su ti primljene informacije o knjizi u ova tri stringa
@@ -104,12 +109,13 @@ public class KnjigaPregledActivity extends AppCompatActivity {
 //        autoriS = autoriS + au.get(au.size()-1);
 //        autori.setText(autoriS);
         dodatniOpis.setText(dodatno);
-        cenaPrikaz.setText(cena);
+        Toast.makeText(KnjigaPregledActivity.this, String.valueOf(cena),Toast.LENGTH_LONG).show();
+        cenaPrikaz.setText(String.valueOf(cena));
     }
 
     void init()
     {
-        knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenosKnjiga);
+        //knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenosKnjiga);
 
         nazivKnjige=(TextView)findViewById(R.id.nazivKnjigePrikaz);
         izdavac = (TextView)findViewById(R.id.izdavacKnjigePrikaz);

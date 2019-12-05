@@ -220,6 +220,17 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
                     }
                 }
 
+                if(!f1 && !f2 && !f3)
+                {
+                    layoutManager = new GridLayoutManager(getContext(), 1);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(layoutManager);
+                    AdapterKnjige adapterKnjige = new AdapterKnjige(getContext(), slike,oglasii,knjigee);
+                    recyclerView.setAdapter(adapterKnjige);
+                    adapterKnjige.notifyDataSetChanged();
+                    return;
+                }
+
                 ArrayList<Oglas> of = new ArrayList<>();
                 ArrayList<Knjiga> kf = new ArrayList<>();
 
@@ -273,7 +284,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener{
     }
     //</editor-fold>
 
-    private void prikaziPopUp() {
+    private void prikaziPopUp()
+    {
         dialog.setContentView(R.layout.filteri_pop_up);
         cenaRB=(CheckBox)dialog.findViewById(R.id.cenaCheckBox);
         predmetRB=(CheckBox)dialog.findViewById(R.id.predmetCheckBox);
