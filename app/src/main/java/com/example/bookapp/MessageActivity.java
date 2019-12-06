@@ -88,6 +88,8 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
+        generisiId();
+
         ucitaj();
         postaviListener();
         ucitajImeiPrezime(drugiId);
@@ -307,14 +309,8 @@ public class MessageActivity extends AppCompatActivity {
 
     private void generisiId()
     {
-        /*if(Pocetna.currentKorisnik.isMajstor())
-        {
-            idchat=drugiId+Pocetna.currentFirebaseUser.getUid()+Pocetna.prenosBida.getIdposla();
-        }
-        else
-        {
-            idchat=Pocetna.currentFirebaseUser.getUid()+drugiId+Pocetna.prenosBida.getIdposla();
-        }*/
+        drugiId = getIntent().getStringExtra("drugiId");
+        idchat=drugiId+ProfileActivity.userr.getUid();
     }
 
     private void procitajPoruku(final String mojid,final String drid,final String imgurl)

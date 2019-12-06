@@ -40,6 +40,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Novo ime..."
             android:layout_margin="8dp"
             android:id="@+id/imePodesavanje"/>
 
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:hint="Novo prezime..."
             android:id="@+id/prezimePodesavanje"/>
 
         <TextView
@@ -67,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:hint="Novi email..."
             android:id="@+id/emailPodesavanje"/>
 
         <TextView
@@ -80,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:hint="Nova sifra..."
             android:id="@+id/sifraPodesavanje"/>
 
         <Button

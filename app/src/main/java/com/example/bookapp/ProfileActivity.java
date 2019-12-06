@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.bookapp.Fragmenti.FragmentKnjige;
+import com.example.bookapp.Fragmenti.FragmentPoruke;
 import com.example.bookapp.Fragmenti.FragmentProfil;
 import com.example.bookapp.Klase.Korisnik;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -64,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
                             selectedFragment=new FragmentKnjige();
                             break;
                         case R.id.navnesto:
-                            selectedFragment=new FragmentKnjige();
+                            selectedFragment=new FragmentPoruke();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();

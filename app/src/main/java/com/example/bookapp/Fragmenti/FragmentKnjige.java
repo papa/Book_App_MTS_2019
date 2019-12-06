@@ -58,7 +58,8 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FragmentKnjige extends Fragment implements View.OnClickListener{
+public class FragmentKnjige extends Fragment implements View.OnClickListener
+{
     private ArrayList<Bitmap> slike = new ArrayList<Bitmap>();
     private ArrayList<String> izdavaci = new ArrayList<String>();
 

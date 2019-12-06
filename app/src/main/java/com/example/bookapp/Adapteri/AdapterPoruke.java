@@ -8,15 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookapp.Klase.Korisnik;
 import com.example.bookapp.KnjigaDodavanjeActivity;
 import com.example.bookapp.KnjigaPregledActivity;
+import com.example.bookapp.MessageActivity;
 import com.example.bookapp.R;
+import com.google.android.gms.vision.text.Line;
 import com.google.firebase.storage.FirebaseStorage;
 
 import org.w3c.dom.Text;
@@ -42,7 +46,7 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
     @Override
     public PorukeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //todo
-        //treba korisnici item a ne knjige item
+        //treba poruke item a ne knjige item
         View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.poruke_kartica,null);
         PorukeHolder porukeHolder = new PorukeHolder(layout);
         return porukeHolder;
@@ -60,6 +64,17 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
         else
             viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);
 
+        viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Na klik.
+
+                Intent intent=new Intent(context, MessageActivity.class);
+                intent.putExtra("drugiId",k.getId());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -73,13 +88,14 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
        private TextView zadnjaPoruka;
        private TextView datum;
        private ImageView slika;
+        private LinearLayout layout;
 
        public PorukeHolder(@NonNull View itemView)
        {
            super(itemView);
            imePrezime = (TextView)itemView.findViewById(R.id.imePoruke);
            slika = (ImageView)itemView.findViewById(R.id.slikaPoruke);
-
+           layout=(LinearLayout) itemView.findViewById(R.id.poruke_i);
        }
     }
 }
