@@ -126,10 +126,10 @@ public class CitanjeOglasa {
         brojOglasa = idOglasa.size();
         context=c;
 
-        progressDialog=new ProgressDialog(context);
-        progressDialog.show();
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Ucitavanje...");
+//        progressDialog=new ProgressDialog(context);
+//        progressDialog.show();
+//        progressDialog.setCancelable(false);
+//        progressDialog.setMessage("Ucitavanje...");
 
         for (int i = 0; i < brojOglasa; i++)
         {
@@ -188,7 +188,7 @@ public class CitanjeOglasa {
             }
             //}
         }
-        progressDialog.dismiss();
+        //progressDialog.dismiss();
     }
 
     private void prikaziOglase(ArrayList<Knjiga> knjige, RecyclerView recyclerView, Context context)
