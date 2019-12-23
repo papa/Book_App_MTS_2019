@@ -3,6 +3,10 @@ package com.example.bookapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +18,8 @@ import com.example.bookapp.Fragmenti.FragmentKnjige;
 import com.example.bookapp.Fragmenti.FragmentPoruke;
 import com.example.bookapp.Fragmenti.FragmentProfil;
 import com.example.bookapp.Klase.Korisnik;
+import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
+import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,47 +40,71 @@ public class ProfileActivity extends AppCompatActivity {
     static Korisnik trenutniKorisnik;
     static FirebaseUser userr;
 
+    private static final int NUM_PAGES = 3;
+    private ViewPager mPager;
+    private PagerAdapter pagerAdapter;
+
+    public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if(position == 0){
+                return new FragmentProfil();
+            }
+            else if(position == 1){
+                return new FragmentKnjige();
+            }
+            else {
+                return new FragmentKnjige();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         prijem();
 
         uzmiPodatkeTrenutnog();
 
-        //Ovo ispod je za bottomnavbar, treba da se dovrsi jer nemamo plan unapred al ugl tjt
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(pagerAdapter);
+        final BubbleNavigationLinearView bubbleNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
+        bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
+            @Override
+            public void onNavigationChanged(View view, int position) {
+                mPager.setCurrentItem(position, true);
+            }
+        });
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        bottomNavigationView=(BottomNavigationView)findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+            }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentProfil()).commit();
+            @Override
+            public void onPageSelected(int position) {
+                bubbleNavigationLinearView.setCurrentActiveItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener=
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    Fragment selectedFragment=null;
-
-                    switch (menuItem.getItemId())
-                    {
-                        case R.id.navprofil:
-                            selectedFragment=new FragmentProfil();
-                            break;
-                        case R.id.navlista:
-                            selectedFragment=new FragmentKnjige();
-                            break;
-                        case R.id.navnesto:
-                            selectedFragment=new FragmentPoruke();
-                            break;
-                    }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
-
-
-                    return true;
-                }
-            };
-
 
     private void prijem()
     {

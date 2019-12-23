@@ -78,30 +78,4 @@ public class navbar2 extends FragmentActivity {
         }
     }
 }
-/*public class navbar2 extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navbar2);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, new FragmentProfil()).commit();
-        final BubbleNavigationLinearView bubbleNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
-        bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
-            @Override
-            public void onNavigationChanged(View view, int position) {
-                Toast.makeText(navbar2.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-                Fragment select = null;
-                if(position == 0){
-                    select = new FragmentProfil();
-                }
-                else if(position == 1){
-                    select = new FragmentKnjige();
-                }
-                else {
-                    select = new FragmentKnjige();
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, select).commit();
-            }
-        });
-    }
-}*/

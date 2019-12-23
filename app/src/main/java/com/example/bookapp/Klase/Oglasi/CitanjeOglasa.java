@@ -19,6 +19,7 @@ import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Oglas;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.vision.L;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -121,52 +122,59 @@ public class CitanjeOglasa {
         });
     }
 
-    public void procitaj(ArrayList<String> idOglasa, final RecyclerView recyclerView2, final Context c)
-    {
+    public void procitaj(ArrayList<String> idOglasa, final RecyclerView recyclerView2, final Context c) {
         brojOglasa = idOglasa.size();
-        context=c;
+        context = c;
+        if(context!=null) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("Ucitavanje...");
+        }
 
-//        progressDialog=new ProgressDialog(context);
-//        progressDialog.show();
-//        progressDialog.setCancelable(false);
-//        progressDialog.setMessage("Ucitavanje...");
+        if(brojOglasa>0) {
 
-        for (int i = 0; i < brojOglasa; i++)
-        {
-            ID = idOglasa.get(i);
+            Log.d("OVDIJE", "OVDIJE");
 
-            getOglas(new CallbackA() {
-                @Override
-                public void onCallback(ArrayList<Knjiga> value) {
-                    if(value.size()==brojOglasa) {
-                        ArrayList<Knjiga> knjigas = value;
-                        ucitajSliku(oglasi, new CallbackSlika() {
-                            @Override
-                            public void onCallback(ArrayList<Bitmap> value) {
-                                if (brojOglasa == value.size())
-                                    prikaziOglase(knjigas, recyclerView2, c);
-                            }
-                        });
+            for (int i = 0; i < brojOglasa; i++) {
+
+                ID = idOglasa.get(i);
+
+                getOglas(new CallbackA() {
+                    @Override
+                    public void onCallback(ArrayList<Knjiga> value) {
+                        if (value.size() == brojOglasa) {
+                            ArrayList<Knjiga> knjigas = value;
+                            ucitajSliku(oglasi, new CallbackSlika() {
+                                @Override
+                                public void onCallback(ArrayList<Bitmap> value) {
+                                    if (brojOglasa == value.size())
+                                        prikaziOglase(knjigas, recyclerView2, c);
+                                }
+                            });
+                        }
+
                     }
-
-                }
-            });
+                });
+            }
+        }
+        else {
+            if (context != null)
+                progressDialog.dismiss();
         }
 
     }
 
     private void ucitajSliku(ArrayList<Oglas> oglass, final CallbackSlika callbackSlika) {
 
-        Log.d("ID",String.valueOf(oglass.size()));
         for (int j = 0; j < oglass.size(); j++) {
             //Ovaj for je ako se citaju sve tri slika(provera se da li ih ima al ono)
             //kom jer mi ne trebaju tri nego samo prva slika
             //for (int i = 0; i < 3; i++) {
 
             final Bitmap[] my_image = new Bitmap[1];
-            //StorageReference ref = FirebaseStorage.getInstance().getReference().child(user.getUid()).child("Knjiga").child(oglass.get(j).getId()).child("0image.jpg");
             StorageReference ref = FirebaseStorage.getInstance().getReference().child(oglass.get(j).getIdUsera()).child("Knjiga").child(oglass.get(j).getId()).child("0image.jpg");
-            Log.d("PUTANJA2",ref.getPath());
+            Log.d("PUTANJA2", ref.getPath());
             try {
                 final File localFile = File.createTempFile("Images", "jpg");
                 ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -188,7 +196,8 @@ public class CitanjeOglasa {
             }
             //}
         }
-        //progressDialog.dismiss();
+        if (context != null)
+            progressDialog.dismiss();
     }
 
     private void prikaziOglase(ArrayList<Knjiga> knjige, RecyclerView recyclerView, Context context)

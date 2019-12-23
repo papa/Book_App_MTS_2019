@@ -342,14 +342,16 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     //<editor-fold desc="Baza">
     private void ucitajIzBaze()
     {
-
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Oglasi");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot:dataSnapshot.getChildren())
-                    idOglasa.add(snapshot.getKey());
+
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                    if (!idOglasa.contains(snapshot.getKey()))
+                        idOglasa.add(snapshot.getKey());
+                }
                 citanje();
             }
 
@@ -360,20 +362,13 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         });
     }
 
-    private void citanje()
-    {
+    private void citanje() {
 
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
 
-        try
-        {
-            citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
-            oglasii = citanjeOglasa.uzmiOglase();
-            knjigee = citanjeOglasa.uzmiKnjige();
-
-        } catch (Exception e) {
-            Log.d("GRESKA CITANJE",e.toString());
-        }
+        citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
+        oglasii = citanjeOglasa.uzmiOglase();
+        knjigee = citanjeOglasa.uzmiKnjige();
     }
     //</editor-fold>
 

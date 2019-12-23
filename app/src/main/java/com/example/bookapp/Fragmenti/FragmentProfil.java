@@ -58,8 +58,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
     private Button nalogP;
 
-    private ProgressDialog progressDialog;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,8 +66,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         initialize(view);
 
         citajBazu();
-
-        //ucitajSliku();
 
         return view;
     }
@@ -98,8 +94,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         user= FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Korisnici").child(user.getUid());
-
-        progressDialog=new ProgressDialog(getContext());
 
         nalogP=view.findViewById(R.id.nalog);
         nalogP.setOnClickListener(this);
@@ -137,12 +131,13 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         if (dataSnapshot.hasChild("oglasi")) {
             for (DataSnapshot dataSnapshot1 : dataSnapshot.child("oglasi").getChildren()) {
-                idOglasa.add(dataSnapshot1.getKey());
+                if (!idOglasa.contains(dataSnapshot1.getKey()))
+                    idOglasa.add(dataSnapshot1.getKey());
             }
-            Log.d("USO2","USO2");
-
             citanje();
         }
+        else
+            Log.d("NIJE USO","NEMAJU OGLASE");
     }
 
     private void citanje() {
@@ -161,29 +156,5 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         tvProsecnaOcena.setText(String.valueOf(prosecnaOcena));
         tvBrojOcena.setText(String.valueOf(brojOcena));
         tvEmail.setText(email);
-    }
-
-    private void ucitajSliku() {
-
-        progressDialog.setMessage("Ucitavanje...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid() + "/Korisnik/" + "image.jpg");
-
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(getContext()).load(uri).into(slika);
-                progressDialog.dismiss();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(getContext(), "Nemate profilnu sliku!", Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
     }
 }
