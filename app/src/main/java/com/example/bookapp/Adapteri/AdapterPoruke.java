@@ -16,11 +16,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookapp.Klase.Korisnik;
+import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.KnjigaDodavanjeActivity;
 import com.example.bookapp.KnjigaPregledActivity;
 import com.example.bookapp.MessageActivity;
 import com.example.bookapp.R;
 import com.google.android.gms.vision.text.Line;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import org.w3c.dom.Text;
@@ -31,14 +37,14 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
 {
     private Context context;
     private ArrayList<Bitmap> slike;
-    private ArrayList<Korisnik> korisnici;
+    private ArrayList<Oglas> oglasi;
     private FirebaseStorage storage;
 
-    public AdapterPoruke(Context context,ArrayList<Bitmap> slike,ArrayList<Korisnik> kor)
+    public AdapterPoruke(Context context,ArrayList<Bitmap> slike,ArrayList<Oglas> oglasi)
     {
         this.context = context;
         this.slike = slike;
-        this.korisnici = kor;
+        this.oglasi = oglasi;
     }
 
 
@@ -55,14 +61,32 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
     @Override
     public void onBindViewHolder(@NonNull PorukeHolder viewHolder, int position) {
 
-        Korisnik k = korisnici.get(position);
+        Oglas o = oglasi.get(position);
 
-        String s = k.getIme() + " " + k.getPrezime();
-        viewHolder.imePrezime.setText(s);
-        if(slike.size()>position)
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Korisnici").child(o.getIdUsera());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Korisnik k = dataSnapshot.getValue(Korisnik.class);
+                String s = k.getIme() + " " + k.getPrezime();
+                viewHolder.imePrezime.setText(s);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        //todo
+        //Andrija da pogleda za slike
+        /*if(slike.size()>position)
             viewHolder.slika.setImageBitmap(slike.get(position));
         else
-            viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);
+            viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);*/
 
         viewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +94,7 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
                 //Na klik.
 
                 Intent intent=new Intent(context, MessageActivity.class);
-                intent.putExtra("drugiId",k.getId());
+                intent.putExtra("drugiId",o.getIdUsera());
                 context.startActivity(intent);
             }
         });
@@ -79,7 +103,7 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
 
     @Override
     public int getItemCount() {
-        return korisnici.size();
+        return oglasi.size();
     }
 
     public static class PorukeHolder extends RecyclerView.ViewHolder

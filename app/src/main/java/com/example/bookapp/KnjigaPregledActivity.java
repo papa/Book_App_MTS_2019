@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bookapp.Klase.Knjiga;
+import com.example.bookapp.Klase.Oglas;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +42,9 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     int gizdanja;
     String drugiId;
     String idOglasa;
+    String idKorisnika;
+    Oglas oglas;
+    String chatid;
 
     //TODO
     //andrijio i ovde treba slike
@@ -122,6 +126,7 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     {
         //knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenosKnjiga);
 
+        idKorisnika = ProfileActivity.userr.getUid();
         nazivKnjige=(TextView)findViewById(R.id.nazivKnjigePrikaz);
         izdavac = (TextView)findViewById(R.id.izdavacKnjigePrikaz);
         autori = (TextView)findViewById(R.id.autoriKnjigePrikaz);
@@ -149,9 +154,23 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         minuti=cal.get(Calendar.MINUTE);
     }
 
+    void klikPoruka(String poruka)
+    {
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Korisnici");
+        //todo
+        //ovde da se odnekud uzme ovaj oglas
+        db.child(idKorisnika).child("porukeTrazi").child(drugiId).child(idOglasa).setValue(oglas);
+        db.child(drugiId).child("porukeNudi").child(idOglasa).setValue(oglas);
+
+        chatid = idKorisnika + drugiId + idOglasa;
+
+        posaljiPoruku(idKorisnika,drugiId,dodatno);
+        posaljiPoruku(drugiId,idKorisnika,"neki tekst");
+
+    }
+
     void posaljiPoruku(String salje,String prima,String poruka)
     {
-        String chatid  = ProfileActivity.userr.getUid() + drugiId + idOglasa;
 
         datumVreme();
 
@@ -168,7 +187,7 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         db.child("Chats").child(chatid).push().setValue(hashMap);
 
-        final DatabaseReference chatref=FirebaseDatabase.getInstance().getReference("Chatlist").child(chatid).child(salje).child(prima);
+        final DatabaseReference chatref=FirebaseDatabase.getInstance().getReference("Chatlist").child(chatid).child(idKorisnika).child(prima);
 
         chatref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
