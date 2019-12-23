@@ -93,6 +93,8 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
                 //Na klik.
 
                 Intent intent=new Intent(context, KnjigaPregledActivity.class);
+                intent.putExtra("idOglasa",oglasi.get(i).getId());
+                intent.putExtra("idKorisnika",oglasi.get(i).getIdUsera());
                 intent.putExtra("naziv",knjige.get(i).getNaziv());
                 //Za autora se salje array list, ako treba string stavite convert autor i parametar autori.get(i);
                 intent.putExtra("autor",knjige.get(i).getAutori());

@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class KnjigaPregledActivity extends AppCompatActivity {
 
@@ -37,7 +39,8 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     private int cena;
     String pr,izd,dodatno;
     int gizdanja;
-
+    String drugiId;
+    String idOglasa;
 
     //TODO
     //andrijio i ovde treba slike
@@ -74,6 +77,8 @@ public class KnjigaPregledActivity extends AppCompatActivity {
             pr = getIntent().getStringExtra("predmet");
             izd = getIntent().getStringExtra("izdavac");
             dodatno = getIntent().getStringExtra("opis");
+            drugiId = getIntent().getStringExtra("idKorisnika");
+            idOglasa = getIntent().getStringExtra("idOglasa");
         }
     }
 
@@ -125,4 +130,62 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         dodatniOpis = (TextView)findViewById(R.id.dodatniOpisPrikazi);
         cenaPrikaz = (TextView)findViewById(R.id.cenaKnjigaPrikaz);
     }
+
+    private int dan;
+    private int mesec;
+    private int godina;
+    private int sati;
+    private int minuti;
+
+    private void datumVreme()
+    {
+        Calendar cal=Calendar.getInstance();
+
+        mesec=cal.get(Calendar.MONTH);
+        dan=cal.get(Calendar.DAY_OF_MONTH);
+        godina=cal.get(Calendar.YEAR);
+
+        sati=cal.get(Calendar.HOUR_OF_DAY);
+        minuti=cal.get(Calendar.MINUTE);
+    }
+
+    void posaljiPoruku(String salje,String prima,String poruka)
+    {
+        String chatid  = ProfileActivity.userr.getUid() + drugiId + idOglasa;
+
+        datumVreme();
+
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("prima",prima);
+        hashMap.put("salje",salje);
+        hashMap.put("poruka",poruka);
+        hashMap.put("dan",dan);
+        hashMap.put("mesec",mesec);
+        hashMap.put("godina",godina);
+        hashMap.put("sati",sati);
+        hashMap.put("minuti",minuti);
+
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        db.child("Chats").child(chatid).push().setValue(hashMap);
+
+        final DatabaseReference chatref=FirebaseDatabase.getInstance().getReference("Chatlist").child(chatid).child(salje).child(prima);
+
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(!dataSnapshot.exists())
+                {
+                    chatref.child("id").setValue(prima);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
