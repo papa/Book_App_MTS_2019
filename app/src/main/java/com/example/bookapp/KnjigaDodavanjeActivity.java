@@ -1,9 +1,11 @@
 package com.example.bookapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -32,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.internal.InternalTokenProvider;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -338,13 +341,36 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
                 .build();
         photoBarcodeScanner.start();
     }
-    private void nadjiKnjiguPoBarkodu(String kod){
-        for(int index = 0; index < knjige.size(); index++){
-            if(knjige.get(index).getBarkod().equals(kod))
-            {
-                spinner.setSelection(index);
+    private void nadjiKnjiguPoBarkodu(String kod) {
+        int indexTemp = 0;
+        while (indexTemp < knjige.size()) {
+            if (knjige.get(indexTemp).getBarkod().equals(kod)) {
+                spinner.setSelection(indexTemp);
                 break;
             }
+            indexTemp++;
+        }
+        if (indexTemp == knjige.size())
+        {
+            Toast.makeText(this, "uso", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(KnjigaDodavanjeActivity.this)
+                    .setTitle("Knjiga nije nadjena")
+                    .setMessage("Da li zelis da dodas knjigu?")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intentTemp=new Intent(KnjigaDodavanjeActivity.this,NovaVrstaKnjigeActivity.class);
+                            intentTemp.putExtra("skeniraniBarkod",kod.toString());
+                            startActivity(intentTemp);
+                        }
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton("Ne", null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
     }
 }

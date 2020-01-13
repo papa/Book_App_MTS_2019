@@ -48,9 +48,15 @@ public class NovaVrstaKnjigeActivity extends AppCompatActivity {
         //odje pravi novu knjigu
         //dakle
 
+
         init();
 
         postaviListenere();
+        Intent intentProsli = getIntent();
+        if (intentProsli.hasExtra("skeniraniBarkod")) {
+            barkodText = findViewById(R.id.EditTextBarkod);
+            barkodText.setText(intentProsli.getStringExtra("skeniraniBarkod"));
+        }
     }
 
     private void postaviListenere()
