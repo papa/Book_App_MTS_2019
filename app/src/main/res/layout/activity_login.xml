@@ -7,22 +7,22 @@
     tools:context=".LoginActivity">
 
     <ImageView
-        android:src="@drawable/pozadina"
         android:id="@+id/im1"
-        android:scaleType="fitXY"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/pozadina"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="0dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="92dp"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/im1"
+        app:layout_constraintStart_toStartOf="@+id/im1"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
@@ -30,24 +30,24 @@
             android:layout_width="275dp"
             android:layout_height="52dp"
             android:layout_margin="13dp"
-            android:textColorHint="@color/crnoPolje"
             android:background="@drawable/belo"
             android:fontFamily="sans-serif"
-            android:padding="10dp"
             android:hint="Unesite svoju email adresu..."
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColorHint="@color/crnoPolje" />
 
         <EditText
             android:id="@+id/eLogPassword"
             android:layout_width="275dp"
             android:layout_height="52dp"
             android:layout_margin="13dp"
-            android:textColorHint="@color/crnoPolje"
             android:background="@drawable/belo"
             android:fontFamily="sans-serif"
-            android:padding="10dp"
             android:hint="Unesite svoju sifru..."
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColorHint="@color/crnoPolje" />
 
         <Button
             android:id="@+id/btLogin"
@@ -55,11 +55,11 @@
             android:layout_height="52dp"
             android:layout_gravity="center"
             android:layout_marginTop="225dp"
+            android:background="@drawable/crno"
+            android:fontFamily="sans-serif"
             android:text="Uloguj se"
             android:textAllCaps="false"
             android:textColor="@color/belo"
-            android:background="@drawable/crno"
-            android:fontFamily="sans-serif"
             android:textSize="18dp" />
 
         <TextView
