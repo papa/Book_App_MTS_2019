@@ -4,62 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:fontFamily="@font/robotoregular">
 
+    <ImageView
+        android:src="@drawable/pozadina"
+        android:id="@+id/im1"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:id="@+id/eName"
+            android:layout_width="275dp"
+            android:layout_height="52dp"
+            android:layout_margin="13dp"
+            android:background="@drawable/belo"
+            android:fontFamily="sans-serif"
             android:hint="Unesite svoje ime..."
-            android:id="@+id/eName" />
+            android:padding="10dp"
+            android:textColorHint="@color/crnoPolje" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="Unesite svoje prezime..."
-            android:id="@+id/eSurname"/>
+            android:id="@+id/eSurname"
+            android:layout_width="275dp"
+            android:layout_height="52dp"
+            android:layout_margin="13dp"
+            android:textColorHint="@color/crnoPolje"
+            android:background="@drawable/belo"
+            android:fontFamily="sans-serif"
+            android:padding="10dp"
+            android:hint="Unesite svoje prezime..." />
 
         <EditText
             android:id="@+id/eEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_width="275dp"
+            android:layout_height="52dp"
+            android:layout_margin="13dp"
+            android:textColorHint="@color/crnoPolje"
+            android:background="@drawable/belo"
+            android:fontFamily="sans-serif"
+            android:padding="10dp"
             android:hint="Unesite svoju email adresu..."
             android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/ePass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_width="275dp"
+            android:layout_height="52dp"
+            android:layout_margin="13dp"
+            android:textColorHint="@color/crnoPolje"
+            android:background="@drawable/belo"
+            android:fontFamily="sans-serif"
+            android:padding="10dp"
             android:hint="Unesite svoju sifru..."
             android:inputType="textPassword" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/oval"
-            android:text="Register"
+            android:id="@+id/btRegister"
+            android:layout_width="275dp"
+            android:layout_height="52dp"
             android:layout_gravity="center"
-            android:id="@+id/btRegister"/>
+            android:layout_marginTop="60dp"
+            android:background="@drawable/crno"
+            android:fontFamily="sans-serif"
+            android:text="Registruj se"
+            android:textAllCaps="false"
+            android:textColor="@color/belo"
+            android:textSize="18dp" />
 
         <TextView
+            android:id="@+id/tvLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Vec imate nalog? Ulogujte se."
+            android:layout_margin="13dp"
+            android:fontFamily="sans-serif"
             android:gravity="center"
-            android:id="@+id/tvLog"/>
+            android:text="Vec imate nalog? Ulogujte se."
+            android:textColor="@color/crnoPolje" />
 
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

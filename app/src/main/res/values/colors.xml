@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00bcd4</color>
-    <color name="colorAccent">#62efff</color>
-    <color name="colorPrimaryDark">#008ba3</color>
-    <color name="secondaryColor">#9ccc65</color>
-    <color name="secondaryLightColor">#cfff95</color>
-    <color name="secondaryDarkColor">#6b9b37</color>
+    <color name="colorPrimary">#EDB50A</color>
+    <color name="colorAccent">#FFC200</color>
+    <color name="colorPrimaryDark">#E5AD00</color>
+
+
+    <color name="secondaryColor">#99A2AA</color>
+    <color name="secondaryLightColor">#B6BAC2</color>
+    <color name="secondaryDarkColor">#6C6C7E</color>
+
+
+    <color name="belo">#FFFFFF</color>
     <color name="textColor">#000000</color>
+
+    <color name="zutoPolje">#FFEEB300</color>
+    <color name="crnoPolje">#CC000000</color>
+    <color name="beloPolje">#CCFFFFFF</color>
+    <color name="senkaCrna">#3A000000</color>
 </resources>

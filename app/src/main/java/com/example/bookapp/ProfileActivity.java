@@ -58,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
                 return new FragmentKnjige();
             }
             else {
-                return new FragmentKnjige();
+                return new FragmentPoruke();
             }
         }
 

@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/oval"
+    android:background="@drawable/zuto"
     android:gravity="bottom">
 
     <EditText
+        android:id="@+id/messageArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColorHint="@color/colorTextBlackDivider"
-        android:textColor="@color/textColor"
         android:hint="Napisite poruku..."
-        android:id="@+id/messageArea"
-        android:maxHeight="80dp" />
+        android:maxHeight="80dp"
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/colorTextBlackDivider" />
 
     <ImageView
         android:layout_width="match_parent"

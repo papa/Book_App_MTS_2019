@@ -89,7 +89,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/oval"
+            android:background="@drawable/zuto"
             android:layout_gravity="center"
             android:text="update"
             android:id="@+id/updatePodesavanja"/>

@@ -92,13 +92,6 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
             }
         });
-        /*navbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent navbarIntent = new Intent(KnjigaDodavanjeActivity.this, navbar2.class);
-                KnjigaDodavanjeActivity.this.startActivity(navbarIntent);
-            }
-        });*/
         novaKnjiga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,7 +190,7 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
     private void setSpinner(Spinner spinner, String izabran)
     {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, knjigeString);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinneritem);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
