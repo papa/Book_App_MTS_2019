@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/zuto"
+    android:background="@drawable/zutoporuke"
     android:gravity="bottom">
 
     <EditText
@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:backgroundTint="@color/crnoPolje"
         android:hint="Napisite poruku..."
         android:maxHeight="80dp"
         android:textColor="@color/textColor"

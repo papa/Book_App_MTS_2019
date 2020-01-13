@@ -10,20 +10,22 @@
     android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/scrollView"
+        android:background="@drawable/pozadinazaporuke"
         android:layout_width="match_parent"
-        android:layout_weight="20"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView">
+        android:layout_weight="20">
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/relativelayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
+                android:id="@+id/linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/linearlayout">
-            </LinearLayout>
+                android:orientation="vertical" />
         </RelativeLayout>
     </ScrollView>
 
