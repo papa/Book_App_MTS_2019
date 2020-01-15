@@ -83,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         final BubbleNavigationLinearView bubbleNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
         bubbleNavigationLinearView.setCurrentActiveItem(1);
         mPager.setCurrentItem(1,true);
+
         bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {
