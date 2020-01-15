@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/datumivreme"
             android:fontFamily="@font/modernsans"
-            android:textAllCaps="false"
             android:text="datum i vreme"
+            android:textAllCaps="false"
             android:layout_below="@id/poruka"
             android:layout_alignParentLeft="true"
             android:padding="4dp"/>
