@@ -24,6 +24,7 @@ import com.example.bookapp.Klase.Korisnik;
 import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.Klase.Oglasi.CitanjeOglasa;
 import com.example.bookapp.KnjigaDodavanjeActivity;
+import com.example.bookapp.MainActivity;
 import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.ProfileActivity;
 import com.example.bookapp.R;
@@ -119,32 +120,44 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void citajInfoKorisnik(DataSnapshot dataSnapshot) {
+    private void citajInfoKorisnik(DataSnapshot dataSnapshot)
+    {
         Korisnik korisnik = dataSnapshot.getValue(Korisnik.class);
 
-        ime = korisnik.getIme();
-        prezime = korisnik.getPrezime();
-        email = korisnik.getMail();
-        brojOcena = korisnik.getBrojOcena();
-        prosecnaOcena = korisnik.getProsecnaOcena();
+        if(korisnik!=null)
+        {
+            ime = korisnik.getIme();
+            prezime = korisnik.getPrezime();
+            email = korisnik.getMail();
+            brojOcena = korisnik.getBrojOcena();
+            prosecnaOcena = korisnik.getProsecnaOcena();
 
-        if (dataSnapshot.hasChild("oglasi")) {
-            for (DataSnapshot dataSnapshot1 : dataSnapshot.child("oglasi").getChildren()) {
-                if (!idOglasa.contains(dataSnapshot1.getKey()))
-                    idOglasa.add(dataSnapshot1.getKey());
+            if (dataSnapshot.hasChild("oglasi"))
+            {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.child("oglasi").getChildren()) {
+                    if (!idOglasa.contains(dataSnapshot1.getKey()))
+                        idOglasa.add(dataSnapshot1.getKey());
+                }
+                citanje();
             }
-            citanje();
+            else
+                Log.d("NIJE USO", "NEMAJU OGLASE");
         }
         else
-            Log.d("NIJE USO","NEMAJU OGLASE");
+        {
+            startActivity(new Intent(getContext(), MainActivity.class));
+        }
     }
 
-    private void citanje() {
+    private void citanje()
+    {
 
-        CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
+        CitanjeOglasa citanjeOglasa = new CitanjeOglasa(1);
 
         Log.d("USO3","USO3");
 
+        if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista",Toast.LENGTH_LONG).show();
+        else Toast.makeText(getContext(),"Ima svasta",Toast.LENGTH_LONG).show();
         citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
     }
 

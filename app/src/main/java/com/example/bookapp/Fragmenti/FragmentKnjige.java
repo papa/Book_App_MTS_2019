@@ -96,6 +96,9 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     private int startIndex;
     private int endIndex;
 
+    FirebaseUser user;
+
+
    ArrayList<Oglas> oglasii;
    ArrayList<Knjiga> knjigee;
 
@@ -348,7 +351,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                for(DataSnapshot snapshot:dataSnapshot.getChildren())
+                {
                     if (!idOglasa.contains(snapshot.getKey()))
                         idOglasa.add(snapshot.getKey());
                 }
@@ -364,7 +368,10 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
     private void citanje() {
 
-        CitanjeOglasa citanjeOglasa = new CitanjeOglasa();
+        CitanjeOglasa citanjeOglasa = new CitanjeOglasa(2);
+
+        if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista bla bla",Toast.LENGTH_LONG).show();
+        else Toast.makeText(getContext(),"Ima svasta bla bla",Toast.LENGTH_LONG).show();
 
         citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
         oglasii = citanjeOglasa.uzmiOglase();
@@ -391,5 +398,8 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
         startIndex = 0;
         endIndex = 7;
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
     }
 }

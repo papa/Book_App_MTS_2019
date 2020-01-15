@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.bookapp.Fragmenti.FragmentKnjige;
 import com.example.bookapp.Fragmenti.FragmentPoruke;
@@ -34,35 +35,30 @@ public class ProfileActivity extends AppCompatActivity {
     private String name, surname, id,email;
     private FirebaseUser user;
 
-    //bottom navigation bar deo
-    private BottomNavigationView bottomNavigationView;
-
     static Korisnik trenutniKorisnik;
     static FirebaseUser userr;
 
     private static final int NUM_PAGES = 3;
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
+    private int pozicijaActual;
 
-    Fragment profil = new FragmentProfil();
-    Fragment knjige = new FragmentKnjige();
-    Fragment poruke = new FragmentPoruke();
-
-    public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            if(position == 0){
-                return profil;
+            if(position == 0)
+            {
+                return new FragmentProfil();
             }
             else if(position == 1){
-                return knjige;
+                return new FragmentKnjige();
             }
             else {
-                return poruke;
+                return new FragmentPoruke();
             }
         }
 
@@ -76,7 +72,6 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
         prijem();
 
         uzmiPodatkeTrenutnog();
@@ -86,6 +81,8 @@ public class ProfileActivity extends AppCompatActivity {
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(pagerAdapter);
         final BubbleNavigationLinearView bubbleNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
+        bubbleNavigationLinearView.setCurrentActiveItem(1);
+        mPager.setCurrentItem(1,true);
         bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {

@@ -57,8 +57,13 @@ public class CitanjeOglasa {
 
     ProgressDialog progressDialog;
 
+    int tip;
+    FirebaseUser user;
 
-    public CitanjeOglasa() {
+    public CitanjeOglasa(int tip)
+    {
+        this.tip = tip;
+        user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public interface MyCallback {
@@ -100,8 +105,14 @@ public class CitanjeOglasa {
 
                 Oglas oglas = dataSnapshot.getValue(Oglas.class);
 
-                oglasi.add(oglas);
-
+                if(tip==2)
+                {
+                    if(!oglas.getIdUsera().equals(user.getUid())) oglasi.add(oglas);
+                }
+                else
+                {
+                    if(oglas.getIdUsera().equals(user.getUid())) oglasi.add(oglas);
+                }
                 databaseReference1 = FirebaseDatabase.getInstance().getReference().child("Knjige").child(oglas.getIdKnjige());
 
                 citajKnjigaInfo(new MyCallback() {
@@ -132,7 +143,8 @@ public class CitanjeOglasa {
             progressDialog.setMessage("Ucitavanje...");
         }
 
-        if(brojOglasa>0) {
+        if(brojOglasa>0)
+        {
 
             Log.d("OVDIJE", "OVDIJE");
 
