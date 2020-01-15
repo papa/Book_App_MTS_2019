@@ -8,6 +8,9 @@
     <EditText
         android:id="@+id/messageArea"
         android:layout_width="match_parent"
+        android:fontFamily="@font/modernsans"
+        android:textSize="20sp"
+        android:textAllCaps="false"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:backgroundTint="@color/crnoPolje"

@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 public class FragmentProfil extends Fragment implements View.OnClickListener {
 
-    private TextView tvIme,tvPrezime,tvEmail,tvBrojOcena,tvProsecnaOcena;
+    private TextView tvIme,tvEmail,tvBrojOcena,tvProsecnaOcena;
     private DatabaseReference databaseReference;
     private FirebaseUser user;
     private String ime,prezime,email;
@@ -83,7 +83,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     private void initialize(View view)
     {
         tvIme=(TextView)view.findViewById(R.id.tpIme);
-        tvPrezime=(TextView)view.findViewById(R.id.tpPrezime);
         tvEmail=(TextView)view.findViewById(R.id.tpEmail);
         tvBrojOcena=(TextView)view.findViewById(R.id.tpBroj);
         tvProsecnaOcena=(TextView)view.findViewById(R.id.tpProsek);
@@ -151,8 +150,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
     private void upisi()
     {
-        tvIme.setText(ime + " ");
-        tvPrezime.setText(prezime);
+        String outputIme = ime + " " + prezime;
+        tvIme.setText(outputIme);
         tvProsecnaOcena.setText(String.valueOf(prosecnaOcena));
         tvBrojOcena.setText(String.valueOf(brojOcena));
         tvEmail.setText(email);

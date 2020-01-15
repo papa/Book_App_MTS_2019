@@ -44,6 +44,10 @@ public class ProfileActivity extends AppCompatActivity {
     private ViewPager mPager;
     private PagerAdapter pagerAdapter;
 
+    Fragment profil = new FragmentProfil();
+    Fragment knjige = new FragmentKnjige();
+    Fragment poruke = new FragmentPoruke();
+
     public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -52,13 +56,13 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if(position == 0){
-                return new FragmentProfil();
+                return profil;
             }
             else if(position == 1){
-                return new FragmentKnjige();
+                return knjige;
             }
             else {
-                return new FragmentPoruke();
+                return poruke;
             }
         }
 
