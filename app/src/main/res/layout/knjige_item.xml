@@ -4,93 +4,104 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/knjige_i"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:layout_height="280dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/card3">
 
-    <ImageView
-        android:id="@+id/iSlika"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tNaziv"
-        app:srcCompat="@android:drawable/stat_sys_phone_call_forward" />
+    <TextView
+        android:id="@+id/spacer1"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/tNaziv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/tNaziv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/tCena"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="390dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="9dp"
 
-    <TextView
-        android:id="@+id/tCena"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:gravity="center"
         android:text="TextView"
+        android:textAllCaps="false"
+        android:textColor="@color/beloPolje"
+
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/tPredmet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tNaziv"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tAutor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iSlika" />
+        app:layout_constraintTop_toBottomOf="@+id/spacer1" />
 
-    <TextView
-        android:id="@+id/tOpis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/tAutor"
-        app:layout_constraintEnd_toStartOf="@+id/tPredmet"
-        app:layout_constraintStart_toEndOf="@+id/iSlika"
+    <ImageView
+        android:id="@+id/iSlika"
+        android:layout_width="122dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tNaziv" />
 
     <TextView
         android:id="@+id/tPredmet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_width="245dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+
+        android:paddingLeft="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/tAutor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tCena" />
+        android:textAllCaps="false"
+        android:textColor="@color/crnoPolje"
+        android:textSize="20sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/tIzdavac"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tNaziv" />
 
     <TextView
         android:id="@+id/tIzdavac"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="245dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+
+        android:paddingLeft="8dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tGodIzdanja"
-        app:layout_constraintStart_toEndOf="@+id/tAutor"
-        app:layout_constraintTop_toBottomOf="@+id/iSlika" />
+        android:textAllCaps="false"
+        android:textColor="@color/crnoPolje"
+        android:textSize="20sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/tCena"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tPredmet" />
 
     <TextView
-        android:id="@+id/tGodIzdanja"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:id="@+id/tCena"
+        android:layout_width="245dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="153dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+
+        android:paddingLeft="8dp"
         android:text="TextView"
+        android:textAllCaps="false"
+        android:textColor="@color/crnoPolje"
+        android:textSize="20sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/spacer2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tIzdavac" />
+
+    <TextView
+        android:id="@+id/spacer2"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iSlika" />
+        app:layout_constraintTop_toBottomOf="@+id/tCena"
+        tools:layout_editor_absoluteX="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

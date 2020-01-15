@@ -1,42 +1,25 @@
 package com.example.bookapp.Adapteri;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.signature.StringSignature;
 import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.KnjigaPregledActivity;
-import com.example.bookapp.PodesavanjaNalogaActivity;
 import com.example.bookapp.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHolder>{
@@ -77,12 +60,12 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
 
         //TODO
         viewHolder.naziv.setText(kk.getNaziv());
-        viewHolder.autor.setText(convertAutor(kk.getAutori()));
+        //viewHolder.autor.setText(convertAutor(kk.getAutori()));
         viewHolder.cena.setText(String.valueOf(oo.getCena()));
         viewHolder.predmet.setText(kk.getPredmet());
-        viewHolder.godinaIzdanja.setText(String.valueOf(kk.getGodinaIzdanja()));
+        //viewHolder.godinaIzdanja.setText(String.valueOf(kk.getGodinaIzdanja()));
         viewHolder.izdavac.setText(kk.getIzdavac());
-        viewHolder.opis.setText(oo.getDodatniOpis());
+        //viewHolder.opis.setText(oo.getDodatniOpis());
         if(slike.size()>i)
             viewHolder.slika.setImageBitmap(slike.get(i));
         else
@@ -138,13 +121,13 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         {
             super(itemView);
             naziv=(TextView)itemView.findViewById(R.id.tNaziv);
-            autor=(TextView)itemView.findViewById(R.id.tAutor);
+            //autor=(TextView)itemView.findViewById(R.id.tAutor);
             cena=(TextView)itemView.findViewById(R.id.tCena);
             slika=(ImageView)itemView.findViewById(R.id.iSlika);
             izdavac=(TextView)itemView.findViewById(R.id.tIzdavac);
-            godinaIzdanja=(TextView)itemView.findViewById(R.id.tGodIzdanja);
+            //godinaIzdanja=(TextView)itemView.findViewById(R.id.tGodIzdanja);
             predmet=(TextView)itemView.findViewById(R.id.tPredmet);
-            opis=(TextView)itemView.findViewById(R.id.tOpis);
+            //opis=(TextView)itemView.findViewById(R.id.tOpis);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.knjige_i);
         }
     }
