@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.bookapp.Klase.Knjiga;
 import com.example.bookapp.Klase.Oglas;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -109,14 +110,8 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         predmet.setText(pr);
         String gi = gizdanja + ".";
         godinaIzdanja.setText(gi);
-        String autoriS = "";
-//        ArrayList<String> au = k.getAutori();
-//        for(int i=0;i<au.size()-1;i++)
-//        {
-//            autoriS=autoriS + au.get(i) + ",";
-//        }
-//        autoriS = autoriS + au.get(au.size()-1);
-//        autori.setText(autoriS);
+        String autoriS = autor;
+        autori.setText(autoriS);
         dodatniOpis.setText(dodatno);
         Toast.makeText(KnjigaPregledActivity.this, String.valueOf(cena),Toast.LENGTH_LONG).show();
         cenaPrikaz.setText(String.valueOf(cena));
@@ -159,19 +154,17 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("Korisnici");
         //todo
         //ovde da se odnekud uzme ovaj oglas
-        db.child(idKorisnika).child("porukeTrazi").child(drugiId).child(idOglasa).setValue(oglas);
-        db.child(drugiId).child("porukeNudi").child(idOglasa).setValue(oglas);
+        db.child(idKorisnika).child("porukeNudi").child(drugiId).child(idOglasa).setValue(oglas);
+        db.child(drugiId).child("porukeTrazi").child(idOglasa).setValue(oglas);
 
         chatid = idKorisnika + drugiId + idOglasa;
 
         posaljiPoruku(idKorisnika,drugiId,dodatno);
-        posaljiPoruku(drugiId,idKorisnika,"neki tekst");
-
+        posaljiPoruku(drugiId,idKorisnika,"Zdravo zanima me ova knjiga i mogli bismo da se dogovorimo oko njene prodaje. Pozdrav! ");
     }
 
     void posaljiPoruku(String salje,String prima,String poruka)
     {
-
         datumVreme();
 
         HashMap<String,Object> hashMap=new HashMap<>();

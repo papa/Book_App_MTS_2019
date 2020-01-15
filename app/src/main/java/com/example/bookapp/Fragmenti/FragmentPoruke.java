@@ -33,6 +33,7 @@ import com.example.bookapp.Klase.Korisnik;
 import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.Klase.Oglasi.CitanjeOglasa;
 import com.example.bookapp.KnjigaDodavanjeActivity;
+import com.example.bookapp.Notifications.Token;
 import com.example.bookapp.ProfileActivity;
 import com.example.bookapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,6 +44,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -107,6 +109,13 @@ public class FragmentPoruke extends Fragment {
 
     }
 
+    public void updateToken(String token)
+    {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1=new Token(token);
+        reference.child(us.getUid()).setValue(token1);
+    }
+
     private void ocitaj(String id)
     {
         DatabaseReference dref = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(id);
@@ -126,7 +135,7 @@ public class FragmentPoruke extends Fragment {
 
     private void ucitajIzBaze()
     {
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(us.getUid()).child("porukeTrazi");
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(us.getUid()).child("porukeNudi");
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -136,6 +145,8 @@ public class FragmentPoruke extends Fragment {
                     oglasi.add(og.getValue(Oglas.class));
                 }
 
+                Collections.reverse(oglasi);
+                adapterPoruke.notifyDataSetChanged();
             }
 
             @Override
@@ -144,7 +155,9 @@ public class FragmentPoruke extends Fragment {
             }
         });
 
-        db = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(us.getUid()).child("porukeNudi");
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
+      /*  db = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(us.getUid()).child("porukeNudi");
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -171,7 +184,7 @@ public class FragmentPoruke extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
     }
 
