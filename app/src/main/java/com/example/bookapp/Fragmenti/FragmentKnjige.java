@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bookapp.Adapteri.AdapterKnjige;
 import com.example.bookapp.Klase.Knjiga;
@@ -74,6 +75,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     private EditText izdavacET;
     private Button filter;
     private FloatingActionButton filtriranjeFloatingButton;
+    //SwipeRefreshLayout refreshKnjige;
 
     boolean f1 = false;
     boolean f2 = false;
@@ -351,6 +353,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
                 for(DataSnapshot snapshot:dataSnapshot.getChildren())
                 {
+                    Toast.makeText(getContext(), "procito", Toast.LENGTH_SHORT).show();
                     if (!idOglasa.contains(snapshot.getKey()))
                         idOglasa.add(snapshot.getKey());
                 }
@@ -369,12 +372,13 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa(2);
 
-        //if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista bla bla",Toast.LENGTH_LONG).show();
-        //else Toast.makeText(getContext(),"Ima svasta bla bla",Toast.LENGTH_LONG).show();
+        if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista bla bla",Toast.LENGTH_LONG).show();
+        else Toast.makeText(getContext(),"Ima svasta bla bla",Toast.LENGTH_LONG).show();
 
         citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
         oglasii = citanjeOglasa.uzmiOglase();
         knjigee = citanjeOglasa.uzmiKnjige();
+        Toast.makeText(getContext(), "kknjige "+String.valueOf(knjigee.size())+" oglasi "+String.valueOf(oglasii.size()), Toast.LENGTH_SHORT).show();
     }
     //</editor-fold>
 
@@ -382,7 +386,14 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     private void initialize(View view)
     {
         Toast.makeText(getContext(),"Fragment knjige",Toast.LENGTH_SHORT).show();
+        /*refreshKnjige=view.findViewById(R.id.refresherKnjige);
+        refreshKnjige.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                citanje();
 
+            }
+        });*/
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerKnjige);
         filtriranjeFloatingButton=(FloatingActionButton)view.findViewById(R.id.filtriranjeFloatingButton);
         filtriranjeFloatingButton.setOnClickListener(this);
