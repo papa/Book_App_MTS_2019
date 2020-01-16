@@ -29,6 +29,7 @@ import com.example.bookapp.ProfileActivity;
 import com.example.bookapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +52,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     private int brojOcena;
     private double prosecnaOcena;
     private ImageView slika;
+    private FloatingActionButton dodajKnjigu;
 
     private RecyclerView recyclerView;
 
@@ -91,12 +93,21 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         recyclerView=(RecyclerView)view.findViewById(R.id.recViewProfile);
 
         slika=(ImageView)view.findViewById(R.id.slikaProfil);
+        dodajKnjigu=view.findViewById(R.id.dodavanjeKnjigeFloatingButton);
 
         user= FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Korisnici").child(user.getUid());
 
         nalogP=view.findViewById(R.id.nalog);
         nalogP.setOnClickListener(this);
+
+        dodajKnjigu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent otvoriDodavanje = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
+                startActivity(otvoriDodavanje);
+            }
+        });
     }
 
     private void citajBazu()

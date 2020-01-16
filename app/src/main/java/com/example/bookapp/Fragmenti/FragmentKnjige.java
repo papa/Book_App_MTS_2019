@@ -73,7 +73,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     private EditText predmetET;
     private EditText izdavacET;
     private Button filter;
-    private FloatingActionButton dodavanjeKnjigeFloatingButton;
+    private FloatingActionButton filteriOtvori;
 
     boolean f1 = false;
     boolean f2 = false;
@@ -120,7 +120,12 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_knjige, container, false);
         setHasOptionsMenu(true);
         initialize(view);
-
+        filteriOtvori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prikaziPopUp();
+            }
+        });
         //nextImage();
 
         //optimizovano
@@ -169,7 +174,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
                     currentIndex++;
                     nextImage();
                 }else{
-                    previousImage(); // here 1000(1 second) interval to change from current  to previous image
+                    previousImage();
                 }
             }
         },1000);
@@ -180,13 +185,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     //<editor-fold desc="postavilistener">
     private void postaviListenere()
     {
-        dodavanjeKnjigeFloatingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
-                startActivity(intent);
-            }
-        });
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -276,9 +274,9 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
                         adapterKnjige.notifyDataSetChanged();
                     }
 
-                    dialog.dismiss();
-
                 }
+                dialog.dismiss();
+
             }
         });
 
@@ -296,17 +294,16 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         spIzdavaci=(Spinner)dialog.findViewById(R.id.spIzdavac);
         filter=(Button)dialog.findViewById(R.id.filterButton);
 
-        setSpinner(spIzdavaci);/*
+        setSpinner(spIzdavaci);
 
         postaviListenere();
 
-        dialog.show();*/
+        dialog.show();
 
     }
 
     private void setSpinner(final Spinner spinner)
     {
-        Toast.makeText(this.getContext(), "skk", Toast.LENGTH_SHORT).show();
         if(!popunjeno) {
             for (int i = 0; i < knjigee.size(); i++) {
                 izdavaci.add(knjigee.get(i).getIzdavac());
@@ -333,10 +330,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.dodajKnjiguButton: Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
-                startActivity(intent);break;
-        }
+
     }
 
     //<editor-fold desc="Baza">
@@ -376,8 +370,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     private void initialize(View view)
     {
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerKnjige);
-        dodavanjeKnjigeFloatingButton=(FloatingActionButton)view.findViewById(R.id.dodajKnjiguButton);
-        dodavanjeKnjigeFloatingButton.setOnClickListener(this);
         dialog=new Dialog(getContext());
         imageArray = new int[8];
         imageArray[0] = R.drawable.ic_launcher_background;
@@ -388,7 +380,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         imageArray[5] = R.drawable.ic_launcher_background;
         imageArray[6] = R.drawable.ic_launcher_background;
         imageArray[7] = R.drawable.ic_launcher_background;
-
+        filteriOtvori=view.findViewById(R.id.filterButton);
         startIndex = 0;
         endIndex = 7;
     }
