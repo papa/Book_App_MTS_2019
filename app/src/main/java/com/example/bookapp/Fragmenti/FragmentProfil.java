@@ -90,7 +90,11 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
         tvBrojOcena=(TextView)view.findViewById(R.id.tpBroj);
         tvProsecnaOcena=(TextView)view.findViewById(R.id.tpProsek);
 
+
+
         recyclerView=(RecyclerView)view.findViewById(R.id.recViewProfile);
+
+
 
         slika=(ImageView)view.findViewById(R.id.slikaProfil);
         dodajKnjigu=view.findViewById(R.id.dodavanjeKnjigeFloatingButton);

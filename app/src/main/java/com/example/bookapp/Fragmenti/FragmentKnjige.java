@@ -304,8 +304,10 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
     private void setSpinner(final Spinner spinner)
     {
-        if(!popunjeno) {
-            for (int i = 0; i < knjigee.size(); i++) {
+        if(!popunjeno)
+        {
+            for (int i = 0; i < knjigee.size(); i++)
+            {
                 izdavaci.add(knjigee.get(i).getIzdavac());
             }
             popunjeno=true;
