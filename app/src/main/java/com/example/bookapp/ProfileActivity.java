@@ -64,6 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
             super(fm);
             this.fragmentList=fragmentList;
         }
+
     }
 
     @Override
