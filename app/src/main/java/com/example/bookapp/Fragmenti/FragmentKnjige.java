@@ -73,7 +73,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     private EditText predmetET;
     private EditText izdavacET;
     private Button filter;
-    private FloatingActionButton dodavanjeKnjigeFloatingButton;
+    private FloatingActionButton filtriranjeFloatingButton;
 
     boolean f1 = false;
     boolean f2 = false;
@@ -183,13 +183,13 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     //<editor-fold desc="postavilistener">
     private void postaviListenere()
     {
-        dodavanjeKnjigeFloatingButton.setOnClickListener(new View.OnClickListener() {
+        /*dodavanjeKnjigeFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -299,17 +299,16 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         spIzdavaci=(Spinner)dialog.findViewById(R.id.spIzdavac);
         filter=(Button)dialog.findViewById(R.id.filterButton);
 
-        setSpinner(spIzdavaci);/*
+        setSpinner(spIzdavaci);
 
         postaviListenere();
 
-        dialog.show();*/
+        dialog.show();
 
     }
 
     private void setSpinner(final Spinner spinner)
     {
-        Toast.makeText(this.getContext(), "skk", Toast.LENGTH_SHORT).show();
         if(!popunjeno) {
             for (int i = 0; i < knjigee.size(); i++) {
                 izdavaci.add(knjigee.get(i).getIzdavac());
@@ -337,8 +336,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dodajKnjiguButton: Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
-                startActivity(intent);break;
+            case R.id.filtriranjeFloatingButton:prikaziPopUp();break;
         }
     }
 
@@ -366,12 +364,13 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         });
     }
 
-    private void citanje() {
+    private void citanje()
+    {
 
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa(2);
 
-        if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista bla bla",Toast.LENGTH_LONG).show();
-        else Toast.makeText(getContext(),"Ima svasta bla bla",Toast.LENGTH_LONG).show();
+        //if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista bla bla",Toast.LENGTH_LONG).show();
+        //else Toast.makeText(getContext(),"Ima svasta bla bla",Toast.LENGTH_LONG).show();
 
         citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
         oglasii = citanjeOglasa.uzmiOglase();
@@ -382,9 +381,11 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
     private void initialize(View view)
     {
+        Toast.makeText(getContext(),"Fragment knjige",Toast.LENGTH_SHORT).show();
+
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerKnjige);
-        dodavanjeKnjigeFloatingButton=(FloatingActionButton)view.findViewById(R.id.dodajKnjiguButton);
-        dodavanjeKnjigeFloatingButton.setOnClickListener(this);
+        filtriranjeFloatingButton=(FloatingActionButton)view.findViewById(R.id.filtriranjeFloatingButton);
+        filtriranjeFloatingButton.setOnClickListener(this);
         dialog=new Dialog(getContext());
         imageArray = new int[8];
         imageArray[0] = R.drawable.ic_launcher_background;

@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private String name, surname, id,email;
@@ -39,32 +41,28 @@ public class ProfileActivity extends AppCompatActivity {
     static FirebaseUser userr;
 
     private static final int NUM_PAGES = 3;
-    private ViewPager mPager;
+    //private ViewPager mPager;
     private PagerAdapter pagerAdapter;
     private int pozicijaActual;
 
-    private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
-        @Override
-        public Fragment getItem(int position) {
-            if(position == 0)
+
+    public final class adapterSlide extends FragmentPagerAdapter {
+        private final ArrayList<Fragment> fragmentList;
+        public int getCount(){return this.fragmentList.size();}
+
+        public Fragment getItem(int position)
+        {
+            if(position>=0 && position < this.fragmentList.size())
             {
-                return new FragmentProfil();
+                return fragmentList.get(position);
             }
-            else if(position == 1){
-                return new FragmentKnjige();
-            }
-            else {
-                return new FragmentPoruke();
-            }
+            return new FragmentKnjige();
         }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
+        public adapterSlide(@NonNull ArrayList<Fragment> fragmentList, @NonNull FragmentManager fm)
+        {
+            super(fm);
+            this.fragmentList=fragmentList;
         }
     }
 
@@ -76,11 +74,41 @@ public class ProfileActivity extends AppCompatActivity {
 
         uzmiPodatkeTrenutnog();
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(pagerAdapter);
+        ArrayList<Fragment> fragList = new ArrayList<>();
+        fragList.add(new FragmentProfil());
+        fragList.add(new FragmentKnjige());
+        fragList.add(new FragmentPoruke());
+        pagerAdapter = new adapterSlide(fragList, getSupportFragmentManager());
         final BubbleNavigationLinearView bubbleNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //Toast.makeText(ProfileActivity.this, "bbb "+String.valueOf(position), Toast.LENGTH_SHORT).show();
+                bubbleNavigationLinearView.setCurrentActiveItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
+            @Override
+            public void onNavigationChanged(View view, int position) {
+                //Toast.makeText(ProfileActivity.this, "aaa "+String.valueOf(position), Toast.LENGTH_SHORT).show();
+                viewPager.setCurrentItem(position, true);
+            }
+        });
+
+        /*mPager.setPageTransformer(true, new ZoomOutPageTransformer());
         bubbleNavigationLinearView.setCurrentActiveItem(1);
         mPager.setCurrentItem(1,true);
 
@@ -105,7 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
     }
 
     private void prijem()

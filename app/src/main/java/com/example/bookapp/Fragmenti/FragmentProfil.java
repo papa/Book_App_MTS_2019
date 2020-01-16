@@ -30,6 +30,7 @@ import com.example.bookapp.ProfileActivity;
 import com.example.bookapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -52,6 +53,7 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     private int brojOcena;
     private double prosecnaOcena;
     private ImageView slika;
+    private FloatingActionButton dodavanjeKnjigeFloatingButton;
 
     private RecyclerView recyclerView;
 
@@ -70,7 +72,6 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         return view;
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -78,11 +79,17 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), PodesavanjaNalogaActivity.class);
                 startActivity(intent);
             }break;
+            case R.id.dodajKnjiguFloatingButton:{
+                Intent intent = new Intent(getActivity(), KnjigaDodavanjeActivity.class);
+                startActivity(intent);
+            }break;
         }
     }
 
     private void initialize(View view)
     {
+        Toast.makeText(getContext(),"Fragment profil",Toast.LENGTH_SHORT).show();
+
         tvIme=(TextView)view.findViewById(R.id.tpIme);
         tvEmail=(TextView)view.findViewById(R.id.tpEmail);
         tvBrojOcena=(TextView)view.findViewById(R.id.tpBroj);
@@ -94,7 +101,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         user= FirebaseAuth.getInstance().getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Korisnici").child(user.getUid());
-
+        dodavanjeKnjigeFloatingButton=view.findViewById(R.id.dodajKnjiguFloatingButton);
+        dodavanjeKnjigeFloatingButton.setOnClickListener(this);
         nalogP=view.findViewById(R.id.nalog);
         nalogP.setOnClickListener(this);
     }
@@ -156,8 +164,8 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
 
         Log.d("USO3","USO3");
 
-        if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista",Toast.LENGTH_LONG).show();
-        else Toast.makeText(getContext(),"Ima svasta",Toast.LENGTH_LONG).show();
+        //if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista",Toast.LENGTH_LONG).show();
+        //else Toast.makeText(getContext(),"Ima svasta",Toast.LENGTH_LONG).show();
         citanjeOglasa.procitaj(idOglasa, recyclerView, getContext());
     }
 

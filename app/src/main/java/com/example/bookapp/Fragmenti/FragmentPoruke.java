@@ -146,7 +146,7 @@ public class FragmentPoruke extends Fragment {
                 }
 
                 Collections.reverse(oglasi);
-                adapterPoruke.notifyDataSetChanged();
+              //  adapterPoruke.notifyDataSetChanged();
             }
 
             @Override
@@ -192,6 +192,8 @@ public class FragmentPoruke extends Fragment {
 
     private void initialize(View view)
     {
+        Toast.makeText(getContext(),"Fragment poruke",Toast.LENGTH_SHORT).show();
+
         oglasi= new ArrayList<>();
         //todo
         //prepravi da prihvata oglase
