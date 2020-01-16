@@ -61,44 +61,44 @@ public class AdapterPoruke extends RecyclerView.Adapter<AdapterPoruke.PorukeHold
     @Override
     public void onBindViewHolder(@NonNull PorukeHolder viewHolder, int position) {
 
-        Oglas o = oglasi.get(position);
+            Oglas o = oglasi.get(position);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Korisnici").child(o.getIdUsera());
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Korisnici").child(o.getIdUsera());
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Korisnik k = dataSnapshot.getValue(Korisnik.class);
-                String s = k.getIme() + " " + k.getPrezime();
-                viewHolder.imePrezime.setText(s);
+                    Korisnik k = dataSnapshot.getValue(Korisnik.class);
+                    String s = k.getIme() + " " + k.getPrezime();
+                    viewHolder.imePrezime.setText(s);
 
-            }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
 
 
-        //todo
-        //Andrija da pogleda za slike
+            //todo
+            //Andrija da pogleda za slike
         /*if(slike.size()>position)
             viewHolder.slika.setImageBitmap(slike.get(position));
         else
             viewHolder.slika.setImageResource(R.drawable.googleg_disabled_color_18);*/
 
-        viewHolder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Na klik.
+            viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Na klik.
 
-                Intent intent=new Intent(context, MessageActivity.class);
-                intent.putExtra("drugiId",o.getIdUsera());
-                context.startActivity(intent);
-            }
-        });
-
+                    Intent intent = new Intent(context, MessageActivity.class);
+                    MessageActivity.ogg = o;
+                    intent.putExtra("drugiId", o.getIdUsera());
+                    context.startActivity(intent);
+                }
+            });
     }
 
     @Override

@@ -81,9 +81,7 @@ public class FragmentPoruke extends Fragment {
 
         //nextImage();
 
-        postaviAdapter();
         //optimizovano
-        ucitajIzBaze();
 
         return view;
     }
@@ -98,9 +96,11 @@ public class FragmentPoruke extends Fragment {
         layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        AdapterPoruke adapterPoruke = new AdapterPoruke(getContext(), slike,oglasi);
+        adapterPoruke = new AdapterPoruke(getContext(), slike,oglasi);
         recyclerView.setAdapter(adapterPoruke);
-        adapterPoruke.notifyDataSetChanged();
+        ucitajIzBaze();
+
+       // adapterPoruke.notifyDataSetChanged();
     }
 
     private void postaviListenere()
@@ -135,27 +135,34 @@ public class FragmentPoruke extends Fragment {
 
     private void ucitajIzBaze()
     {
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(us.getUid()).child("porukeNudi");
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if(us!=null)
+        {
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(us.getUid()).child("porukeNudi");
+            db.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot og : dataSnapshot.getChildren())
-                {
-                    oglasi.add(og.getValue(Oglas.class));
+                    for (DataSnapshot sn : dataSnapshot.getChildren())
+                    {
+                        for (DataSnapshot og : sn.getChildren())
+                        {
+                            oglasi.add(og.getValue(Oglas.class));
+                            //adapterPoruke.notifyDataSetChanged();
+                        }
+
+                        Collections.reverse(oglasi);
+                        adapterPoruke.notifyDataSetChanged();
+                        //  adapterPoruke.notifyDataSetChanged();
+                    }
                 }
 
-                Collections.reverse(oglasi);
-              //  adapterPoruke.notifyDataSetChanged();
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
-
-        updateToken(FirebaseInstanceId.getInstance().getToken());
+            updateToken(FirebaseInstanceId.getInstance().getToken());
 
       /*  db = FirebaseDatabase.getInstance().getReference().child("Korisnici").child(us.getUid()).child("porukeNudi");
         db.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -185,7 +192,7 @@ public class FragmentPoruke extends Fragment {
 
             }
         });*/
-
+        }
     }
 
 
@@ -201,6 +208,7 @@ public class FragmentPoruke extends Fragment {
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerPoruke);
         us = FirebaseAuth.getInstance().getCurrentUser();
         slike = new ArrayList<>();
+        postaviAdapter();
     }
 
 }

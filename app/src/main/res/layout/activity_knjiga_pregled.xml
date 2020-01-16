@@ -190,6 +190,13 @@
                         android:text="Neki doddatni tekst o knjizi"
                         android:id="@+id/dodatniOpisPrikazi"/>
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/inicijalnaPoruka"
+                        android:text="Tekst"/>
+
             </LinearLayout>
 
 

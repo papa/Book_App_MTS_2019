@@ -177,9 +177,11 @@ public class CitanjeOglasa {
 
     }
 
-    private void ucitajSliku(ArrayList<Oglas> oglass, final CallbackSlika callbackSlika) {
+    private void ucitajSliku(ArrayList<Oglas> oglass, final CallbackSlika callbackSlika)
+    {
 
-        for (int j = 0; j < oglass.size(); j++) {
+        for (int j = 0; j < oglass.size(); j++)
+        {
             //Ovaj for je ako se citaju sve tri slika(provera se da li ih ima al ono)
             //kom jer mi ne trebaju tri nego samo prva slika
             //for (int i = 0; i < 3; i++) {
@@ -208,8 +210,7 @@ public class CitanjeOglasa {
             }
             //}
         }
-        if (context != null)
-            progressDialog.dismiss();
+        if (context != null) progressDialog.dismiss();
     }
 
     private void prikaziOglase(ArrayList<Knjiga> knjige, RecyclerView recyclerView, Context context)

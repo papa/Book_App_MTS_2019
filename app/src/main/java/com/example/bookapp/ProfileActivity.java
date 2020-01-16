@@ -73,6 +73,14 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
+        if(user==null)
+        {
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }
+
         prijem();
 
         uzmiPodatkeTrenutnog();

@@ -3,7 +3,10 @@ package com.example.bookapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +47,11 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     String drugiId;
     String idOglasa;
     String idKorisnika;
-    Oglas oglas;
+    public static Oglas oglas;
+    public static Knjiga knjiga;
     String chatid;
+    Button inicijalna;
+
 
     //TODO
     //andrijio i ovde treba slike
@@ -65,10 +71,20 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         prijem();
         init();
         ucitajPodatke();
-
         //ovde su ti primljene informacije o knjizi u ova tri stringa
         //fali slika al to cemo kasnije
         //prijem();
+        postaviListener();
+    }
+
+    private void postaviListener()
+    {
+        inicijalna.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                klikPoruka();
+            }
+        });
     }
 
     private void prijem()
@@ -121,6 +137,7 @@ public class KnjigaPregledActivity extends AppCompatActivity {
     {
         //knjigaData = FirebaseDatabase.getInstance().getReference("Knjige").child(idPrenosKnjiga);
 
+        inicijalna = findViewById(R.id.inicijalnaPoruka);
         idKorisnika = ProfileActivity.userr.getUid();
         nazivKnjige=(TextView)findViewById(R.id.nazivKnjigePrikaz);
         izdavac = (TextView)findViewById(R.id.izdavacKnjigePrikaz);
@@ -149,7 +166,7 @@ public class KnjigaPregledActivity extends AppCompatActivity {
         minuti=cal.get(Calendar.MINUTE);
     }
 
-    void klikPoruka(String poruka)
+    void klikPoruka()
     {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("Korisnici");
         //todo
@@ -159,8 +176,13 @@ public class KnjigaPregledActivity extends AppCompatActivity {
 
         chatid = idKorisnika + drugiId + idOglasa;
 
-        posaljiPoruku(idKorisnika,drugiId,dodatno);
+        posaljiPoruku(idKorisnika,drugiId, oglas.getDodatniOpis());
         posaljiPoruku(drugiId,idKorisnika,"Zdravo zanima me ova knjiga i mogli bismo da se dogovorimo oko njene prodaje. Pozdrav! ");
+
+        DatabaseReference ddb  =  FirebaseDatabase.getInstance().getReference();
+        ddb.child("Oglasi").child(oglas.getId()).removeValue();
+        ddb.child("Knjige").child(knjiga.getId()).child("oglasi").child(oglas.getId()).removeValue();
+        startActivity(new Intent(KnjigaPregledActivity.this,ProfileActivity.class));
     }
 
     void posaljiPoruku(String salje,String prima,String poruka)

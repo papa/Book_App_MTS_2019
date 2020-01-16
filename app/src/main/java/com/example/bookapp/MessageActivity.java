@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.bookapp.APINotification.APIService;
 import com.example.bookapp.Klase.Korisnik;
+import com.example.bookapp.Klase.Oglas;
 import com.example.bookapp.Notifications.Client;
 import com.example.bookapp.Notifications.Data;
 import com.example.bookapp.Notifications.MyResponse;
@@ -52,9 +53,11 @@ import retrofit2.Response;
 public class MessageActivity extends AppCompatActivity {
 
     TextView imeiprezime;
-    static String drugiId;
+    String drugiId;
     ImageButton posaljiPoruku;
     EditText tekstporuke;
+
+    public static Oglas ogg;
 
     MessageAdapter messageAdapter;
     List<Chat> chats;
@@ -309,8 +312,9 @@ public class MessageActivity extends AppCompatActivity {
 
     private void generisiId()
     {
-        drugiId = getIntent().getStringExtra("drugiId");
-        idchat=drugiId+ProfileActivity.userr.getUid();
+       drugiId = getIntent().getStringExtra("drugiId");
+
+        idchat=ProfileActivity.userr.getUid()+drugiId+ogg.getId();
     }
 
     private void procitajPoruku(final String mojid,final String drid,final String imgurl)
@@ -335,11 +339,9 @@ public class MessageActivity extends AppCompatActivity {
                     {
                         chats.add(c);
                     }
-
-                    messageAdapter=new MessageAdapter(MessageActivity.this,chats,imgurl);
-                    recyclerView.setAdapter(messageAdapter);
                 }
-
+                messageAdapter=new MessageAdapter(MessageActivity.this,chats,imgurl);
+                recyclerView.setAdapter(messageAdapter);
             }
 
             @Override

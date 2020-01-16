@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -51,11 +52,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -100,9 +103,12 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
     FirebaseUser user;
 
+    AdapterKnjige adapterKnjige;
 
    ArrayList<Oglas> oglasii;
    ArrayList<Knjiga> knjigee;
+
+   FirebaseUser userr;
 
    private Dialog dialog;
    private Spinner spIzdavaci;
@@ -126,11 +132,15 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         setHasOptionsMenu(true);
         initialize(view);
 
+        userr = FirebaseAuth.getInstance().getCurrentUser();
+
         //nextImage();
 
         //optimizovano
-        ucitajIzBaze();
-
+        if(userr!=null)
+        {
+            ucitajIzBaze();
+        }
         return view;
     }
 
@@ -342,6 +352,27 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
         }
     }
 
+    private void procitajKnjigu(String idk)
+    {
+        DatabaseReference datab = FirebaseDatabase.getInstance().getReference().child("Knjige").child(idk);
+
+        datab.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Knjiga k = dataSnapshot.getValue(Knjiga.class);
+                knjigee.add(k);
+
+                //citanje();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     //<editor-fold desc="Baza">
     private void ucitajIzBaze()
     {
@@ -353,11 +384,20 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
                 for(DataSnapshot snapshot:dataSnapshot.getChildren())
                 {
-                    Toast.makeText(getContext(), "procito", Toast.LENGTH_SHORT).show();
-                    if (!idOglasa.contains(snapshot.getKey()))
-                        idOglasa.add(snapshot.getKey());
+                     Oglas o = snapshot.getValue(Oglas.class);
+                     if(!o.getIdUsera().equals(user.getUid()))
+                     {
+                         oglasii.add(o);
+                         procitajKnjigu(o.getIdKnjige());
+                     }
                 }
-                citanje();
+
+                ucitajSliku(oglasii);
+
+               // procitajKnjige();
+
+                //citanje();
+
             }
 
             @Override
@@ -369,7 +409,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
     private void citanje()
     {
-
         CitanjeOglasa citanjeOglasa = new CitanjeOglasa(2);
 
         if(idOglasa.isEmpty()) Toast.makeText(getContext(),"Nema nista bla bla",Toast.LENGTH_LONG).show();
@@ -383,6 +422,41 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     //</editor-fold>
 
 
+    private void ucitajSliku(ArrayList<Oglas> oglass)
+    {
+
+        for (int j = 0; j < oglass.size(); j++)
+        {
+            //Ovaj for je ako se citaju sve tri slika(provera se da li ih ima al ono)
+            //kom jer mi ne trebaju tri nego samo prva slika
+            //for (int i = 0; i < 3; i++) {
+
+            final Bitmap[] my_image = new Bitmap[1];
+            StorageReference ref = FirebaseStorage.getInstance().getReference().child(oglass.get(j).getIdUsera()).child("Knjiga").child(oglass.get(j).getId()).child("0image.jpg");
+            Log.d("PUTANJA2", ref.getPath());
+            try {
+                final File localFile = File.createTempFile("Images", "jpg");
+                ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        my_image[0] = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                        slike.add(my_image[0]);
+                        adapterKnjige.notifyDataSetChanged();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Toast.makeText(context, e.getMessage()+"ojsa", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //}
+        }
+    }
+
+
     private void initialize(View view)
     {
         Toast.makeText(getContext(),"Fragment knjige",Toast.LENGTH_SHORT).show();
@@ -394,7 +468,17 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
             }
         });*/
+        slike = new ArrayList<Bitmap>();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        oglasii =new ArrayList<>();
+        knjigee = new ArrayList<>();
         recyclerView=(RecyclerView)view.findViewById(R.id.recyclerKnjige);
+        layoutManager = new GridLayoutManager(getContext(), 1);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        adapterKnjige = new AdapterKnjige(getContext(), slike,oglasii,knjigee);
+        recyclerView.setAdapter(adapterKnjige);
+
         filtriranjeFloatingButton=(FloatingActionButton)view.findViewById(R.id.filtriranjeFloatingButton);
         filtriranjeFloatingButton.setOnClickListener(this);
         dialog=new Dialog(getContext());
@@ -410,8 +494,6 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
         startIndex = 0;
         endIndex = 7;
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
 
     }
 }
