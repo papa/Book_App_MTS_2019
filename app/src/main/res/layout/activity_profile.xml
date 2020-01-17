@@ -6,17 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view_linear"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.gauravk.bubblenavigation.BubbleNavigationLinearView
         android:id="@+id/bottom_navigation_view_linear"
@@ -24,6 +22,7 @@
         android:layout_height="wrap_content"
         android:background="@color/belo"
         android:orientation="horizontal"
+        android:fontFamily="@font/modernsans"
         android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,8 +32,8 @@
             android:id="@+id/c_item_test1"
             android:layout_width="0dp"
             android:layout_weight="33"
+            android:fontFamily="@font/modernsans"
             android:layout_height="wrap_content"
-            app:bt_active="true"
             app:bt_colorActive="#FFFFFF"
             app:bt_colorInactive="#C4C4C4"
             app:itemIconTint="@drawable/selektor"
@@ -48,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_weight="33"
             android:layout_height="wrap_content"
-            app:bt_active="true"
+            android:fontFamily="@font/modernsans"
             app:bt_colorActive="#FFFFFF"
             app:bt_colorInactive="#C4C4C4"
             app:itemIconTint="@drawable/selektor"
@@ -62,7 +61,7 @@
             android:layout_width="0dp"
             android:layout_weight="33"
             android:layout_height="wrap_content"
-            app:bt_active="true"
+            android:fontFamily="@font/modernsans"
             app:bt_colorActive="#FFFFFF"
             app:bt_colorInactive="#C4C4C4"
             app:itemIconTint="@drawable/selektor"

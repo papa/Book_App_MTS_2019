@@ -107,11 +107,18 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (filePath != null) {
-                    upisiSliku();
+                if(idKnjige.equals("nema"))
+                {
+                    Toast.makeText(KnjigaDodavanjeActivity.this, "Odaberite knjigu iz liste ili dodajte novu", Toast.LENGTH_SHORT).show();
+                }
+                else if (filePath != null)
+                {
+                    boolean b = citajEditTextove();
+                    if(b) upisiSliku();
                     //dodajOglas();
                 }
-                else {
+                else
+                {
                     Toast.makeText(KnjigaDodavanjeActivity.this,"Morate dodati barem jednu sliku!",Toast.LENGTH_LONG).show();
                 }
 
@@ -214,36 +221,34 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
 
     private void dodajOglas()
     {
-        citajEditTextove();
-
-        if(idKnjige.equals("nema"))
-            Toast.makeText(KnjigaDodavanjeActivity.this,"Odaberite knjigu iz liste ili dodajte novu", Toast.LENGTH_SHORT).show();
-        else {
             id=databaseReference2.push().getKey();
             idKnjiga = idKnjige;
             idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+            DatabaseReference knjige = FirebaseDatabase.getInstance().getReference("Knjige").child(idKnjiga).child("oglasi");
+
             Oglas oglas = new Oglas(id, idKnjiga, idUser, cena, opis);
+
+            knjige.child(id).setValue(id);
 
             databaseReference2.child("Oglasi").child(id).setValue(oglas);
 
             databaseReference2.child("Korisnici").child(idUser).child("oglasi").child(id).setValue(id);
-        }
-
     }
 
-    private void citajEditTextove()
+    private boolean citajEditTextove()
     {
         if(!cenaKnjige.getText().toString().trim().equals("") && !opisKnjige.getText().toString().trim().equals(""))
         {
             cena=Integer.valueOf(cenaKnjige.getText().toString().trim());
             opis=opisKnjige.getText().toString().trim();
-        }
-        else
-        {
-            Toast.makeText(KnjigaDodavanjeActivity.this,"Greska prilikom unosa dodatnih podataka",Toast.LENGTH_SHORT).show();
+            return true;
         }
 
+
+        Toast.makeText(KnjigaDodavanjeActivity.this,"Popunite sva polja za unos",Toast.LENGTH_SHORT).show();
+
+        return false;
     }
 
     @Override
@@ -363,7 +368,8 @@ public class KnjigaDodavanjeActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intentTemp=new Intent(KnjigaDodavanjeActivity.this,NovaVrstaKnjigeActivity.class);
                             intentTemp.putExtra("skeniraniBarkod",kod.toString());
-                            startActivity(intentTemp);
+                            //Intent myIntent = new Intent(KnjigaDodavanjeActivity.this, NovaVrstaKnjigeActivity.class);
+                            KnjigaDodavanjeActivity.this.startActivityForResult(intentTemp, 1);
                         }
                     })
 

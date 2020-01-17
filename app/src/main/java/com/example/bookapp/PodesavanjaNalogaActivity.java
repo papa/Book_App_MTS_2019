@@ -110,8 +110,14 @@ public class PodesavanjaNalogaActivity extends AppCompatActivity {
                     firebaseUser.updatePassword(passe.getText().toString().trim());
                 }
 
-                if(filePath!=null)
-                    upisiSliku();
+                Toast.makeText(PodesavanjaNalogaActivity.this,"Uspesno ste podesili svoj nalog",Toast.LENGTH_LONG).show();
+
+                if(filePath!=null) upisiSliku();
+                else
+                {
+                    Intent in = new Intent(PodesavanjaNalogaActivity.this,ProfileActivity.class);
+                    startActivity(in);
+                }
 
             }
         });

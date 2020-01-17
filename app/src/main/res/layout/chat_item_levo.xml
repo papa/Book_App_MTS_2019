@@ -22,6 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/pslika"
             android:layout_marginLeft="5dp"
+            android:fontFamily="@font/modernsans"
+            android:textAllCaps="false"
             android:text="Porukahfghfghfghfghfhffhfgh"
             android:textSize="16sp"
             android:textColor="#fff"
@@ -33,6 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txt_seen"
+            android:fontFamily="@font/modernsans"
+            android:textSize="20sp"
+            android:textAllCaps="false"
             android:visibility="gone"
             android:layout_below="@id/poruka" />
 
@@ -40,7 +45,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/datumivreme"
+            android:fontFamily="@font/modernsans"
             android:text="datum i vreme"
+            android:textAllCaps="false"
             android:layout_below="@id/poruka"
             android:layout_alignParentLeft="true"
             android:padding="4dp"/>

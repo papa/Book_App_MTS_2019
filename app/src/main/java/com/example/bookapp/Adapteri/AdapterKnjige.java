@@ -40,7 +40,6 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
         this.slike = slike;
         this.oglasi=og;
         this.knjige=knj;
-
     }
 
     @NonNull
@@ -86,6 +85,10 @@ public class AdapterKnjige extends RecyclerView.Adapter<AdapterKnjige.KnjigeHold
                 intent.putExtra("godinaIzdanja",knjige.get(i).getGodinaIzdanja());
                 intent.putExtra("izdavac",knjige.get(i).getIzdavac());
                 intent.putExtra("opis",oglasi.get(i).getDodatniOpis());
+
+                KnjigaPregledActivity.oglas = oglasi.get(i);
+                KnjigaPregledActivity.knjiga = knjige.get(i);
+
                 context.startActivity(intent);
             }
         });

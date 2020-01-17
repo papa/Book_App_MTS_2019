@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/profil"
+        android:title="Home"
+        android:checked="true"
+        android:iconTint="#C4C4C4"/>
+
+    <item
+        android:id="@+id/log"
+        android:icon="@drawable/knjige"
+        android:title="Logger"
+        android:iconTint="#C4C4C4"/>
+    <item
+        android:id="@+id/doc"
+        android:icon="@drawable/chat"
+        android:iconTint="#C4C4C4"
+        android:title="Documents" />
+
+</menu>

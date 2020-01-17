@@ -5,10 +5,11 @@
     android:id="@+id/knjige_i"
     android:layout_width="match_parent"
     android:layout_height="280dp"
-    android:layout_gravity="center_horizontal"
-    android:background="@drawable/card3">
+    android:background="@drawable/card3"
+    android:layout_gravity="center_horizontal">
 
     <TextView
+        android:fontFamily="@font/modernsans"
         android:id="@+id/spacer1"
         android:layout_width="match_parent"
         android:layout_height="4dp"
@@ -17,6 +18,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
+        android:fontFamily="@font/modernsans"
         android:id="@+id/tNaziv"
         android:layout_width="390dp"
         android:layout_height="58dp"
@@ -35,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spacer1" />
 
     <ImageView
+        android:fontFamily="@font/modernsans"
         android:id="@+id/iSlika"
         android:layout_width="122dp"
         android:layout_height="170dp"
@@ -44,6 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tNaziv" />
 
     <TextView
+        android:fontFamily="@font/modernsans"
         android:id="@+id/tPredmet"
         android:layout_width="245dp"
         android:layout_height="58dp"
@@ -62,6 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tNaziv" />
 
     <TextView
+        android:fontFamily="@font/modernsans"
         android:id="@+id/tIzdavac"
         android:layout_width="245dp"
         android:layout_height="58dp"
@@ -80,6 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tPredmet" />
 
     <TextView
+        android:fontFamily="@font/modernsans"
         android:id="@+id/tCena"
         android:layout_width="245dp"
         android:layout_height="58dp"
@@ -98,6 +104,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tIzdavac" />
 
     <TextView
+        android:fontFamily="@font/modernsans"
         android:id="@+id/spacer2"
         android:layout_width="match_parent"
         android:layout_height="12dp"

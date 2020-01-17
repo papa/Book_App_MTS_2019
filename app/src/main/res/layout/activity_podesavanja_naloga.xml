@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PodesavanjaNalogaActivity">
+    tools:context=".PodesavanjaNalogaActivity"
+    android:background="@drawable/pozadina">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -12,8 +13,10 @@
     android:orientation="vertical">
     <ScrollView
         android:layout_width="match_parent"
+        android:layout_marginTop="60dp"
         android:layout_height="match_parent">
     <LinearLayout
+        android:background="@color/beloPolje"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -34,65 +37,120 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ime"
+            android:textStyle="bold"
+            android:fontFamily="@font/modernsans"
             android:layout_margin="8dp"
+            android:textSize="15sp"
             android:id="@+id/imePTV"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Novo ime..."
+            android:fontFamily="@font/modernsans"
             android:layout_margin="8dp"
+            android:textSize="20sp"
+
+            android:background="@drawable/zuto"
+            android:height="40dp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/crnoPolje"
+
             android:id="@+id/imePodesavanje"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Prezime"
+            android:textStyle="bold"
             android:layout_margin="8dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/modernsans"
             android:id="@+id/prezimePTV"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:fontFamily="@font/modernsans"
             android:hint="Novo prezime..."
+
+            android:background="@drawable/zuto"
+            android:height="40dp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/crnoPolje"
+
+            android:textSize="20sp"
             android:id="@+id/prezimePodesavanje"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/modernsans"
             android:text="Email"
+            android:textStyle="bold"
             android:layout_margin="8dp"
+            android:textSize="15sp"
             android:id="@+id/emailPTV"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/modernsans"
             android:layout_margin="8dp"
+
+            android:background="@drawable/zuto"
+            android:height="40dp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/crnoPolje"
+
             android:hint="Novi email..."
+            android:textSize="20sp"
             android:id="@+id/emailPodesavanje"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sifra"
+            android:textStyle="bold"
+            android:fontFamily="@font/modernsans"
             android:layout_margin="8dp"
+            android:textSize="15sp"
             android:id="@+id/sifraPTV"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:fontFamily="@font/modernsans"
             android:hint="Nova sifra..."
+
+            android:background="@drawable/zuto"
+            android:height="40dp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/crnoPolje"
+
+            android:textSize="20sp"
             android:id="@+id/sifraPodesavanje"/>
 
         <Button
             android:layout_width="wrap_content"
+            android:fontFamily="@font/modernsans"
             android:layout_height="wrap_content"
-            android:background="@drawable/zuto"
+            android:background="@drawable/crno"
+            android:textColor="@color/beloPolje"
             android:layout_gravity="center"
-            android:text="update"
+            android:layout_margin="16dp"
+            android:text="Azuriraj"
+            android:textSize="20sp"
+            android:textAllCaps="false"
             android:id="@+id/updatePodesavanja"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="25dp"/>
+
     </LinearLayout>
     </ScrollView>
     </LinearLayout>

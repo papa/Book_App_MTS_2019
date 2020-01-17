@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.bookapp.Fragmenti.FragmentKnjige;
 import com.example.bookapp.Fragmenti.FragmentPoruke;
@@ -29,43 +31,42 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private String name, surname, id,email;
     private FirebaseUser user;
 
-    //bottom navigation bar deo
-    private BottomNavigationView bottomNavigationView;
-
     static Korisnik trenutniKorisnik;
     static FirebaseUser userr;
 
     private static final int NUM_PAGES = 3;
-    private ViewPager mPager;
+    //private ViewPager mPager;
     private PagerAdapter pagerAdapter;
+    private int pozicijaActual;
+    SwipeRefreshLayout refresher;
 
-    public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+
+
+    public final class adapterSlide extends FragmentPagerAdapter {
+        private final ArrayList<Fragment> fragmentList;
+        public int getCount(){return this.fragmentList.size();}
+
+        public Fragment getItem(int position)
+        {
+            if(position>=0 && position < this.fragmentList.size())
+            {
+                return fragmentList.get(position);
+            }
+            return new FragmentKnjige();
+        }
+        public adapterSlide(@NonNull ArrayList<Fragment> fragmentList, @NonNull FragmentManager fm)
+        {
             super(fm);
+            this.fragmentList=fragmentList;
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            if(position == 0){
-                return new FragmentProfil();
-            }
-            else if(position == 1){
-                return new FragmentKnjige();
-            }
-            else {
-                return new FragmentPoruke();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
-        }
     }
 
     @Override
@@ -73,15 +74,56 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
+        if(user==null)
+        {
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }
+
         prijem();
 
         uzmiPodatkeTrenutnog();
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(pagerAdapter);
+        ArrayList<Fragment> fragList = new ArrayList<>();
+        fragList.add(new FragmentProfil());
+        fragList.add(new FragmentKnjige());
+        fragList.add(new FragmentPoruke());
+        pagerAdapter = new adapterSlide(fragList, getSupportFragmentManager());
         final BubbleNavigationLinearView bubbleNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //Toast.makeText(ProfileActivity.this, "bbb "+String.valueOf(position), Toast.LENGTH_SHORT).show();
+                bubbleNavigationLinearView.setCurrentActiveItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
+            @Override
+            public void onNavigationChanged(View view, int position) {
+                //Toast.makeText(ProfileActivity.this, "aaa "+String.valueOf(position), Toast.LENGTH_SHORT).show();
+                viewPager.setCurrentItem(position, true);
+            }
+        });
+
+
+        /*mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        bubbleNavigationLinearView.setCurrentActiveItem(1);
+        mPager.setCurrentItem(1,true);
+
         bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {
@@ -103,7 +145,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
     }
 
     private void prijem()
