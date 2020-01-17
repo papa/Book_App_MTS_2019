@@ -21,10 +21,10 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
+        android:layout_height="40dp"
+        android:layout_weight="6"
         android:padding="4dp"
-        android:src="@android:drawable/ic_menu_send"
+        android:background="@drawable/sendicon"
         android:id="@+id/sendButton"/>
 
 </LinearLayout>

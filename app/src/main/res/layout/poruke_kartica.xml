@@ -20,10 +20,11 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="3"
-            android:layout_height="100dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/imePoruke"
+            android:background="@drawable/zuto"
             android:text="Username onog sa kim se dopisujemo"/>
 
     </LinearLayout>

@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.bookapp.Adapteri.AdapterKnjige;
 import com.example.bookapp.Klase.Knjiga;
@@ -69,10 +70,27 @@ public class FragmentProfil extends Fragment implements View.OnClickListener {
     private RecyclerView recyclerView;
 
     private ArrayList<String> idOglasa=new ArrayList<>();
+    //SwipeRefreshLayout swipeRefreshLayout;
 
     private Button nalogP;
     ArrayList<Oglas> oglasii;
     ArrayList<Knjiga> knjigee;
+
+    /*@Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        swipeRefreshLayout=view.findViewById(R.id.refresherProfil);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                    oglasii.clear();
+                    knjigee.clear();
+                    slike.clear();
+                    ucitajIzBaze();
+            }
+        });
+    }*/
+
 
     @Nullable
     @Override

@@ -78,7 +78,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
     private EditText izdavacET;
     private Button filter;
     private FloatingActionButton filtriranjeFloatingButton;
-    //SwipeRefreshLayout refreshKnjige;
+    SwipeRefreshLayout refreshKnjige;
 
     boolean f1 = false;
     boolean f2 = false;
@@ -123,6 +123,25 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        refreshKnjige=view.findViewById(R.id.refresherKnjige);
+        refreshKnjige.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(userr!=null)
+                {
+                    oglasii.clear();
+                    knjigee.clear();
+                    slike.clear();
+                    ucitajIzBaze();
+                }
+            }
+        });
+    }
+
 
     @Nullable
     @Override
@@ -397,7 +416,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
                // procitajKnjige();
 
                 //citanje();
-
+                refreshKnjige.setRefreshing(false);
             }
 
             @Override
@@ -459,15 +478,7 @@ public class FragmentKnjige extends Fragment implements View.OnClickListener
 
     private void initialize(View view)
     {
-        Toast.makeText(getContext(),"Fragment knjige",Toast.LENGTH_SHORT).show();
-        /*refreshKnjige=view.findViewById(R.id.refresherKnjige);
-        refreshKnjige.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                citanje();
-
-            }
-        });*/
+        //Toast.makeText(getContext(),"Fragment knjige",Toast.LENGTH_SHORT).show();
         slike = new ArrayList<Bitmap>();
         user = FirebaseAuth.getInstance().getCurrentUser();
         oglasii =new ArrayList<>();
